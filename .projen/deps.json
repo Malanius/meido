@@ -6,6 +6,10 @@
       "type": "build"
     },
     {
+      "name": "@commitlint/config-conventional",
+      "type": "build"
+    },
+    {
       "name": "@types/jest",
       "type": "build"
     },
@@ -24,6 +28,10 @@
       "type": "build"
     },
     {
+      "name": "commitlint",
+      "type": "build"
+    },
+    {
       "name": "esbuild",
       "type": "build"
     },
@@ -34,6 +42,10 @@
     {
       "name": "jest-junit",
       "version": "^16",
+      "type": "build"
+    },
+    {
+      "name": "lefthook",
       "type": "build"
     },
     {

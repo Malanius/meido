@@ -1,0 +1,11 @@
+pre-commit:
+  parallel: true
+  commands:
+    lint-format-check:
+      run: npx @biomejs/biome check --write --staged --no-errors-on-unmatched
+      stage_fixed: true
+
+commit-msg:
+  commands:
+    commit-msg:
+      run: npx --no-install commitlint --edit ""

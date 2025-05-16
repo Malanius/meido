@@ -195,6 +195,14 @@
       "name": "pre-compile",
       "description": "Prepare the project for compilation"
     },
+    "prepare": {
+      "name": "prepare",
+      "steps": [
+        {
+          "exec": "npx lefthook install"
+        }
+      ]
+    },
     "publish:git": {
       "name": "publish:git",
       "description": "Prepends the release changelog onto the project changelog, creates a release commit, and tags the release",
@@ -306,13 +314,13 @@
       },
       "steps": [
         {
-          "exec": "pnpm dlx npm-check-updates@16 --upgrade --target=minor --peer --no-deprecated --dep=dev,peer,prod,optional --filter=@types/jest,@types/node,esbuild,jest,projen,ts-jest,ts-node,typescript"
+          "exec": "pnpm dlx npm-check-updates@16 --upgrade --target=minor --peer --no-deprecated --dep=dev,peer,prod,optional --filter=@commitlint/config-conventional,@types/jest,@types/node,commitlint,esbuild,jest,lefthook,projen,ts-jest,ts-node,typescript"
         },
         {
           "exec": "pnpm i --no-frozen-lockfile"
         },
         {
-          "exec": "pnpm update @biomejs/biome @types/jest @types/node aws-cdk commit-and-tag-version esbuild jest jest-junit projen ts-jest ts-node typescript aws-cdk-lib constructs"
+          "exec": "pnpm update @biomejs/biome @commitlint/config-conventional @types/jest @types/node aws-cdk commit-and-tag-version commitlint esbuild jest jest-junit lefthook projen ts-jest ts-node typescript aws-cdk-lib constructs"
         },
         {
           "exec": "npx projen"

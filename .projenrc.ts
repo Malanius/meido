@@ -16,6 +16,7 @@ const project = new awscdk.AwsCdkTypeScriptApp({
   packageManager: NodePackageManager.PNPM,
 
   scripts: {
+    prepare: 'npx lefthook install',
     check: 'npx @biomejs/biome check --write',
     'check:staged': 'npx @biomejs/biome check --write --staged',
   },
@@ -36,7 +37,12 @@ const project = new awscdk.AwsCdkTypeScriptApp({
   // TODO: add biome config once projen supports it
 
   deps: [],
-  devDeps: ['@biomejs/biome@1.9.4'],
+  devDeps: [
+    '@biomejs/biome@1.9.4',
+    '@commitlint/config-conventional',
+    'commitlint',
+    'lefthook',
+  ],
 });
 
 project.synth();
