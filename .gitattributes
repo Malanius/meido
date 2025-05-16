@@ -2,7 +2,6 @@
 
 * text=auto eol=lf
 *.snap linguist-generated
-/.eslintrc.json linguist-generated
 /.gitattributes linguist-generated
 /.gitignore linguist-generated
 /.npmignore linguist-generated

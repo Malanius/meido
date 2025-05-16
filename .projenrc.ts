@@ -8,13 +8,18 @@ const project = new awscdk.AwsCdkTypeScriptApp({
   name: 'waifu-bot',
   cdkVersion,
   cdkVersionPinning: true,
-  
+
   release: true,
   releaseTrigger: ReleaseTrigger.manual(),
   defaultReleaseBranch: 'main',
   github: false,
   packageManager: NodePackageManager.PNPM,
-  
+
+  scripts: {
+    check: 'npx @biomejs/biome check --write',
+    'check:staged': 'npx @biomejs/biome check --write --staged',
+  },
+
   projenrcTs: true,
   tsconfig: {
     compilerOptions: {
@@ -24,9 +29,14 @@ const project = new awscdk.AwsCdkTypeScriptApp({
       },
     },
   },
-  // deps: [],                /* Runtime dependencies of this module. */
-  // description: undefined,  /* The description is just a string that helps people understand the purpose of the package. */
-  // devDeps: [],             /* Build dependencies for this module. */
-  // packageName: undefined,  /* The "name" in package.json. */
+
+  // Using biome for linting and formatting
+  prettier: false,
+  eslint: false,
+  // TODO: add biome config once projen supports it
+
+  deps: [],
+  devDeps: ['@biomejs/biome@1.9.4'],
 });
+
 project.synth();
