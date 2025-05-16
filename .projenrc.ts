@@ -6,6 +6,8 @@ const project = new awscdk.AwsCdkTypeScriptApp({
   name: 'waifu-bot',
   projenrcTs: true,
 
+  github: false, // Set to true if you want to create a GitHub repository
+  github: false,
   packageManager: NodePackageManager.PNPM,
 
   // deps: [],                /* Runtime dependencies of this module. */
