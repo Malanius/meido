@@ -1,9 +1,12 @@
 import { awscdk } from 'projen';
+import { NodePackageManager } from 'projen/lib/javascript/node-package';
 const project = new awscdk.AwsCdkTypeScriptApp({
   cdkVersion: '2.1.0',
   defaultReleaseBranch: 'main',
   name: 'waifu-bot',
   projenrcTs: true,
+
+  packageManager: NodePackageManager.PNPM,
 
   // deps: [],                /* Runtime dependencies of this module. */
   // description: undefined,  /* The description is just a string that helps people understand the purpose of the package. */
