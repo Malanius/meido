@@ -1,5 +1,6 @@
 import { awscdk } from 'projen';
 import { NodePackageManager } from 'projen/lib/javascript/node-package';
+import { ReleaseTrigger } from 'projen/lib/release';
 
 const cdkVersion = '2.196.0';
 
@@ -9,7 +10,9 @@ const project = new awscdk.AwsCdkTypeScriptApp({
   cdkVersionPinning: true,
   projenrcTs: true,
 
-  github: false, // Set to true if you want to create a GitHub repository
+  release: true,
+  releaseTrigger: ReleaseTrigger.manual(),
+  defaultReleaseBranch: 'main',
   github: false,
   packageManager: NodePackageManager.PNPM,
 
