@@ -36,6 +36,15 @@ const project = new awscdk.AwsCdkTypeScriptApp({
   eslint: false,
   // TODO: add biome config once projen supports it
 
+  lambdaOptions: {
+    runtime: awscdk.LambdaRuntime.NODEJS_22_X,
+    awsSdkConnectionReuse: true,
+    bundlingOptions: {
+      externals: [],
+      sourcemap: true,
+    },
+  },
+
   deps: [],
   devDeps: [
     '@biomejs/biome@1.9.4',
