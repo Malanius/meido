@@ -41,6 +41,7 @@ const project = new awscdk.AwsCdkTypeScriptApp({
     '@biomejs/biome@1.9.4',
     '@commitlint/config-conventional',
     'commitlint',
+    'cz-conventional-changelog',
     'lefthook',
   ],
 });

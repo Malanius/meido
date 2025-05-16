@@ -32,6 +32,10 @@
       "type": "build"
     },
     {
+      "name": "cz-conventional-changelog",
+      "type": "build"
+    },
+    {
       "name": "esbuild",
       "type": "build"
     },
