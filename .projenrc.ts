@@ -1,9 +1,12 @@
 import { awscdk } from 'projen';
 import { NodePackageManager } from 'projen/lib/javascript/node-package';
+
+const cdkVersion = '2.196.0';
+
 const project = new awscdk.AwsCdkTypeScriptApp({
-  cdkVersion: '2.1.0',
-  defaultReleaseBranch: 'main',
   name: 'waifu-bot',
+  cdkVersion,
+  cdkVersionPinning: true,
   projenrcTs: true,
 
   github: false, // Set to true if you want to create a GitHub repository
