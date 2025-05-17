@@ -1,3 +1,4 @@
+import { Core } from '@/core/core.stack';
 import { Stage, type StageProps } from 'aws-cdk-lib';
 import type { Construct } from 'constructs';
 
@@ -10,5 +11,11 @@ export class AppStage extends Stage {
     super(scope, id, props);
     const { appName } = props;
     const appStage = this.stageName;
+
+    new Core(this, 'core', {
+      stackName: `${appName}-${appStage}-core`,
+      appName,
+      appStage,
+    });
   }
 }
