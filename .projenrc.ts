@@ -65,4 +65,9 @@ cdkJson?.addOverride(
   'npx ts-node -r tsconfig-paths/register --prefer-ts-exts src/main.ts'
 );
 
+// Not sure why projen is not setting this
+project.addFields({
+  packageManager: 'pnpm@10.11.0',
+});
+
 project.synth();
