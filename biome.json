@@ -12,7 +12,8 @@
       ".projen/",
       "tsconfig*.json",
       "package.json",
-      "*test.ts.snapshot/**"
+      "*test.ts.snapshot/**",
+      "*-function.ts"
     ]
   },
   "formatter": {
