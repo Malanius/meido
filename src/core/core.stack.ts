@@ -1,7 +1,11 @@
 import type { AppInfo, DiscordSecret } from '@/types';
-import { Stack, type StackProps } from 'aws-cdk-lib';
+import { CfnOutput, Stack, type StackProps } from 'aws-cdk-lib';
+import { FunctionUrlAuthType } from 'aws-cdk-lib/aws-lambda';
 import { Secret } from 'aws-cdk-lib/aws-secretsmanager';
 import type { Construct } from 'constructs';
+import { commonFunctionProps } from './common/common-funtion-props';
+import { powertoolsEnvironment } from './common/powertools-config';
+import { InteractionHandlerFunction } from './interaction-handler/interaction-handler-function';
 
 export interface CoreProps extends StackProps, AppInfo {}
 
@@ -20,6 +24,29 @@ export class Core extends Stack {
           publicKey: 'TODO: add public key',
         } as DiscordSecret),
       },
+    });
+
+    const interactionHandler = new InteractionHandlerFunction(
+      this,
+      'InteractionHandler',
+      {
+        ...commonFunctionProps,
+        environment: {
+          ...powertoolsEnvironment(props, 'core'),
+          DISCORD_SECRET_NAME: discordSecrets.secretName,
+        },
+      }
+    );
+
+    const url = interactionHandler.addFunctionUrl({
+      authType: FunctionUrlAuthType.NONE,
+    });
+
+    discordSecrets.grantRead(interactionHandler);
+
+    new CfnOutput(this, 'FunctionUrl', {
+      description: 'The URL of the interaction handler function',
+      value: url.url,
     });
   }
 }

@@ -9,6 +9,7 @@
     ".projen/tasks.json",
     "cdk.json",
     "LICENSE",
+    "src/core/interaction-handler/interaction-handler-function.ts",
     "tsconfig.dev.json",
     "tsconfig.json"
   ],

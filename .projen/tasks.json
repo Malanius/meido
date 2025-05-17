@@ -44,7 +44,30 @@
     },
     "bundle": {
       "name": "bundle",
-      "description": "Prepare assets"
+      "description": "Prepare assets",
+      "steps": [
+        {
+          "spawn": "bundle:core/interaction-handler/interaction-handler.lambda"
+        }
+      ]
+    },
+    "bundle:core/interaction-handler/interaction-handler.lambda": {
+      "name": "bundle:core/interaction-handler/interaction-handler.lambda",
+      "description": "Create a JavaScript bundle from src/core/interaction-handler/interaction-handler.lambda.ts",
+      "steps": [
+        {
+          "exec": "esbuild --bundle src/core/interaction-handler/interaction-handler.lambda.ts --target=\"node22\" --platform=\"node\" --outfile=\"assets/core/interaction-handler/interaction-handler.lambda/index.js\" --tsconfig=\"tsconfig.dev.json\" --sourcemap"
+        }
+      ]
+    },
+    "bundle:core/interaction-handler/interaction-handler.lambda:watch": {
+      "name": "bundle:core/interaction-handler/interaction-handler.lambda:watch",
+      "description": "Continuously update the JavaScript bundle from src/core/interaction-handler/interaction-handler.lambda.ts",
+      "steps": [
+        {
+          "exec": "esbuild --bundle src/core/interaction-handler/interaction-handler.lambda.ts --target=\"node22\" --platform=\"node\" --outfile=\"assets/core/interaction-handler/interaction-handler.lambda/index.js\" --tsconfig=\"tsconfig.dev.json\" --sourcemap --watch"
+        }
+      ]
     },
     "check": {
       "name": "check",
@@ -314,13 +337,13 @@
       },
       "steps": [
         {
-          "exec": "pnpm dlx npm-check-updates@16 --upgrade --target=minor --peer --no-deprecated --dep=dev,peer,prod,optional --filter=@commitlint/config-conventional,@types/jest,@types/node,commitlint,cz-conventional-changelog,esbuild,jest,lefthook,projen,ts-jest,ts-node,tsconfig-paths,typescript"
+          "exec": "pnpm dlx npm-check-updates@16 --upgrade --target=minor --peer --no-deprecated --dep=dev,peer,prod,optional --filter=@commitlint/config-conventional,@types/aws-lambda,@types/jest,@types/node,commitlint,cz-conventional-changelog,discord-api-types,esbuild,jest,lefthook,projen,ts-jest,ts-node,tsconfig-paths,typescript,@aws-lambda-powertools/logger,@aws-lambda-powertools/parameters,@aws-lambda-powertools/parser,@aws-lambda-powertools/tracer,@aws-lambda-powertools/validation,@aws-sdk/client-secrets-manager,@middy/core,tweetnacl,zod"
         },
         {
           "exec": "pnpm i --no-frozen-lockfile"
         },
         {
-          "exec": "pnpm update @biomejs/biome @commitlint/config-conventional @types/jest @types/node aws-cdk commit-and-tag-version commitlint cz-conventional-changelog esbuild jest jest-junit lefthook projen ts-jest ts-node tsconfig-paths typescript aws-cdk-lib constructs"
+          "exec": "pnpm update @biomejs/biome @commitlint/config-conventional @types/aws-lambda @types/jest @types/node aws-cdk commit-and-tag-version commitlint cz-conventional-changelog discord-api-types esbuild jest jest-junit lefthook projen ts-jest ts-node tsconfig-paths typescript @aws-lambda-powertools/logger @aws-lambda-powertools/parameters @aws-lambda-powertools/parser @aws-lambda-powertools/tracer @aws-lambda-powertools/validation @aws-sdk/client-secrets-manager @middy/core aws-cdk-lib constructs tweetnacl zod"
         },
         {
           "exec": "npx projen"

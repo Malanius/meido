@@ -10,6 +10,10 @@
       "type": "build"
     },
     {
+      "name": "@types/aws-lambda",
+      "type": "build"
+    },
+    {
       "name": "@types/jest",
       "type": "build"
     },
@@ -33,6 +37,10 @@
     },
     {
       "name": "cz-conventional-changelog",
+      "type": "build"
+    },
+    {
+      "name": "discord-api-types",
       "type": "build"
     },
     {
@@ -73,6 +81,34 @@
       "type": "build"
     },
     {
+      "name": "@aws-lambda-powertools/logger",
+      "type": "runtime"
+    },
+    {
+      "name": "@aws-lambda-powertools/parameters",
+      "type": "runtime"
+    },
+    {
+      "name": "@aws-lambda-powertools/parser",
+      "type": "runtime"
+    },
+    {
+      "name": "@aws-lambda-powertools/tracer",
+      "type": "runtime"
+    },
+    {
+      "name": "@aws-lambda-powertools/validation",
+      "type": "runtime"
+    },
+    {
+      "name": "@aws-sdk/client-secrets-manager",
+      "type": "runtime"
+    },
+    {
+      "name": "@middy/core",
+      "type": "runtime"
+    },
+    {
       "name": "aws-cdk-lib",
       "version": "2.196.0",
       "type": "runtime"
@@ -80,6 +116,14 @@
     {
       "name": "constructs",
       "version": "^10.0.5",
+      "type": "runtime"
+    },
+    {
+      "name": "tweetnacl",
+      "type": "runtime"
+    },
+    {
+      "name": "zod",
       "type": "runtime"
     }
   ],
