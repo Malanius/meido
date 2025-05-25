@@ -337,13 +337,13 @@
       },
       "steps": [
         {
-          "exec": "pnpm dlx npm-check-updates@16 --upgrade --target=minor --peer --no-deprecated --dep=dev,peer,prod,optional --filter=@commitlint/config-conventional,@types/aws-lambda,@types/jest,@types/node,commitlint,cz-conventional-changelog,discord-api-types,esbuild,jest,lefthook,projen,ts-jest,ts-node,tsconfig-paths,typescript,@aws-lambda-powertools/logger,@aws-lambda-powertools/parameters,@aws-lambda-powertools/parser,@aws-lambda-powertools/tracer,@aws-lambda-powertools/validation,@aws-sdk/client-secrets-manager,@middy/core,tweetnacl,zod"
+          "exec": "pnpm dlx npm-check-updates@16 --upgrade --target=minor --peer --no-deprecated --dep=dev,peer,prod,optional --filter=@commitlint/config-conventional,@types/aws-lambda,@types/jest,@types/node,commitlint,cz-conventional-changelog,discord-api-types,esbuild,jest,lefthook,projen,ts-jest,ts-node,tsconfig-paths,typescript,@aws-lambda-powertools/logger,@aws-lambda-powertools/parameters,@aws-lambda-powertools/parser,@aws-lambda-powertools/tracer,@aws-lambda-powertools/validation,@aws-sdk/client-secrets-manager,@middy/core,axios,tweetnacl"
         },
         {
           "exec": "pnpm i --no-frozen-lockfile"
         },
         {
-          "exec": "pnpm update @biomejs/biome @commitlint/config-conventional @types/aws-lambda @types/jest @types/node aws-cdk commit-and-tag-version commitlint cz-conventional-changelog discord-api-types esbuild jest jest-junit lefthook projen ts-jest ts-node tsconfig-paths typescript @aws-lambda-powertools/logger @aws-lambda-powertools/parameters @aws-lambda-powertools/parser @aws-lambda-powertools/tracer @aws-lambda-powertools/validation @aws-sdk/client-secrets-manager @middy/core aws-cdk-lib constructs tweetnacl zod"
+          "exec": "pnpm update @biomejs/biome @commitlint/config-conventional @types/aws-lambda @types/jest @types/node aws-cdk commit-and-tag-version commitlint cz-conventional-changelog discord-api-types esbuild jest jest-junit lefthook projen ts-jest ts-node tsconfig-paths typescript @aws-lambda-powertools/logger @aws-lambda-powertools/parameters @aws-lambda-powertools/parser @aws-lambda-powertools/tracer @aws-lambda-powertools/validation @aws-sdk/client-secrets-manager @middy/core aws-cdk-lib axios constructs tweetnacl zod"
         },
         {
           "exec": "npx projen"

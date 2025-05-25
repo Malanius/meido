@@ -55,7 +55,7 @@ const project = new awscdk.AwsCdkTypeScriptApp({
     '@middy/core',
     'axios',
     'tweetnacl',
-    'zod',
+    'zod@~3',
   ],
   devDeps: [
     '@types/aws-lambda',

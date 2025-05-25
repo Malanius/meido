@@ -64,7 +64,7 @@
     "axios": "^1.9.0",
     "constructs": "^10.0.5",
     "tweetnacl": "^1.0.3",
-    "zod": "^3.24.4"
+    "zod": "~3"
   },
   "pnpm": {},
   "license": "Apache-2.0",

@@ -42,7 +42,7 @@ importers:
         specifier: ^1.0.3
         version: 1.0.3
       zod:
-        specifier: ^3.24.4
+        specifier: ~3
         version: 3.24.4
     devDependencies:
       '@biomejs/biome':
