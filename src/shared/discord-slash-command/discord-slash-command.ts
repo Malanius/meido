@@ -4,7 +4,7 @@ import {
 } from '@/shared/functions';
 import type { AppInfo } from '@/types';
 import type { SlashCommandResourceProps } from '@/types/slash-command-resource-props';
-import { CustomResource } from 'aws-cdk-lib';
+import { CustomResource, RemovalPolicy } from 'aws-cdk-lib';
 import { LogGroup, RetentionDays } from 'aws-cdk-lib/aws-logs';
 import { Secret } from 'aws-cdk-lib/aws-secretsmanager';
 import { Provider } from 'aws-cdk-lib/custom-resources';
@@ -25,6 +25,12 @@ export class DiscordSlashCommand extends Construct {
       secretName: `/${appName}/${appStage}/discord-secret`,
     });
 
+    const logGroup = new LogGroup(this, 'RegisterSlashCommandLogGroup', {
+      logGroupName: `/${appName}/${appStage}/register-slash-command/handler`,
+      retention: RetentionDays.ONE_DAY,
+      removalPolicy: RemovalPolicy.DESTROY,
+    });
+
     const registerSlashCommandFunction = new RegisterSlashCommandFunction(
       this,
       'RegisterSlashCommandFunction',
@@ -34,6 +40,7 @@ export class DiscordSlashCommand extends Construct {
           ...commonFunctionEnvironment(props, 'RegisterSlashCommand'),
           DISCORD_SECRET_NAME: discordSecret.secretName,
         },
+        logGroup,
       }
     );
 
@@ -41,10 +48,7 @@ export class DiscordSlashCommand extends Construct {
 
     const provider = new Provider(this, 'RegisterSlashCommandProvider', {
       onEventHandler: registerSlashCommandFunction,
-      logGroup: new LogGroup(this, 'RegisterSlashCommandLogGroup', {
-        logGroupName: `/${appName}/${appStage}/register-slash-command`,
-        retention: RetentionDays.ONE_DAY,
-      }),
+      logGroup,
     });
 
     new CustomResource(this, 'DiscordSlashCommandCustomResource', {
