@@ -39,6 +39,7 @@ export class Core extends Stack {
     new InteractionHandler(this, 'InteractionHandler', {
       ...props,
       discordSecrets,
+      database: database.table,
     });
 
     Aspects.of(this).add(new Tag('module', 'core'));

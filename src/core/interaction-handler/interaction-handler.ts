@@ -2,6 +2,7 @@ import { commonFunctionProps } from '@/shared/common-funtion-props';
 import { powertoolsEnvironment } from '@/shared/powertools-config';
 import type { AppInfo } from '@/types';
 import { CfnOutput, RemovalPolicy } from 'aws-cdk-lib';
+import type { ITableV2 } from 'aws-cdk-lib/aws-dynamodb';
 import { FunctionUrlAuthType } from 'aws-cdk-lib/aws-lambda';
 import { LogGroup, RetentionDays } from 'aws-cdk-lib/aws-logs';
 import type { ISecret } from 'aws-cdk-lib/aws-secretsmanager';
@@ -10,13 +11,14 @@ import { InteractionHandlerFunction } from './interaction-handler-function';
 
 export interface InteractionHandlerProps extends AppInfo {
   discordSecrets: ISecret;
+  database: ITableV2;
 }
 
 export class InteractionHandler extends Construct {
   constructor(scope: Construct, id: string, props: InteractionHandlerProps) {
     super(scope, id);
 
-    const { appName, appStage, discordSecrets } = props;
+    const { appName, appStage, discordSecrets, database } = props;
 
     const logGroup = new LogGroup(this, 'LogGroup', {
       logGroupName: `/${appName}/${appStage}/interaction-handler`,
@@ -31,6 +33,7 @@ export class InteractionHandler extends Construct {
         ...commonFunctionProps,
         environment: {
           ...powertoolsEnvironment(props, 'core'),
+          DATABASE_TABLE_NAME: database.tableName,
           DISCORD_SECRET_NAME: discordSecrets.secretName,
         },
         logGroup,
@@ -42,6 +45,7 @@ export class InteractionHandler extends Construct {
     });
 
     discordSecrets.grantRead(interactionHandler);
+    database.grantReadData(interactionHandler);
 
     new CfnOutput(this, 'FunctionUrl', {
       description: 'The URL of the interaction handler function',
