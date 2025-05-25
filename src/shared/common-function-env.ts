@@ -1,6 +1,6 @@
 import type { AppInfo } from '@/types';
 
-export const powertoolsEnvironment = (
+export const commonFunctionEnvironment = (
   props: AppInfo,
   serviceName: string
 ): { [key: string]: string } => {

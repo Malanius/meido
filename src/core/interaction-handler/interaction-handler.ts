@@ -1,5 +1,5 @@
+import { commonFunctionEnvironment } from '@/shared/common-function-env';
 import { commonFunctionProps } from '@/shared/common-funtion-props';
-import { powertoolsEnvironment } from '@/shared/powertools-config';
 import type { AppInfo } from '@/types';
 import { CfnOutput, RemovalPolicy } from 'aws-cdk-lib';
 import type { ITableV2 } from 'aws-cdk-lib/aws-dynamodb';
@@ -32,7 +32,7 @@ export class InteractionHandler extends Construct {
       {
         ...commonFunctionProps,
         environment: {
-          ...powertoolsEnvironment(props, 'core'),
+          ...commonFunctionEnvironment(props, 'core'),
           DATABASE_TABLE_NAME: database.tableName,
           DISCORD_SECRET_NAME: discordSecrets.secretName,
         },
