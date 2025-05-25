@@ -6,6 +6,7 @@ import { Secret } from 'aws-cdk-lib/aws-secretsmanager';
 import type { Construct } from 'constructs';
 import { commonFunctionProps } from './common/common-funtion-props';
 import { powertoolsEnvironment } from './common/powertools-config';
+import { Database } from './database';
 import { InteractionHandlerFunction } from './interaction-handler/interaction-handler-function';
 
 export interface CoreProps extends StackProps, AppInfo {}
@@ -31,6 +32,8 @@ export class Core extends Stack {
         } as DiscordSecret),
       },
     });
+
+    const database = new Database(this, 'Database', props);
 
     const interactionHandler = new InteractionHandlerFunction(
       this,
