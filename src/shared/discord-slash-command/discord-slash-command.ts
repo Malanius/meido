@@ -21,9 +21,11 @@ export class DiscordSlashCommand extends Construct {
 
     const { appName, appStage, name } = props;
 
-    const discordSecret = new Secret(this, 'DiscordSecret', {
-      secretName: `/${appName}/${appStage}/discord-secret`,
-    });
+    const discordSecret = Secret.fromSecretNameV2(
+      this,
+      'DiscordSecret',
+      `/${appName}/${appStage}/discord`
+    );
 
     const logGroup = new LogGroup(this, 'RegisterSlashCommandLogGroup', {
       logGroupName: `/${appName}/${appStage}/register-slash-command/${name}`,
