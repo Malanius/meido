@@ -8,6 +8,4 @@ const app = new App();
 
 new AppStage(app, appEnv, { appName });
 
-Aspects.of(app).add(new Tag('project', appName));
-
 app.synth();

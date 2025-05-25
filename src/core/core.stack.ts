@@ -1,6 +1,6 @@
 import { EventsBus } from '@/core/event-bus';
 import type { AppInfo, DiscordSecret } from '@/types';
-import { CfnOutput, Stack, type StackProps } from 'aws-cdk-lib';
+import { Aspects, CfnOutput, Stack, type StackProps, Tag } from 'aws-cdk-lib';
 import { FunctionUrlAuthType } from 'aws-cdk-lib/aws-lambda';
 import { Secret } from 'aws-cdk-lib/aws-secretsmanager';
 import type { Construct } from 'constructs';
@@ -51,5 +51,7 @@ export class Core extends Stack {
       description: 'The URL of the interaction handler function',
       value: url.url,
     });
+
+    Aspects.of(this).add(new Tag('module', 'core'));
   }
 }
