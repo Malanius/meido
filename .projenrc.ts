@@ -53,6 +53,7 @@ const project = new awscdk.AwsCdkTypeScriptApp({
     '@aws-lambda-powertools/validation',
     '@aws-sdk/client-secrets-manager',
     '@middy/core',
+    'axios',
     'tweetnacl',
     'zod',
   ],
