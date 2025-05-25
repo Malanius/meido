@@ -1,7 +1,6 @@
-import type { APIApplicationCommandOption } from 'discord-api-types/v10';
+import type { APIApplicationCommand } from 'discord-api-types/v10';
 
-export interface SlashCommandResourceProps {
-  name: string;
-  description: string;
-  options?: APIApplicationCommandOption[];
-}
+export type SlashCommandResourceProps = Pick<
+  APIApplicationCommand,
+  'name' | 'description' | 'options'
+>;
