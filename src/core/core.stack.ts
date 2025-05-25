@@ -1,3 +1,4 @@
+import { EventsBus } from '@/core/event-bus';
 import type { AppInfo, DiscordSecret } from '@/types';
 import { CfnOutput, Stack, type StackProps } from 'aws-cdk-lib';
 import { FunctionUrlAuthType } from 'aws-cdk-lib/aws-lambda';
@@ -14,6 +15,8 @@ export class Core extends Stack {
     super(scope, id, props);
 
     const { appName, appStage } = props;
+
+    new EventsBus(this, 'EventsBus', props);
 
     const discordSecrets = new Secret(this, 'DiscordSecrets', {
       secretName: `/${appName}/${appStage}/discord`,
