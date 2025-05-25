@@ -1,5 +1,7 @@
-import { commonFunctionEnvironment } from '@/shared/common-function-env';
-import { commonFunctionProps } from '@/shared/common-funtion-props';
+import {
+  commonFunctionEnvironment,
+  commonFunctionProps,
+} from '@/shared/functions';
 import type { AppInfo } from '@/types';
 import { CfnOutput, RemovalPolicy } from 'aws-cdk-lib';
 import type { ITableV2 } from 'aws-cdk-lib/aws-dynamodb';

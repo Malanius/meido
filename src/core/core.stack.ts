@@ -1,14 +1,10 @@
 import { EventsBus } from '@/core/event-bus';
 import type { AppInfo, DiscordSecret } from '@/types';
-import { Aspects, CfnOutput, Stack, type StackProps, Tag } from 'aws-cdk-lib';
-import { FunctionUrlAuthType } from 'aws-cdk-lib/aws-lambda';
+import { Aspects, Stack, type StackProps, Tag } from 'aws-cdk-lib';
 import { Secret } from 'aws-cdk-lib/aws-secretsmanager';
 import type { Construct } from 'constructs';
-import { commonFunctionEnvironment } from '../shared/common-function-env';
-import { commonFunctionProps } from '../shared/common-funtion-props';
 import { Database } from './database';
 import { InteractionHandler } from './interaction-handler/interaction-handler';
-import { InteractionHandlerFunction } from './interaction-handler/interaction-handler-function';
 
 export interface CoreProps extends StackProps, AppInfo {}
 
