@@ -24,7 +24,10 @@ export class Core extends Stack {
         // This is necessary to create a secret with a custom structure
         generateStringKey: '//',
         secretStringTemplate: JSON.stringify({
+          appId: 'TODO: add app id',
           publicKey: 'TODO: add public key',
+          botToken: 'TODO: add bot token',
+          guildId: 'TODO: add guild id when using guild commands',
         } as DiscordSecret),
       },
     });
