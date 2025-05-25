@@ -1,4 +1,5 @@
 import { Core } from '@/core/core.stack';
+import { Ping } from '@/ping/ping.stack';
 import { Aspects, Stage, type StageProps, Tag } from 'aws-cdk-lib';
 import type { Construct } from 'constructs';
 
@@ -14,6 +15,12 @@ export class AppStage extends Stage {
 
     new Core(this, 'core', {
       stackName: `${appName}-${appStage}-core`,
+      appName,
+      appStage,
+    });
+
+    new Ping(this, 'ping', {
+      stackName: `${appName}-${appStage}-ping`,
       appName,
       appStage,
     });
