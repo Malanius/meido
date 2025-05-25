@@ -48,6 +48,9 @@
       "steps": [
         {
           "spawn": "bundle:core/interaction-handler/interaction-handler.lambda"
+        },
+        {
+          "spawn": "bundle:shared/discord-slash-command/register-slash-command.lambda"
         }
       ]
     },
@@ -66,6 +69,24 @@
       "steps": [
         {
           "exec": "esbuild --bundle src/core/interaction-handler/interaction-handler.lambda.ts --target=\"node22\" --platform=\"node\" --outfile=\"assets/core/interaction-handler/interaction-handler.lambda/index.js\" --tsconfig=\"tsconfig.dev.json\" --sourcemap --watch"
+        }
+      ]
+    },
+    "bundle:shared/discord-slash-command/register-slash-command.lambda": {
+      "name": "bundle:shared/discord-slash-command/register-slash-command.lambda",
+      "description": "Create a JavaScript bundle from src/shared/discord-slash-command/register-slash-command.lambda.ts",
+      "steps": [
+        {
+          "exec": "esbuild --bundle src/shared/discord-slash-command/register-slash-command.lambda.ts --target=\"node22\" --platform=\"node\" --outfile=\"assets/shared/discord-slash-command/register-slash-command.lambda/index.js\" --tsconfig=\"tsconfig.dev.json\" --sourcemap"
+        }
+      ]
+    },
+    "bundle:shared/discord-slash-command/register-slash-command.lambda:watch": {
+      "name": "bundle:shared/discord-slash-command/register-slash-command.lambda:watch",
+      "description": "Continuously update the JavaScript bundle from src/shared/discord-slash-command/register-slash-command.lambda.ts",
+      "steps": [
+        {
+          "exec": "esbuild --bundle src/shared/discord-slash-command/register-slash-command.lambda.ts --target=\"node22\" --platform=\"node\" --outfile=\"assets/shared/discord-slash-command/register-slash-command.lambda/index.js\" --tsconfig=\"tsconfig.dev.json\" --sourcemap --watch"
         }
       ]
     },
