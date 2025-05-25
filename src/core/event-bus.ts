@@ -45,6 +45,7 @@ export class EventsBus extends Construct {
       });
 
       new Rule(this, 'DevLogEventsRule', {
+        eventBus: eventsBus,
         eventPattern: {
           source: ['*'],
         },
