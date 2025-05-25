@@ -130,6 +130,6 @@ const onDelete = async (
   };
 };
 
-export const onEvent = middy(lambdaHandler)
+export const handler = middy(lambdaHandler)
   .use(captureLambdaHandler(tracer))
   .use(injectLambdaContext(logger, { clearState: true }));

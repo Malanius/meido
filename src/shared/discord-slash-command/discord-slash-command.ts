@@ -26,7 +26,7 @@ export class DiscordSlashCommand extends Construct {
     });
 
     const logGroup = new LogGroup(this, 'RegisterSlashCommandLogGroup', {
-      logGroupName: `/${appName}/${appStage}/register-slash-command/handler`,
+      logGroupName: `/${appName}/${appStage}/register-slash-command`,
       retention: RetentionDays.ONE_DAY,
       removalPolicy: RemovalPolicy.DESTROY,
     });
