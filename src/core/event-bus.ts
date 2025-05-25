@@ -47,7 +47,12 @@ export class EventsBus extends Construct {
       new Rule(this, 'DevLogEventsRule', {
         eventBus: eventsBus,
         eventPattern: {
-          source: ['*'],
+          // @ts-ignore - this is a valid pattern, exists for replays
+          'replay-name': [
+            {
+              exists: false,
+            },
+          ],
         },
         targets: [new CloudWatchLogGroup(devLogGroup)],
       });
