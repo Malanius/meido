@@ -1,8 +1,9 @@
 import { commonFunctionProps } from '@/shared/common-funtion-props';
 import { powertoolsEnvironment } from '@/shared/powertools-config';
 import type { AppInfo } from '@/types';
-import { CfnOutput } from 'aws-cdk-lib';
+import { CfnOutput, RemovalPolicy } from 'aws-cdk-lib';
 import { FunctionUrlAuthType } from 'aws-cdk-lib/aws-lambda';
+import { LogGroup, RetentionDays } from 'aws-cdk-lib/aws-logs';
 import type { ISecret } from 'aws-cdk-lib/aws-secretsmanager';
 import { Construct } from 'constructs';
 import { InteractionHandlerFunction } from './interaction-handler-function';
@@ -15,7 +16,13 @@ export class InteractionHandler extends Construct {
   constructor(scope: Construct, id: string, props: InteractionHandlerProps) {
     super(scope, id);
 
-    const { discordSecrets } = props;
+    const { appName, appStage, discordSecrets } = props;
+
+    const logGroup = new LogGroup(this, 'LogGroup', {
+      logGroupName: `/${appName}/${appStage}/interaction-handler`,
+      retention: RetentionDays.ONE_WEEK,
+      removalPolicy: RemovalPolicy.DESTROY,
+    });
 
     const interactionHandler = new InteractionHandlerFunction(
       this,
@@ -26,6 +33,7 @@ export class InteractionHandler extends Construct {
           ...powertoolsEnvironment(props, 'core'),
           DISCORD_SECRET_NAME: discordSecrets.secretName,
         },
+        logGroup,
       }
     );
 
