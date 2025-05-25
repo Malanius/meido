@@ -4,9 +4,10 @@ import { Aspects, CfnOutput, Stack, type StackProps, Tag } from 'aws-cdk-lib';
 import { FunctionUrlAuthType } from 'aws-cdk-lib/aws-lambda';
 import { Secret } from 'aws-cdk-lib/aws-secretsmanager';
 import type { Construct } from 'constructs';
-import { commonFunctionProps } from './common/common-funtion-props';
-import { powertoolsEnvironment } from './common/powertools-config';
+import { commonFunctionProps } from '../shared/common-funtion-props';
+import { powertoolsEnvironment } from '../shared/powertools-config';
 import { Database } from './database';
+import { InteractionHandler } from './interaction-handler/interaction-handler';
 import { InteractionHandlerFunction } from './interaction-handler/interaction-handler-function';
 
 export interface CoreProps extends StackProps, AppInfo {}
@@ -35,27 +36,9 @@ export class Core extends Stack {
 
     const database = new Database(this, 'Database', props);
 
-    const interactionHandler = new InteractionHandlerFunction(
-      this,
-      'InteractionHandler',
-      {
-        ...commonFunctionProps,
-        environment: {
-          ...powertoolsEnvironment(props, 'core'),
-          DISCORD_SECRET_NAME: discordSecrets.secretName,
-        },
-      }
-    );
-
-    const url = interactionHandler.addFunctionUrl({
-      authType: FunctionUrlAuthType.NONE,
-    });
-
-    discordSecrets.grantRead(interactionHandler);
-
-    new CfnOutput(this, 'FunctionUrl', {
-      description: 'The URL of the interaction handler function',
-      value: url.url,
+    new InteractionHandler(this, 'InteractionHandler', {
+      ...props,
+      discordSecrets,
     });
 
     Aspects.of(this).add(new Tag('module', 'core'));
