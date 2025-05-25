@@ -124,7 +124,24 @@ const onDelete = async (
     event.ResourceProperties as unknown as SlashCommandResourceProps;
   const { name } = props;
   logger.info('Deleting slash command', { name });
-  // TODO: Implement the deletion of the slash command
+  let endpoint = guildId
+    ? DELETE_GUILD_COMMAND_ENDPOINT
+    : DELETE_COMMAND_ENDPOINT;
+  endpoint = endpoint.replace(':app_id', appId);
+  if (guildId) {
+    endpoint = endpoint.replace(':guild_id', guildId);
+  }
+  // biome-ignore lint/style/noNonNullAssertion: on Delete event, PhysicalResourceId is always set
+  endpoint = endpoint.replace(':command_id', event.PhysicalResourceId!);
+
+  try {
+    await apiClient.delete(endpoint);
+  } catch (error) {
+    logger.error('Error deleting slash command', { error });
+    throw error;
+  }
+
+  logger.info('Slash command deleted', { name });
   return {
     PhysicalResourceId: event.PhysicalResourceId,
   };
