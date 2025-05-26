@@ -10,7 +10,13 @@ import { injectLambdaContext } from '@aws-lambda-powertools/logger/middleware';
 import { SecretsProvider } from '@aws-lambda-powertools/parameters/secrets';
 import { Tracer } from '@aws-lambda-powertools/tracer';
 import { captureLambdaHandler } from '@aws-lambda-powertools/tracer/middleware';
+import { DynamoDBClient } from '@aws-sdk/client-dynamodb';
 import { SecretsManagerClient } from '@aws-sdk/client-secrets-manager';
+import {
+  DeleteCommand,
+  DynamoDBDocumentClient,
+  PutCommand,
+} from '@aws-sdk/lib-dynamodb';
 import middy from '@middy/core';
 import type { AxiosInstance, AxiosResponse } from 'axios';
 import {
@@ -23,6 +29,8 @@ const tracer = new Tracer();
 const logger = new Logger();
 const secretsClient = tracer.captureAWSv3Client(new SecretsManagerClient());
 const secretsProvider = new SecretsProvider({ awsSdkV3Client: secretsClient });
+const dynamoClient = tracer.captureAWSv3Client(new DynamoDBClient());
+const docClient = DynamoDBDocumentClient.from(dynamoClient);
 
 const APP_ENV = env.APP_ENV;
 if (!APP_ENV) {
@@ -32,6 +40,11 @@ if (!APP_ENV) {
 const DISCORD_SECRET_NAME = env.DISCORD_SECRET_NAME;
 if (!DISCORD_SECRET_NAME) {
   throw new Error('DISCORD_SECRET_NAME environment variable is not set!');
+}
+
+const DATABASE_TABLE_NAME = env.DATABASE_TABLE_NAME;
+if (!DATABASE_TABLE_NAME) {
+  throw new Error('DATABASE_TABLE_NAME environment variable is not set!');
 }
 
 const REGISTER_GLOBAL_COMMAND_ENDPOINT = 'applications/:app_id/commands';
@@ -67,6 +80,10 @@ const lambdaHandler = async (
   }
 };
 
+export const handler = middy(lambdaHandler)
+  .use(captureLambdaHandler(tracer))
+  .use(injectLambdaContext(logger, { clearState: true }));
+
 const onCreate = async (
   event: OnEventRequest,
   apiClient: AxiosInstance,
@@ -95,12 +112,15 @@ const onCreate = async (
         options,
       }
     );
+    await saveToDatabase(response.data);
+
     logger.info('Slash command created', {
       commandId: response.data.id,
       name: response.data.name,
       description: response.data.description,
       options: response.data.options,
     });
+
     return {
       PhysicalResourceId: response.data.id,
       Data: {
@@ -136,6 +156,8 @@ const onDelete = async (
 
   try {
     await apiClient.delete(endpoint);
+    // biome-ignore lint/style/noNonNullAssertion: on Delete event, PhysicalResourceId is always set
+    await deleteFromDatabase(name, event.PhysicalResourceId!);
   } catch (error) {
     logger.error('Error deleting slash command', { error });
     throw error;
@@ -147,6 +169,26 @@ const onDelete = async (
   };
 };
 
-export const handler = middy(lambdaHandler)
-  .use(captureLambdaHandler(tracer))
-  .use(injectLambdaContext(logger, { clearState: true }));
+const saveToDatabase = async (command: APIApplicationCommand) => {
+  const { name, id } = command;
+  const putCommand = new PutCommand({
+    TableName: DATABASE_TABLE_NAME,
+    Item: {
+      pk: `COMMAND#${name}`,
+      sk: id,
+      command,
+    },
+  });
+  await docClient.send(putCommand);
+};
+
+const deleteFromDatabase = async (name: string, id: string) => {
+  const deleteCommand = new DeleteCommand({
+    TableName: DATABASE_TABLE_NAME,
+    Key: {
+      pk: `COMMAND#${name}`,
+      sk: id,
+    },
+  });
+  await docClient.send(deleteCommand);
+};
