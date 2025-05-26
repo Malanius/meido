@@ -82,34 +82,42 @@
     },
     {
       "name": "@aws-lambda-powertools/logger",
+      "version": "2.20.0",
       "type": "runtime"
     },
     {
       "name": "@aws-lambda-powertools/parameters",
+      "version": "2.20.0",
       "type": "runtime"
     },
     {
       "name": "@aws-lambda-powertools/parser",
+      "version": "2.20.0",
       "type": "runtime"
     },
     {
       "name": "@aws-lambda-powertools/tracer",
+      "version": "2.20.0",
       "type": "runtime"
     },
     {
       "name": "@aws-lambda-powertools/validation",
+      "version": "2.20.0",
       "type": "runtime"
     },
     {
       "name": "@aws-sdk/client-dynamodb",
+      "version": "3.817.0",
       "type": "runtime"
     },
     {
       "name": "@aws-sdk/client-secrets-manager",
+      "version": "3.817.0",
       "type": "runtime"
     },
     {
       "name": "@aws-sdk/lib-dynamodb",
+      "version": "3.817.0",
       "type": "runtime"
     },
     {

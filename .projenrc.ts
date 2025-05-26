@@ -3,6 +3,8 @@ import { NodePackageManager } from 'projen/lib/javascript/node-package';
 import { ReleaseTrigger } from 'projen/lib/release';
 
 const cdkVersion = '2.196.0';
+const powertoolsVersion = '2.20.0';
+const sdkVersion = '3.817.0';
 
 const project = new awscdk.AwsCdkTypeScriptApp({
   name: 'waifu-bot',
@@ -46,14 +48,14 @@ const project = new awscdk.AwsCdkTypeScriptApp({
   },
 
   deps: [
-    '@aws-lambda-powertools/logger',
-    '@aws-lambda-powertools/parameters',
-    '@aws-lambda-powertools/parser',
-    '@aws-lambda-powertools/tracer',
-    '@aws-lambda-powertools/validation',
-    '@aws-sdk/client-dynamodb',
-    '@aws-sdk/client-secrets-manager',
-    '@aws-sdk/lib-dynamodb',
+    `@aws-lambda-powertools/logger@${powertoolsVersion}`,
+    `@aws-lambda-powertools/parameters@${powertoolsVersion}`,
+    `@aws-lambda-powertools/parser@${powertoolsVersion}`,
+    `@aws-lambda-powertools/tracer@${powertoolsVersion}`,
+    `@aws-lambda-powertools/validation@${powertoolsVersion}`,
+    `@aws-sdk/client-dynamodb@${sdkVersion}`,
+    `@aws-sdk/client-secrets-manager@${sdkVersion}`,
+    `@aws-sdk/lib-dynamodb@${sdkVersion}`,
     '@middy/core',
     'axios',
     'tweetnacl',
