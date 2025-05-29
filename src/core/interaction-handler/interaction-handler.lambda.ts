@@ -7,11 +7,7 @@ import { Tracer } from '@aws-lambda-powertools/tracer';
 import { captureLambdaHandler } from '@aws-lambda-powertools/tracer/middleware';
 import { SecretsManagerClient } from '@aws-sdk/client-secrets-manager';
 import middy from '@middy/core';
-import type {
-  APIGatewayProxyEventHeaders,
-  APIGatewayProxyEventV2,
-  APIGatewayProxyResultV2,
-} from 'aws-lambda';
+import type { APIGatewayProxyEventHeaders, APIGatewayProxyEventV2, APIGatewayProxyResultV2 } from 'aws-lambda';
 import { type APIInteraction, InteractionType } from 'discord-api-types/v10';
 import * as nacl from 'tweetnacl';
 
@@ -25,11 +21,7 @@ if (!DISCORD_SECRET_NAME) {
   throw new Error('DISCORD_SECRET_NAME environment variable is not set');
 }
 
-const isValidSignature = (
-  publicKey: string,
-  headers: APIGatewayProxyEventHeaders,
-  rawBody?: string
-) => {
+const isValidSignature = (publicKey: string, headers: APIGatewayProxyEventHeaders, rawBody?: string) => {
   const signature = headers['x-signature-ed25519'];
   const timestamp = headers['x-signature-timestamp'];
 
@@ -45,10 +37,7 @@ const isValidSignature = (
   );
 };
 
-const response = (
-  statusCode: number,
-  body: Record<string, unknown>
-): APIGatewayProxyResultV2 => ({
+const response = (statusCode: number, body: Record<string, unknown>): APIGatewayProxyResultV2 => ({
   statusCode,
   body: JSON.stringify(body),
   isBase64Encoded: false,

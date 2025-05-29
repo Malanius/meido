@@ -1,10 +1,5 @@
 import { env } from 'node:process';
-import type {
-  DiscordSecret,
-  OnEventRequest,
-  OnEventResponse,
-  SlashCommandResourceProps,
-} from '@/types';
+import type { DiscordSecret, OnEventRequest, OnEventResponse, SlashCommandResourceProps } from '@/types';
 import { Logger } from '@aws-lambda-powertools/logger';
 import { injectLambdaContext } from '@aws-lambda-powertools/logger/middleware';
 import { SecretsProvider } from '@aws-lambda-powertools/parameters/secrets';
@@ -13,10 +8,7 @@ import { captureLambdaHandler } from '@aws-lambda-powertools/tracer/middleware';
 import { SecretsManagerClient } from '@aws-sdk/client-secrets-manager';
 import middy from '@middy/core';
 import type { AxiosInstance, AxiosResponse } from 'axios';
-import {
-  type APIApplicationCommand,
-  ApplicationCommandType,
-} from 'discord-api-types/v10';
+import { type APIApplicationCommand, ApplicationCommandType } from 'discord-api-types/v10';
 import { discordApi } from '../axios';
 
 const tracer = new Tracer();
@@ -35,15 +27,11 @@ if (!DISCORD_SECRET_NAME) {
 }
 
 const REGISTER_GLOBAL_COMMAND_ENDPOINT = 'applications/:app_id/commands';
-const REGISTER_GUILD_COMMAND_ENDPOINT =
-  'applications/:app_id/guilds/:guild_id/commands';
+const REGISTER_GUILD_COMMAND_ENDPOINT = 'applications/:app_id/guilds/:guild_id/commands';
 const DELETE_COMMAND_ENDPOINT = 'applications/:app_id/commands/:command_id';
-const DELETE_GUILD_COMMAND_ENDPOINT =
-  'applications/:app_id/guilds/:guild_id/commands/:command_id';
+const DELETE_GUILD_COMMAND_ENDPOINT = 'applications/:app_id/guilds/:guild_id/commands/:command_id';
 
-const lambdaHandler = async (
-  event: OnEventRequest
-): Promise<OnEventResponse | undefined> => {
+const lambdaHandler = async (event: OnEventRequest): Promise<OnEventResponse | undefined> => {
   const discordSecret = (await secretsProvider.get(DISCORD_SECRET_NAME, {
     transform: 'json',
   })) as DiscordSecret;
@@ -73,28 +61,22 @@ const onCreate = async (
   appId: string,
   guildId?: string
 ): Promise<OnEventResponse> => {
-  const props =
-    event.ResourceProperties as unknown as SlashCommandResourceProps;
+  const props = event.ResourceProperties as unknown as SlashCommandResourceProps;
   const { name, description, options } = props;
   logger.info('Creating slash command', { name, description, options });
-  let endpoint = guildId
-    ? REGISTER_GUILD_COMMAND_ENDPOINT
-    : REGISTER_GLOBAL_COMMAND_ENDPOINT;
+  let endpoint = guildId ? REGISTER_GUILD_COMMAND_ENDPOINT : REGISTER_GLOBAL_COMMAND_ENDPOINT;
   endpoint = endpoint.replace(':app_id', appId);
   if (guildId) {
     endpoint = endpoint.replace(':guild_id', guildId);
   }
 
   try {
-    const response: AxiosResponse<APIApplicationCommand> = await apiClient.post(
-      endpoint,
-      {
-        type: ApplicationCommandType.ChatInput, // Supporting slash commands only for now
-        name,
-        description,
-        options,
-      }
-    );
+    const response: AxiosResponse<APIApplicationCommand> = await apiClient.post(endpoint, {
+      type: ApplicationCommandType.ChatInput, // Supporting slash commands only for now
+      name,
+      description,
+      options,
+    });
     logger.info('Slash command created', {
       commandId: response.data.id,
       name: response.data.name,
@@ -120,13 +102,10 @@ const onDelete = async (
   appId: string,
   guildId?: string
 ): Promise<OnEventResponse> => {
-  const props =
-    event.ResourceProperties as unknown as SlashCommandResourceProps;
+  const props = event.ResourceProperties as unknown as SlashCommandResourceProps;
   const { name } = props;
   logger.info('Deleting slash command', { name });
-  let endpoint = guildId
-    ? DELETE_GUILD_COMMAND_ENDPOINT
-    : DELETE_COMMAND_ENDPOINT;
+  let endpoint = guildId ? DELETE_GUILD_COMMAND_ENDPOINT : DELETE_COMMAND_ENDPOINT;
   endpoint = endpoint.replace(':app_id', appId);
   if (guildId) {
     endpoint = endpoint.replace(':guild_id', guildId);

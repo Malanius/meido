@@ -3,8 +3,7 @@
 
 import type { CloudFormationCustomResourceEventCommon } from 'aws-lambda';
 
-export interface OnEventRequest
-  extends CloudFormationCustomResourceEventCommon {
+export interface OnEventRequest extends CloudFormationCustomResourceEventCommon {
   /**
    * The request type is set by the AWS CloudFormation stack operation
    * (create-stack, update-stack, or delete-stack) that was initiated by the

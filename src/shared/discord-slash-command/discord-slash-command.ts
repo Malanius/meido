@@ -1,7 +1,4 @@
-import {
-  commonFunctionEnvironment,
-  commonFunctionProps,
-} from '@/shared/functions';
+import { commonFunctionEnvironment, commonFunctionProps } from '@/shared/functions';
 import type { AppInfo } from '@/types';
 import type { SlashCommandResourceProps } from '@/types/slash-command-resource-props';
 import { CustomResource, RemovalPolicy } from 'aws-cdk-lib';
@@ -11,9 +8,7 @@ import { Provider } from 'aws-cdk-lib/custom-resources';
 import { Construct } from 'constructs';
 import { RegisterSlashCommandFunction } from './register-slash-command-function';
 
-export interface DiscordSlashCommandProps
-  extends AppInfo,
-    SlashCommandResourceProps {}
+export interface DiscordSlashCommandProps extends AppInfo, SlashCommandResourceProps {}
 
 export class DiscordSlashCommand extends Construct {
   constructor(scope: Construct, id: string, props: DiscordSlashCommandProps) {
@@ -21,11 +16,7 @@ export class DiscordSlashCommand extends Construct {
 
     const { appName, appStage, name } = props;
 
-    const discordSecret = Secret.fromSecretNameV2(
-      this,
-      'DiscordSecret',
-      `/${appName}/${appStage}/discord`
-    );
+    const discordSecret = Secret.fromSecretNameV2(this, 'DiscordSecret', `/${appName}/${appStage}/discord`);
 
     const logGroup = new LogGroup(this, 'RegisterSlashCommandLogGroup', {
       logGroupName: `/${appName}/${appStage}/register-slash-command/${name}`,
@@ -33,18 +24,14 @@ export class DiscordSlashCommand extends Construct {
       removalPolicy: RemovalPolicy.DESTROY,
     });
 
-    const registerSlashCommandFunction = new RegisterSlashCommandFunction(
-      this,
-      'RegisterSlashCommandFunction',
-      {
-        ...commonFunctionProps,
-        environment: {
-          ...commonFunctionEnvironment(props, 'RegisterSlashCommand'),
-          DISCORD_SECRET_NAME: discordSecret.secretName,
-        },
-        logGroup,
-      }
-    );
+    const registerSlashCommandFunction = new RegisterSlashCommandFunction(this, 'RegisterSlashCommandFunction', {
+      ...commonFunctionProps,
+      environment: {
+        ...commonFunctionEnvironment(props, 'RegisterSlashCommand'),
+        DISCORD_SECRET_NAME: discordSecret.secretName,
+      },
+      logGroup,
+    });
 
     discordSecret.grantRead(registerSlashCommandFunction);
 

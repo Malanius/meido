@@ -77,10 +77,7 @@ const project = new awscdk.AwsCdkTypeScriptApp({
 // There is no way to directly register modules in in projen
 // So having to use escape hatch to add tsconfig-paths/register
 const cdkJson = project.tryFindObjectFile('cdk.json');
-cdkJson?.addOverride(
-  'app',
-  'npx ts-node -r tsconfig-paths/register --prefer-ts-exts src/main.ts'
-);
+cdkJson?.addOverride('app', 'npx ts-node -r tsconfig-paths/register --prefer-ts-exts src/main.ts');
 
 // Not sure why projen is not setting this
 project.addFields({

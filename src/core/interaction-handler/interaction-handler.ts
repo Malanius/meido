@@ -1,7 +1,4 @@
-import {
-  commonFunctionEnvironment,
-  commonFunctionProps,
-} from '@/shared/functions';
+import { commonFunctionEnvironment, commonFunctionProps } from '@/shared/functions';
 import type { AppInfo } from '@/types';
 import { CfnOutput, RemovalPolicy } from 'aws-cdk-lib';
 import type { ITableV2 } from 'aws-cdk-lib/aws-dynamodb';
@@ -28,19 +25,15 @@ export class InteractionHandler extends Construct {
       removalPolicy: RemovalPolicy.DESTROY,
     });
 
-    const interactionHandler = new InteractionHandlerFunction(
-      this,
-      'InteractionHandler',
-      {
-        ...commonFunctionProps,
-        environment: {
-          ...commonFunctionEnvironment(props, 'core'),
-          DATABASE_TABLE_NAME: database.tableName,
-          DISCORD_SECRET_NAME: discordSecrets.secretName,
-        },
-        logGroup,
-      }
-    );
+    const interactionHandler = new InteractionHandlerFunction(this, 'InteractionHandler', {
+      ...commonFunctionProps,
+      environment: {
+        ...commonFunctionEnvironment(props, 'core'),
+        DATABASE_TABLE_NAME: database.tableName,
+        DISCORD_SECRET_NAME: discordSecrets.secretName,
+      },
+      logGroup,
+    });
 
     const url = interactionHandler.addFunctionUrl({
       authType: FunctionUrlAuthType.NONE,

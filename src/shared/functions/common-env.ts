@@ -1,9 +1,6 @@
 import type { AppInfo } from '@/types';
 
-export const commonFunctionEnvironment = (
-  props: AppInfo,
-  serviceName: string
-): { [key: string]: string } => {
+export const commonFunctionEnvironment = (props: AppInfo, serviceName: string): { [key: string]: string } => {
   const { appName, appStage } = props;
   return {
     APP_NAME: appName,
