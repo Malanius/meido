@@ -1,6 +1,6 @@
 import { commonFunctionEnvironment, commonFunctionProps } from '@/shared/functions';
 import type { AppInfo } from '@/types';
-import { CfnOutput, RemovalPolicy } from 'aws-cdk-lib';
+import { CfnOutput, Duration, RemovalPolicy } from 'aws-cdk-lib';
 import type { IEventBus } from 'aws-cdk-lib/aws-events';
 import { FunctionUrlAuthType } from 'aws-cdk-lib/aws-lambda';
 import { LogGroup, RetentionDays } from 'aws-cdk-lib/aws-logs';
@@ -27,6 +27,7 @@ export class InteractionHandler extends Construct {
 
     const interactionHandler = new InteractionHandlerFunction(this, 'InteractionHandler', {
       ...commonFunctionProps,
+      timeout: Duration.seconds(5),
       environment: {
         ...commonFunctionEnvironment(props, 'core'),
         DISCORD_SECRET_NAME: discordSecrets.secretName,
