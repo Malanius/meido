@@ -89,7 +89,7 @@ const lambdaHandler = async (event: APIGatewayProxyEventV2) => {
 
   const command = body as APIApplicationCommandInteraction;
   try {
-    await sendEvent(command);
+    await sendEvent(command, event.requestContext.timeEpoch);
   } catch (error) {
     logger.error('Failed to send event', { error });
     return response(500, { error: 'Failed to send event' });
@@ -102,14 +102,14 @@ export const handler = middy(lambdaHandler)
   .use(captureLambdaHandler(tracer))
   .use(injectLambdaContext(logger, { clearState: true }));
 
-const sendEvent = async (event: APIApplicationCommandInteraction) => {
+const sendEvent = async (event: APIApplicationCommandInteraction, timestamp: number) => {
   const command = new PutEventsCommand({
     Entries: [
       {
         EventBusName: EVENTS_BUS_NAME,
         Source: 'dev.malanius.waifu-bot',
         DetailType: event.data.name,
-        Time: new Date(),
+        Time: new Date(timestamp),
         Detail: JSON.stringify(event),
       },
     ],
