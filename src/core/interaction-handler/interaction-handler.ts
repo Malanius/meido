@@ -27,6 +27,7 @@ export class InteractionHandler extends Construct {
 
     const interactionHandler = new InteractionHandlerFunction(this, 'InteractionHandler', {
       ...commonFunctionProps,
+      memorySize: 1024, // Best cost and speed according to power tuning
       timeout: Duration.seconds(5),
       environment: {
         ...commonFunctionEnvironment(props, 'core'),
