@@ -111,6 +111,11 @@
       "type": "runtime"
     },
     {
+      "name": "@aws-sdk/client-eventbridge",
+      "version": "3.817.0",
+      "type": "runtime"
+    },
+    {
       "name": "@aws-sdk/client-secrets-manager",
       "version": "3.817.0",
       "type": "runtime"

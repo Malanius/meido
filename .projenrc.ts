@@ -54,6 +54,7 @@ const project = new awscdk.AwsCdkTypeScriptApp({
     `@aws-lambda-powertools/tracer@${powertoolsVersion}`,
     `@aws-lambda-powertools/validation@${powertoolsVersion}`,
     `@aws-sdk/client-dynamodb@${sdkVersion}`,
+    `@aws-sdk/client-eventbridge@${sdkVersion}`,
     `@aws-sdk/client-secrets-manager@${sdkVersion}`,
     `@aws-sdk/lib-dynamodb@${sdkVersion}`,
     '@middy/core',
