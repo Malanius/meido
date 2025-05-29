@@ -1,4 +1,5 @@
 import { env } from 'node:process';
+import { DiscordApiClient } from '@/shared/discord-api-client';
 import type { DiscordSecret, OnEventRequest, OnEventResponse, SlashCommandResourceProps } from '@/types';
 import { Logger } from '@aws-lambda-powertools/logger';
 import { injectLambdaContext } from '@aws-lambda-powertools/logger/middleware';
@@ -7,9 +8,6 @@ import { Tracer } from '@aws-lambda-powertools/tracer';
 import { captureLambdaHandler } from '@aws-lambda-powertools/tracer/middleware';
 import { SecretsManagerClient } from '@aws-sdk/client-secrets-manager';
 import middy from '@middy/core';
-import type { AxiosInstance, AxiosResponse } from 'axios';
-import { type APIApplicationCommand, ApplicationCommandType } from 'discord-api-types/v10';
-import { discordApi } from '../axios';
 
 const tracer = new Tracer();
 const logger = new Logger();
@@ -26,20 +24,12 @@ if (!DISCORD_SECRET_NAME) {
   throw new Error('DISCORD_SECRET_NAME environment variable is not set!');
 }
 
-const REGISTER_GLOBAL_COMMAND_ENDPOINT = 'applications/:app_id/commands';
-const REGISTER_GUILD_COMMAND_ENDPOINT = 'applications/:app_id/guilds/:guild_id/commands';
-const DELETE_COMMAND_ENDPOINT = 'applications/:app_id/commands/:command_id';
-const DELETE_GUILD_COMMAND_ENDPOINT = 'applications/:app_id/guilds/:guild_id/commands/:command_id';
-
 const lambdaHandler = async (event: OnEventRequest): Promise<OnEventResponse | undefined> => {
   const discordSecret = (await secretsProvider.get(DISCORD_SECRET_NAME, {
     transform: 'json',
   })) as DiscordSecret;
-  const botToken = discordSecret.botToken;
-  const apiClient = discordApi(botToken);
-  const appId = discordSecret.appId;
-  const guildId = discordSecret.guildId;
-  if (APP_ENV !== 'prod' && !guildId) {
+  const discordApiClient = new DiscordApiClient(discordSecret.appId, discordSecret.botToken, discordSecret.guildId);
+  if (APP_ENV !== 'prod' && !discordSecret.guildId) {
     logger.error('Guild ID is required for not prod environments!');
     throw new Error('Guild ID is required for not prod environments!');
   }
@@ -47,47 +37,36 @@ const lambdaHandler = async (event: OnEventRequest): Promise<OnEventResponse | u
   switch (event.RequestType) {
     case 'Create':
     case 'Update': // Discord will overwrite the command if it already exists
-      return await onCreate(event, apiClient, appId, guildId);
+      return await onCreate(event, discordApiClient);
     case 'Delete':
-      return await onDelete(event, apiClient, appId, guildId);
+      return await onDelete(event, discordApiClient);
     default:
       throw new Error(`Unsupported request type: ${event.RequestType}`);
   }
 };
 
-const onCreate = async (
-  event: OnEventRequest,
-  apiClient: AxiosInstance,
-  appId: string,
-  guildId?: string
-): Promise<OnEventResponse> => {
+const onCreate = async (event: OnEventRequest, discordApiClient: DiscordApiClient): Promise<OnEventResponse> => {
   const props = event.ResourceProperties as unknown as SlashCommandResourceProps;
   const { name, description, options } = props;
   logger.info('Creating slash command', { name, description, options });
-  let endpoint = guildId ? REGISTER_GUILD_COMMAND_ENDPOINT : REGISTER_GLOBAL_COMMAND_ENDPOINT;
-  endpoint = endpoint.replace(':app_id', appId);
-  if (guildId) {
-    endpoint = endpoint.replace(':guild_id', guildId);
-  }
 
   try {
-    const response: AxiosResponse<APIApplicationCommand> = await apiClient.post(endpoint, {
-      type: ApplicationCommandType.ChatInput, // Supporting slash commands only for now
+    const response = await discordApiClient.registerCommand({
       name,
       description,
       options,
     });
     logger.info('Slash command created', {
-      commandId: response.data.id,
-      name: response.data.name,
-      description: response.data.description,
-      options: response.data.options,
+      commandId: response.id,
+      name: response.name,
+      description: response.description,
+      options: response.options,
     });
     return {
-      PhysicalResourceId: response.data.id,
+      PhysicalResourceId: response.id,
       Data: {
-        commandId: response.data.id,
-        name: response.data.name,
+        commandId: response.id,
+        name: response.name,
       },
     };
   } catch (error) {
@@ -96,25 +75,14 @@ const onCreate = async (
   }
 };
 
-const onDelete = async (
-  event: OnEventRequest,
-  apiClient: AxiosInstance,
-  appId: string,
-  guildId?: string
-): Promise<OnEventResponse> => {
+const onDelete = async (event: OnEventRequest, apiClient: DiscordApiClient): Promise<OnEventResponse> => {
   const props = event.ResourceProperties as unknown as SlashCommandResourceProps;
   const { name } = props;
   logger.info('Deleting slash command', { name });
-  let endpoint = guildId ? DELETE_GUILD_COMMAND_ENDPOINT : DELETE_COMMAND_ENDPOINT;
-  endpoint = endpoint.replace(':app_id', appId);
-  if (guildId) {
-    endpoint = endpoint.replace(':guild_id', guildId);
-  }
-  // biome-ignore lint/style/noNonNullAssertion: on Delete event, PhysicalResourceId is always set
-  endpoint = endpoint.replace(':command_id', event.PhysicalResourceId!);
 
   try {
-    await apiClient.delete(endpoint);
+    // biome-ignore lint/style/noNonNullAssertion: on Delete event, PhysicalResourceId is always set
+    await apiClient.deleteCommand(event.PhysicalResourceId!);
   } catch (error) {
     logger.error('Error deleting slash command', { error });
     throw error;
