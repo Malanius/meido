@@ -1,4 +1,5 @@
 import { env } from 'node:process';
+import { EVENTS_SOURCE } from '@/shared/constants';
 import type { DiscordSecret } from '@/types';
 import { Logger } from '@aws-lambda-powertools/logger';
 import { injectLambdaContext } from '@aws-lambda-powertools/logger/middleware';
@@ -107,7 +108,7 @@ const sendEvent = async (event: APIApplicationCommandInteraction, timestamp: num
     Entries: [
       {
         EventBusName: EVENTS_BUS_NAME,
-        Source: 'dev.malanius.waifu-bot',
+        Source: EVENTS_SOURCE,
         DetailType: event.data.name,
         Time: new Date(timestamp),
         Detail: JSON.stringify(event),
