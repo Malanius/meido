@@ -30,12 +30,11 @@ export class Core extends Stack {
       },
     });
 
-    const database = new Database(this, 'Database', props);
+    new Database(this, 'Database', props);
 
     new InteractionHandler(this, 'InteractionHandler', {
       ...props,
       discordSecrets,
-      database: database.table,
     });
 
     Aspects.of(this).add(new Tag('module', 'core'));

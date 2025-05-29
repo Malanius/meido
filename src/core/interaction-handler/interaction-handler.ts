@@ -10,14 +10,13 @@ import { InteractionHandlerFunction } from './interaction-handler-function';
 
 export interface InteractionHandlerProps extends AppInfo {
   discordSecrets: ISecret;
-  database: ITableV2;
 }
 
 export class InteractionHandler extends Construct {
   constructor(scope: Construct, id: string, props: InteractionHandlerProps) {
     super(scope, id);
 
-    const { appName, appStage, discordSecrets, database } = props;
+    const { appName, appStage, discordSecrets } = props;
 
     const logGroup = new LogGroup(this, 'LogGroup', {
       logGroupName: `/${appName}/${appStage}/interaction-handler`,
@@ -29,7 +28,6 @@ export class InteractionHandler extends Construct {
       ...commonFunctionProps,
       environment: {
         ...commonFunctionEnvironment(props, 'core'),
-        DATABASE_TABLE_NAME: database.tableName,
         DISCORD_SECRET_NAME: discordSecrets.secretName,
       },
       logGroup,
@@ -40,7 +38,6 @@ export class InteractionHandler extends Construct {
     });
 
     discordSecrets.grantRead(interactionHandler);
-    database.grantReadData(interactionHandler);
 
     new CfnOutput(this, 'FunctionUrl', {
       description: 'The URL of the interaction handler function',
