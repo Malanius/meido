@@ -1,7 +1,7 @@
 import { commonFunctionEnvironment, commonFunctionProps } from '@/shared/functions';
 import type { AppInfo } from '@/types';
 import { CfnOutput, RemovalPolicy } from 'aws-cdk-lib';
-import type { ITableV2 } from 'aws-cdk-lib/aws-dynamodb';
+import type { IEventBus } from 'aws-cdk-lib/aws-events';
 import { FunctionUrlAuthType } from 'aws-cdk-lib/aws-lambda';
 import { LogGroup, RetentionDays } from 'aws-cdk-lib/aws-logs';
 import type { ISecret } from 'aws-cdk-lib/aws-secretsmanager';
@@ -10,13 +10,14 @@ import { InteractionHandlerFunction } from './interaction-handler-function';
 
 export interface InteractionHandlerProps extends AppInfo {
   discordSecrets: ISecret;
+  eventsBus: IEventBus;
 }
 
 export class InteractionHandler extends Construct {
   constructor(scope: Construct, id: string, props: InteractionHandlerProps) {
     super(scope, id);
 
-    const { appName, appStage, discordSecrets } = props;
+    const { appName, appStage, discordSecrets, eventsBus } = props;
 
     const logGroup = new LogGroup(this, 'LogGroup', {
       logGroupName: `/${appName}/${appStage}/interaction-handler`,
@@ -29,6 +30,7 @@ export class InteractionHandler extends Construct {
       environment: {
         ...commonFunctionEnvironment(props, 'core'),
         DISCORD_SECRET_NAME: discordSecrets.secretName,
+        EVENTS_BUS_NAME: eventsBus.eventBusName,
       },
       logGroup,
     });
@@ -38,6 +40,7 @@ export class InteractionHandler extends Construct {
     });
 
     discordSecrets.grantRead(interactionHandler);
+    eventsBus.grantPutEventsTo(interactionHandler);
 
     new CfnOutput(this, 'FunctionUrl', {
       description: 'The URL of the interaction handler function',

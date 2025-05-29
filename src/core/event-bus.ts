@@ -10,6 +10,7 @@ import { Construct } from 'constructs';
 export interface EventsBusProps extends AppInfo {}
 
 export class EventsBus extends Construct {
+  public readonly eventsBus: EventBus;
   constructor(scope: Construct, id: string, props: EventsBusProps) {
     super(scope, id);
 
@@ -21,7 +22,7 @@ export class EventsBus extends Construct {
     });
     // TODO: add DLQ monitoring
 
-    const eventsBus = new EventBus(this, 'EventBus', {
+    this.eventsBus = new EventBus(this, 'EventBus', {
       eventBusName: `${appName}-${appStage}`,
       deadLetterQueue,
     });
@@ -29,12 +30,12 @@ export class EventsBus extends Construct {
     new StringParameter(this, 'EventBusName', {
       parameterName: `/${appName}/${appStage}/event-bus/name`,
       description: 'The name of the event bus',
-      stringValue: eventsBus.eventBusName,
+      stringValue: this.eventsBus.eventBusName,
     });
     new StringParameter(this, 'EventBusArn', {
       parameterName: `/${appName}/${appStage}/event-bus/arn`,
       description: 'The ARN of the event bus',
-      stringValue: eventsBus.eventBusArn,
+      stringValue: this.eventsBus.eventBusArn,
     });
 
     if (appStage === 'dev') {
@@ -45,7 +46,7 @@ export class EventsBus extends Construct {
       });
 
       new Rule(this, 'DevLogEventsRule', {
-        eventBus: eventsBus,
+        eventBus: this.eventsBus,
         eventPattern: {
           // @ts-ignore - this is a valid pattern, exists for replays
           'replay-name': [

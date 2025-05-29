@@ -14,7 +14,7 @@ export class Core extends Stack {
 
     const { appName, appStage } = props;
 
-    new EventsBus(this, 'EventsBus', props);
+    new Database(this, 'Database', props);
 
     const discordSecrets = new Secret(this, 'DiscordSecrets', {
       secretName: `/${appName}/${appStage}/discord`,
@@ -30,11 +30,12 @@ export class Core extends Stack {
       },
     });
 
-    new Database(this, 'Database', props);
+    const eventsBus = new EventsBus(this, 'EventsBus', props);
 
     new InteractionHandler(this, 'InteractionHandler', {
       ...props,
       discordSecrets,
+      eventsBus: eventsBus.eventsBus,
     });
 
     Aspects.of(this).add(new Tag('module', 'core'));
