@@ -34,6 +34,7 @@ export class Ping extends Stack {
 
     const pingHandler = new PingFunction(this, 'PingHandler', {
       ...commonFunctionProps,
+      memorySize: 512,
       environment: {
         ...commonFunctionEnvironment(props, MODULE),
         DISCORD_SECRET_NAME: discordSecrets.secretName,

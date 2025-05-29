@@ -3,8 +3,10 @@ import {
   type APIApplicationCommand,
   ApplicationCommandType,
   type RESTPostAPIChatInputApplicationCommandsJSONBody,
+  type RESTPostAPIWebhookWithTokenJSONBody,
 } from 'discord-api-types/v10';
 
+const SEND_FOLLOWUP_MESSAGE_ENDPOINT = '/webhooks/:app_id/:interaction_token';
 const REGISTER_GLOBAL_COMMAND_ENDPOINT = 'applications/:app_id/commands';
 const REGISTER_GUILD_COMMAND_ENDPOINT = 'applications/:app_id/guilds/:guild_id/commands';
 const DELETE_COMMAND_ENDPOINT = 'applications/:app_id/commands/:command_id';
@@ -24,6 +26,16 @@ export class DiscordApiClient {
         Authorization: `Bot ${botToken}`,
       },
     });
+  }
+
+  async sendFollowupMessage(interactionToken: string, message: string) {
+    const endpoint = SEND_FOLLOWUP_MESSAGE_ENDPOINT.replace(':app_id', this.appId).replace(
+      ':interaction_token',
+      interactionToken
+    );
+    await this.api.post(endpoint, {
+      content: message,
+    } as RESTPostAPIWebhookWithTokenJSONBody);
   }
 
   async registerCommand(command: RESTPostAPIChatInputApplicationCommandsJSONBody) {
