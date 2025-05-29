@@ -50,6 +50,9 @@
           "spawn": "bundle:core/interaction-handler/interaction-handler.lambda"
         },
         {
+          "spawn": "bundle:ping/ping.lambda"
+        },
+        {
           "spawn": "bundle:shared/discord-slash-command/register-slash-command.lambda"
         }
       ]
@@ -69,6 +72,24 @@
       "steps": [
         {
           "exec": "esbuild --bundle src/core/interaction-handler/interaction-handler.lambda.ts --target=\"node22\" --platform=\"node\" --outfile=\"assets/core/interaction-handler/interaction-handler.lambda/index.js\" --tsconfig=\"tsconfig.dev.json\" --sourcemap --watch"
+        }
+      ]
+    },
+    "bundle:ping/ping.lambda": {
+      "name": "bundle:ping/ping.lambda",
+      "description": "Create a JavaScript bundle from src/ping/ping.lambda.ts",
+      "steps": [
+        {
+          "exec": "esbuild --bundle src/ping/ping.lambda.ts --target=\"node22\" --platform=\"node\" --outfile=\"assets/ping/ping.lambda/index.js\" --tsconfig=\"tsconfig.dev.json\" --sourcemap"
+        }
+      ]
+    },
+    "bundle:ping/ping.lambda:watch": {
+      "name": "bundle:ping/ping.lambda:watch",
+      "description": "Continuously update the JavaScript bundle from src/ping/ping.lambda.ts",
+      "steps": [
+        {
+          "exec": "esbuild --bundle src/ping/ping.lambda.ts --target=\"node22\" --platform=\"node\" --outfile=\"assets/ping/ping.lambda/index.js\" --tsconfig=\"tsconfig.dev.json\" --sourcemap --watch"
         }
       ]
     },

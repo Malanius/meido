@@ -47,5 +47,6 @@ junit.xml
 .cdk.staging/
 .parcel-cache/
 !/src/core/interaction-handler/interaction-handler-function.ts
+!/src/ping/ping-function.ts
 !/src/shared/discord-slash-command/register-slash-command-function.ts
 !/.projenrc.ts
