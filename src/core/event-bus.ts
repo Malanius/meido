@@ -40,7 +40,7 @@ export class EventsBus extends Construct {
 
     if (appStage === 'dev') {
       const devLogGroup = new LogGroup(this, 'DevLogGroup', {
-        logGroupName: `${appName}/${appStage}/events`,
+        logGroupName: `/${appName}/${appStage}/events`,
         retention: RetentionDays.ONE_WEEK,
         removalPolicy: RemovalPolicy.DESTROY,
       });
