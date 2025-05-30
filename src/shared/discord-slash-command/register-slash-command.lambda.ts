@@ -28,7 +28,7 @@ const lambdaHandler = async (event: OnEventRequest): Promise<OnEventResponse | u
   const discordSecret = (await secretsProvider.get(DISCORD_SECRET_NAME, {
     transform: 'json',
   })) as DiscordSecret;
-  const discordApiClient = new DiscordApiClient(discordSecret.appId, discordSecret.botToken, discordSecret.guildId);
+  const discordApiClient = new DiscordApiClient(discordSecret.appId, discordSecret.guildId, discordSecret.botToken);
   if (APP_ENV !== 'prod' && !discordSecret.guildId) {
     logger.error('Guild ID is required for not prod environments!');
     throw new Error('Guild ID is required for not prod environments!');

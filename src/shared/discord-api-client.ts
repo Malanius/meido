@@ -1,4 +1,4 @@
-import axios, { type AxiosInstance, type AxiosResponse } from 'axios';
+import axios, { type RawAxiosRequestHeaders, type AxiosInstance, type AxiosResponse } from 'axios';
 import {
   type APIApplicationCommand,
   ApplicationCommandType,
@@ -16,15 +16,23 @@ export class DiscordApiClient {
   private readonly api: AxiosInstance;
   private readonly appId: string;
   private readonly guildId?: string;
+  private readonly botToken?: string;
 
-  constructor(appId: string, botToken: string, guildId?: string) {
+  constructor(appId: string, guildId?: string, botToken?: string) {
     this.appId = appId;
     this.guildId = guildId;
+    this.botToken = botToken;
+
+    let headers: RawAxiosRequestHeaders = {};
+    if (botToken) {
+      headers = {
+        Authorization: `Bot ${botToken}`,
+      };
+    }
+
     this.api = axios.create({
       baseURL: 'https://discord.com/api/v10',
-      headers: {
-        Authorization: `Bot ${botToken}`,
-      },
+      headers,
     });
   }
 
@@ -39,6 +47,9 @@ export class DiscordApiClient {
   }
 
   async registerCommand(command: RESTPostAPIChatInputApplicationCommandsJSONBody) {
+    if (!this.botToken) {
+      throw new Error('Bot token is required to register commands!');
+    }
     const { name, description, options } = command;
     let endpoint = this.guildId ? REGISTER_GUILD_COMMAND_ENDPOINT : REGISTER_GLOBAL_COMMAND_ENDPOINT;
     endpoint = endpoint.replace(':app_id', this.appId);
@@ -55,6 +66,9 @@ export class DiscordApiClient {
   }
 
   async deleteCommand(commandId: string) {
+    if (!this.botToken) {
+      throw new Error('Bot token is required to delete commands!');
+    }
     let endpoint = this.guildId ? DELETE_GUILD_COMMAND_ENDPOINT : DELETE_COMMAND_ENDPOINT;
     endpoint = endpoint.replace(':app_id', this.appId);
     if (this.guildId) {
