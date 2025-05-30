@@ -8,7 +8,6 @@ import { Aspects, Duration, RemovalPolicy, Stack, Tag } from 'aws-cdk-lib';
 import { EventBus, Rule } from 'aws-cdk-lib/aws-events';
 import { LambdaFunction } from 'aws-cdk-lib/aws-events-targets';
 import { LogGroup, RetentionDays } from 'aws-cdk-lib/aws-logs';
-import { Secret } from 'aws-cdk-lib/aws-secretsmanager';
 import type { Construct } from 'constructs';
 import { PingFunction } from './ping-function';
 
@@ -24,7 +23,6 @@ export class Ping extends Stack {
     const eventsBusName = `${appName}-${appStage}`;
 
     const eventBus = EventBus.fromEventBusName(this, 'EventsBus', eventsBusName);
-    const discordSecrets = Secret.fromSecretNameV2(this, 'DiscordSecrets', `/${appName}/${appStage}/discord`);
 
     const logGroup = new LogGroup(this, 'LogGroup', {
       logGroupName: `/${appName}/${appStage}/${MODULE}`,
@@ -37,12 +35,9 @@ export class Ping extends Stack {
       memorySize: 512,
       environment: {
         ...commonFunctionEnvironment(props, MODULE),
-        DISCORD_SECRET_NAME: discordSecrets.secretName,
       },
       logGroup,
     });
-
-    discordSecrets.grantRead(pingHandler);
 
     new Rule(this, 'PingRule', {
       eventBus,
