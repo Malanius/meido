@@ -24,6 +24,12 @@ export class Ping extends Stack {
 
     const eventBus = EventBus.fromEventBusName(this, 'EventsBus', eventsBusName);
 
+    const command = new DiscordSlashCommand(this, 'Ping', {
+      ...props,
+      name: 'ping',
+      description: 'Responds with pong!',
+    });
+
     const logGroup = new LogGroup(this, 'LogGroup', {
       logGroupName: `/${appName}/${appStage}/${MODULE}`,
       retention: RetentionDays.ONE_WEEK,
@@ -53,11 +59,8 @@ export class Ping extends Stack {
       ],
     });
 
-    new DiscordSlashCommand(this, 'Ping', {
-      ...props,
-      name: 'ping',
-      description: 'Responds with pong!',
-    });
+    logGroup.node.addDependency(command);
+    pingHandler.node.addDependency(command);
 
     Aspects.of(this).add(new Tag('module', 'ping'));
   }
