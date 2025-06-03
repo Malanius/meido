@@ -24,8 +24,8 @@ The **Core Module** is the central entry point and shared infrastructure for the
     }
     ```
 
-- **EventBridge Bus:** `EventBus` - received commands are deffered and routed to event bus for processing by their respective modules
-- **DynamoDB Table:** `Database` - single table provided for rest of the modules, not direclty used by core
+- **EventBridge Bus:** `EventBus` - received commands are deferred and routed to event bus for processing by their respective modules
+- **DynamoDB Table:** `Database` - single table provided for rest of the modules, not directly used by core
 
 ## Architecture
 

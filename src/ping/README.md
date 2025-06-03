@@ -1,10 +1,10 @@
 # 🔂 Ping Module
 
-A minimal proof-of-concept command that respods to `/ping` command. Served as test for the bot's infrastructure and interaction handling along with the CDK custom resource for command registration.
+A minimal proof-of-concept command that responds to `/ping` command. Served as test for the bot's infrastructure and interaction handling along with the CDK custom resource for command registration.
 
 ## Features
 
-- Responds to `/ping` with “🏓 Pong!” with time took to respond (cold starts are very noticable)
+- Responds to `/ping` with “🏓 Pong!” with time took to respond (cold starts are very noticeable)
 - Uses follow-up messaging via the interaction token, token is enough to respond to the interaction without having to read secrets
 - Serves as a template for other command modules
 
