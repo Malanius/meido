@@ -72,10 +72,25 @@ All CDK stacks follow the format: `${env}/${module-name}`, `env` is taken from e
    aws configure [--profile <profile-name>]
    ```
 
+1. **Configure AWS region**  
+   Ensure your AWS CLI is configured to use the correct region where you want to deploy the bot.
+   Stacks are region-less and will deploy to the region set in your AWS CLI configuration. You can set the region by exporting the `AWS_REGION` environment variable:
+
+   ```bash
+   export AWS_REGION=eu-west-1  # or your preferred region
+   ```
+
 1. **Bootstrap CDK** in the account and region you want to deploy (required only once per account/region):
 
    ```bash
-   npx cdk bootstrap aws://<account-id>/<region>
+   npx cdk bootstrap
+   ```
+
+1. **Set the environment variable for the deployment environment**  
+   This is used to determine which CDK stacks to deploy. For example, to deploy to the development environment:
+
+   ```bash
+   export APP_ENV=dev
    ```
 
 1. **Deploy the Core Module**  
