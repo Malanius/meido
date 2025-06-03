@@ -33,7 +33,8 @@
     "formatter": {
       "quoteStyle": "single",
       "trailingCommas": "es5",
-      "bracketSpacing": true
+      "bracketSpacing": true,
+      "lineWidth": 120
     }
   }
 }

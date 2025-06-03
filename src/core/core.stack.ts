@@ -1,11 +1,10 @@
+import { EventsBus } from '@/core/event-bus';
 import type { AppInfo, DiscordSecret } from '@/types';
-import { CfnOutput, Stack, type StackProps } from 'aws-cdk-lib';
-import { FunctionUrlAuthType } from 'aws-cdk-lib/aws-lambda';
+import { Aspects, Stack, type StackProps, Tag } from 'aws-cdk-lib';
 import { Secret } from 'aws-cdk-lib/aws-secretsmanager';
 import type { Construct } from 'constructs';
-import { commonFunctionProps } from './common/common-funtion-props';
-import { powertoolsEnvironment } from './common/powertools-config';
-import { InteractionHandlerFunction } from './interaction-handler/interaction-handler-function';
+import { Database } from './database';
+import { InteractionHandler } from './interaction-handler/interaction-handler';
 
 export interface CoreProps extends StackProps, AppInfo {}
 
@@ -15,38 +14,30 @@ export class Core extends Stack {
 
     const { appName, appStage } = props;
 
+    new Database(this, 'Database', props);
+
     const discordSecrets = new Secret(this, 'DiscordSecrets', {
       secretName: `/${appName}/${appStage}/discord`,
       generateSecretString: {
         // This is necessary to create a secret with a custom structure
         generateStringKey: '//',
         secretStringTemplate: JSON.stringify({
+          appId: 'TODO: add app id',
           publicKey: 'TODO: add public key',
+          botToken: 'TODO: add bot token',
+          guildId: 'TODO: add guild id when using guild commands',
         } as DiscordSecret),
       },
     });
 
-    const interactionHandler = new InteractionHandlerFunction(
-      this,
-      'InteractionHandler',
-      {
-        ...commonFunctionProps,
-        environment: {
-          ...powertoolsEnvironment(props, 'core'),
-          DISCORD_SECRET_NAME: discordSecrets.secretName,
-        },
-      }
-    );
+    const eventsBus = new EventsBus(this, 'EventsBus', props);
 
-    const url = interactionHandler.addFunctionUrl({
-      authType: FunctionUrlAuthType.NONE,
+    new InteractionHandler(this, 'InteractionHandler', {
+      ...props,
+      discordSecrets,
+      eventsBus: eventsBus.eventsBus,
     });
 
-    discordSecrets.grantRead(interactionHandler);
-
-    new CfnOutput(this, 'FunctionUrl', {
-      description: 'The URL of the interaction handler function',
-      value: url.url,
-    });
+    Aspects.of(this).add(new Tag('module', 'core'));
   }
 }

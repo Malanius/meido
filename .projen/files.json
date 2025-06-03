@@ -10,6 +10,8 @@
     "cdk.json",
     "LICENSE",
     "src/core/interaction-handler/interaction-handler-function.ts",
+    "src/ping/ping-function.ts",
+    "src/shared/discord-slash-command/register-slash-command-function.ts",
     "tsconfig.dev.json",
     "tsconfig.json"
   ],
