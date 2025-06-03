@@ -80,7 +80,7 @@ export class DiscordApiClient {
       endpoint = endpoint.replace(':guild_id', this.guildId);
     }
     this.logger?.info('Registering command', { endpoint, name, description, options });
-    const response: AxiosResponse<APIApplicationCommand> = await axios.post(endpoint, {
+    const response: AxiosResponse<APIApplicationCommand> = await this.api.post(endpoint, {
       type: ApplicationCommandType.ChatInput, // Supporting slash commands only for now
       name,
       description,
