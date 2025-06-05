@@ -7,7 +7,7 @@ const powertoolsVersion = '2.20.0';
 const sdkVersion = '3.817.0';
 
 const project = new awscdk.AwsCdkTypeScriptApp({
-  name: 'waifu-bot',
+  name: 'meido',
   cdkVersion,
   cdkVersionPinning: true,
 

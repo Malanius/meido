@@ -1,8 +1,8 @@
 import { env } from 'node:process';
-import { App, Aspects, Tag } from 'aws-cdk-lib';
+import { App } from 'aws-cdk-lib';
 import { AppStage } from './app-stage';
 
-const appName = 'waifu-bot';
+const appName = 'meido';
 const appEnv = env.APP_ENV || 'dev';
 const app = new App();
 

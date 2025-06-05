@@ -1,8 +1,8 @@
-# Waifu Bot
+# メイド (Meido)
 
-![waifu bot logo](_docs/header.png)
+![Meido bot logo](_docs/meido.png)
 
-- [Waifu Bot](#waifu-bot)
+- [メイド (Meido)](#メイド-meido)
   - [❓ Can Discord bots be built using serverless technologies?](#-can-discord-bots-be-built-using-serverless-technologies)
   - [🧩 Modules](#-modules)
     - [⚙ Core Module](#-core-module)
@@ -53,7 +53,7 @@ A minimal proof-of-concept command that respods to `/ping` command. Served as te
 1. Clone the repository:
 
    ```bash
-   git clone https://github.com/Malanius/waifu-bot.git
+   git clone https://github.com/Malanius/meido-bot.git
    ```
 
 1. Install dependencies:
