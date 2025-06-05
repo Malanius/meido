@@ -35,6 +35,11 @@
     "watch": "npx projen watch",
     "projen": "npx projen"
   },
+  "author": {
+    "name": "Michal Slota",
+    "email": "malaniusprivierre@gmail.com",
+    "organization": false
+  },
   "devDependencies": {
     "@biomejs/biome": "1.9.4",
     "@commitlint/config-conventional": "^19.8.1",

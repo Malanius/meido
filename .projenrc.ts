@@ -17,6 +17,9 @@ const project = new awscdk.AwsCdkTypeScriptApp({
   github: false,
   packageManager: NodePackageManager.PNPM,
 
+  authorName: 'Michal Slota',
+  authorEmail: 'malaniusprivierre@gmail.com',
+
   scripts: {
     prepare: 'npx lefthook install',
     check: 'npx @biomejs/biome check --write',
