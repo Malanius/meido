@@ -10,7 +10,10 @@ import type { EventBridgeEvent } from 'aws-lambda';
 const tracer = new Tracer();
 const logger = new Logger();
 
+let coldStart = true;
+
 const lambdaHandler = async (event: EventBridgeEvent<'tadaima', MeidoInteraction>) => {
+  coldStart = false;
   const { application_id, guild_id, token } = event.detail.command;
   const discordApiClient = new DiscordApiClient(application_id, guild_id, token);
 
