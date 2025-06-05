@@ -57,6 +57,7 @@ export class Tadaima extends Stack {
           retryAttempts: 2,
         }),
       ],
+      description: `/${MODULE}`,
     });
 
     logGroup.node.addDependency(command);
