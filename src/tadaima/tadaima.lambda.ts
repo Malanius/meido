@@ -10,7 +10,7 @@ import type { EventBridgeEvent } from 'aws-lambda';
 const tracer = new Tracer();
 const logger = new Logger();
 
-const JP_PROBABILITY = 0.15;
+const JA_PROBABILITY = 0.15;
 
 const DICTIONARY = {
   en: {
@@ -26,7 +26,7 @@ const DICTIONARY = {
 };
 
 const getWelcomeMessage = (isMaster: boolean) => {
-  const lang = Math.random() < JP_PROBABILITY ? 'ja' : 'en';
+  const lang = Math.random() < JA_PROBABILITY ? 'ja' : 'en';
   if (isMaster) {
     return `**${DICTIONARY[lang].welcome}**, ${DICTIONARY[lang].master}! :blush:`;
   }
@@ -35,7 +35,7 @@ const getWelcomeMessage = (isMaster: boolean) => {
 };
 
 const getColdStartMessage = (endpointColdStart: boolean, handlerColdStart: boolean) => {
-  const lang = Math.random() < JP_PROBABILITY ? 'ja' : 'en';
+  const lang = Math.random() < JA_PROBABILITY ? 'ja' : 'en';
   if (endpointColdStart && handlerColdStart) {
     return `I've been very cold :cold_face:, ${DICTIONARY[lang].sorry}! :woman_bowing:`;
   }
