@@ -56,7 +56,10 @@ const response = (statusCode: number, body: Record<string, unknown>): APIGateway
   isBase64Encoded: false,
 });
 
+let endpointColdStart = true;
+
 const lambdaHandler = async (event: APIGatewayProxyEventV2) => {
+  endpointColdStart = false;
   if (event.requestContext.http.method !== 'POST') {
     return response(405, { error: 'Method Not Allowed' });
   }
