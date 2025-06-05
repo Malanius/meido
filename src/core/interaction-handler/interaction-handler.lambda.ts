@@ -59,7 +59,6 @@ const response = (statusCode: number, body: Record<string, unknown>): APIGateway
 let endpointColdStart = true;
 
 const lambdaHandler = async (event: APIGatewayProxyEventV2) => {
-  endpointColdStart = false;
   if (event.requestContext.http.method !== 'POST') {
     return response(405, { error: 'Method Not Allowed' });
   }
@@ -105,6 +104,7 @@ const lambdaHandler = async (event: APIGatewayProxyEventV2) => {
     return response(500, { error: 'Failed to send event' });
   }
 
+  endpointColdStart = false;
   return response(200, { type: InteractionResponseType.DeferredChannelMessageWithSource });
 };
 
