@@ -3,4 +3,5 @@ export interface DiscordSecret {
   publicKey: string;
   botToken: string;
   guildId?: string;
+  masterUserId?: string;
 }
