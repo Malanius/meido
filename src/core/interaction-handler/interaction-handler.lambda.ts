@@ -1,6 +1,6 @@
 import { env } from 'node:process';
 import { EVENTS_SOURCE } from '@/shared/constants';
-import type { DiscordSecret } from '@/types';
+import type { DiscordSecret, MeidoInteraction } from '@/types';
 import { Logger } from '@aws-lambda-powertools/logger';
 import { injectLambdaContext } from '@aws-lambda-powertools/logger/middleware';
 import { SecretsProvider } from '@aws-lambda-powertools/parameters/secrets';
@@ -68,6 +68,7 @@ const lambdaHandler = async (event: APIGatewayProxyEventV2) => {
     transform: 'json',
   })) as DiscordSecret;
   const publicKey = discordSecret.publicKey;
+  const masterUserId = discordSecret.masterUserId;
   const headers = event.headers;
 
   if (!isValidSignature(publicKey, headers, event.body)) {
@@ -92,8 +93,13 @@ const lambdaHandler = async (event: APIGatewayProxyEventV2) => {
   }
 
   const command = body as APIApplicationCommandInteraction;
+
+  // member for command invoked in guild, user for command invoked in DM
+  const userId = command.member?.user?.id ?? command.user?.id;
+  const invokedByMaster = userId === masterUserId;
+
   try {
-    await sendEvent(command, event.requestContext.timeEpoch);
+    await sendEvent(command, invokedByMaster, event.requestContext.timeEpoch);
   } catch (error) {
     logger.error('Failed to send event', { error });
     return response(500, { error: 'Failed to send event' });
@@ -106,19 +112,24 @@ export const handler = middy(lambdaHandler)
   .use(captureLambdaHandler(tracer))
   .use(injectLambdaContext(logger, { clearState: true }));
 
-const sendEvent = async (event: APIApplicationCommandInteraction, timestamp: number) => {
-  const command = new PutEventsCommand({
+const sendEvent = async (command: APIApplicationCommandInteraction, invokedByMaster: boolean, timestamp: number) => {
+  const payload: MeidoInteraction = {
+    command,
+    invokedByMaster,
+    endpointColdStart,
+  };
+  const event = new PutEventsCommand({
     Entries: [
       {
         EventBusName: EVENTS_BUS_NAME,
         Source: EVENTS_SOURCE,
-        DetailType: event.data.name,
+        DetailType: command.data.name,
         Time: new Date(timestamp),
-        Detail: JSON.stringify(event),
+        Detail: JSON.stringify(payload),
       },
     ],
   });
-  logger.debug('Sending event', { command });
-  const response = await eventBridgeClient.send(command);
+  logger.debug('Sending event', { event });
+  const response = await eventBridgeClient.send(event);
   logger.debug('Event sent', { response });
 };
