@@ -4,22 +4,22 @@ import * as lambda from 'aws-cdk-lib/aws-lambda';
 import { Construct } from 'constructs';
 
 /**
- * Props for PingFunction
+ * Props for TadaimaFunction
  */
-export interface PingFunctionProps extends lambda.FunctionOptions {
+export interface TadaimaFunctionProps extends lambda.FunctionOptions {
 }
 
 /**
- * An AWS Lambda function which executes src/ping/ping.
+ * An AWS Lambda function which executes src/tadaima/tadaima.
  */
-export class PingFunction extends lambda.Function {
-  constructor(scope: Construct, id: string, props?: PingFunctionProps) {
+export class TadaimaFunction extends lambda.Function {
+  constructor(scope: Construct, id: string, props?: TadaimaFunctionProps) {
     super(scope, id, {
-      description: 'src/ping/ping.lambda.ts',
+      description: 'src/tadaima/tadaima.lambda.ts',
       ...props,
       runtime: new lambda.Runtime('nodejs22.x', lambda.RuntimeFamily.NODEJS),
       handler: 'index.handler',
-      code: lambda.Code.fromAsset(path.join(__dirname, '../../assets/ping/ping.lambda')),
+      code: lambda.Code.fromAsset(path.join(__dirname, '../../assets/tadaima/tadaima.lambda')),
     });
     this.addEnvironment('AWS_NODEJS_CONNECTION_REUSE_ENABLED', '1', { removeInEdge: true });
   }

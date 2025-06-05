@@ -10,7 +10,7 @@ import type { APIApplicationCommandInteraction } from 'discord-api-types/v10';
 const tracer = new Tracer();
 const logger = new Logger();
 
-const lambdaHandler = async (event: EventBridgeEvent<'ping', APIApplicationCommandInteraction>) => {
+const lambdaHandler = async (event: EventBridgeEvent<'tadaima', APIApplicationCommandInteraction>) => {
   const discordApiClient = new DiscordApiClient(event.detail.application_id, event.detail.guild_id);
 
   const eventTimestamp = new Date(event.time);

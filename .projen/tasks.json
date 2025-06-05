@@ -50,10 +50,10 @@
           "spawn": "bundle:core/interaction-handler/interaction-handler.lambda"
         },
         {
-          "spawn": "bundle:ping/ping.lambda"
+          "spawn": "bundle:shared/discord-slash-command/register-slash-command.lambda"
         },
         {
-          "spawn": "bundle:shared/discord-slash-command/register-slash-command.lambda"
+          "spawn": "bundle:tadaima/tadaima.lambda"
         }
       ]
     },
@@ -75,24 +75,6 @@
         }
       ]
     },
-    "bundle:ping/ping.lambda": {
-      "name": "bundle:ping/ping.lambda",
-      "description": "Create a JavaScript bundle from src/ping/ping.lambda.ts",
-      "steps": [
-        {
-          "exec": "esbuild --bundle src/ping/ping.lambda.ts --target=\"node22\" --platform=\"node\" --outfile=\"assets/ping/ping.lambda/index.js\" --tsconfig=\"tsconfig.dev.json\" --sourcemap"
-        }
-      ]
-    },
-    "bundle:ping/ping.lambda:watch": {
-      "name": "bundle:ping/ping.lambda:watch",
-      "description": "Continuously update the JavaScript bundle from src/ping/ping.lambda.ts",
-      "steps": [
-        {
-          "exec": "esbuild --bundle src/ping/ping.lambda.ts --target=\"node22\" --platform=\"node\" --outfile=\"assets/ping/ping.lambda/index.js\" --tsconfig=\"tsconfig.dev.json\" --sourcemap --watch"
-        }
-      ]
-    },
     "bundle:shared/discord-slash-command/register-slash-command.lambda": {
       "name": "bundle:shared/discord-slash-command/register-slash-command.lambda",
       "description": "Create a JavaScript bundle from src/shared/discord-slash-command/register-slash-command.lambda.ts",
@@ -108,6 +90,24 @@
       "steps": [
         {
           "exec": "esbuild --bundle src/shared/discord-slash-command/register-slash-command.lambda.ts --target=\"node22\" --platform=\"node\" --outfile=\"assets/shared/discord-slash-command/register-slash-command.lambda/index.js\" --tsconfig=\"tsconfig.dev.json\" --sourcemap --watch"
+        }
+      ]
+    },
+    "bundle:tadaima/tadaima.lambda": {
+      "name": "bundle:tadaima/tadaima.lambda",
+      "description": "Create a JavaScript bundle from src/tadaima/tadaima.lambda.ts",
+      "steps": [
+        {
+          "exec": "esbuild --bundle src/tadaima/tadaima.lambda.ts --target=\"node22\" --platform=\"node\" --outfile=\"assets/tadaima/tadaima.lambda/index.js\" --tsconfig=\"tsconfig.dev.json\" --sourcemap"
+        }
+      ]
+    },
+    "bundle:tadaima/tadaima.lambda:watch": {
+      "name": "bundle:tadaima/tadaima.lambda:watch",
+      "description": "Continuously update the JavaScript bundle from src/tadaima/tadaima.lambda.ts",
+      "steps": [
+        {
+          "exec": "esbuild --bundle src/tadaima/tadaima.lambda.ts --target=\"node22\" --platform=\"node\" --outfile=\"assets/tadaima/tadaima.lambda/index.js\" --tsconfig=\"tsconfig.dev.json\" --sourcemap --watch"
         }
       ]
     },

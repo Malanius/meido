@@ -6,7 +6,7 @@
   - [❓ Can Discord bots be built using serverless technologies?](#-can-discord-bots-be-built-using-serverless-technologies)
   - [🧩 Modules](#-modules)
     - [⚙ Core Module](#-core-module)
-    - [🔂 Ping Module](#-ping-module)
+    - [🏠 ただいま (tadaima) module](#-ただいま-tadaima-module)
   - [🛠 Local Development](#-local-development)
     - [📦 Prerequisites](#-prerequisites)
     - [🔧 Setup](#-setup)
@@ -30,13 +30,13 @@ The **Core Module** is the central entry point and shared infrastructure for the
 
 ---
 
-### 🔂 Ping Module
+### 🏠 ただいま (tadaima) module
 
-A minimal proof-of-concept command that respods to `/ping` command. Served as test for the bot's infrastructure and interaction handling along withthe CDK custom resource for command registration.
+A minimal proof-of-concept command that respods to `/tadaima` command. Served as test for the bot's infrastructure and interaction handling along withthe CDK custom resource for command registration.
 
-> See [module docs](src/ping/README.md) for more details.
+> See [module docs](src/tadaima/README.md) for more details.
 
-<!-- TODO: include ping module docs -->
+<!-- TODO: include tadaima module docs -->
 
 ---
 
@@ -64,7 +64,7 @@ A minimal proof-of-concept command that respods to `/ping` command. Served as te
 
 ## 🚀 Deploying the Bot
 
-All CDK stacks follow the format: `${env}/${module-name}`, `env` is taken from environment variable `APP_ENV` (default is `dev`), and `module-name` is the name of the module (e.g., `core`, `ping`).
+All CDK stacks follow the format: `${env}/${module-name}`, `env` is taken from environment variable `APP_ENV` (default is `dev`), and `module-name` is the name of the module (e.g., `core`, `tadaima`).
 
 1. **Configure AWS credentials**
 
