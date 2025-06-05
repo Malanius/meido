@@ -41,8 +41,9 @@ const lambdaHandler = async (event: OnEventRequest): Promise<OnEventResponse | u
 
   switch (event.RequestType) {
     case 'Create':
-    case 'Update': // Discord will overwrite the command if it already exists
       return await onCreate(event, discordApiClient);
+    case 'Update':
+      return await onUpdate(event, discordApiClient);
     case 'Delete':
       return await onDelete(event, discordApiClient);
     default:
@@ -78,6 +79,20 @@ const onCreate = async (event: OnEventRequest, discordApiClient: DiscordApiClien
     logger.error('Error creating slash command', { error });
     throw error;
   }
+};
+
+const onUpdate = async (event: OnEventRequest, apiClient: DiscordApiClient): Promise<OnEventResponse> => {
+  const oldProps = event.OldResourceProperties as unknown as SlashCommandResourceProps;
+  const newProps = event.ResourceProperties as unknown as SlashCommandResourceProps;
+  const { name, description, options } = newProps;
+  logger.info('Updating slash command', { name, description, options });
+
+  if (oldProps.name !== newProps.name) {
+    logger.info('Name is different, deleting old command and creating new one');
+    await onDelete(event, apiClient);
+  }
+
+  return await onCreate(event, apiClient);
 };
 
 const onDelete = async (event: OnEventRequest, apiClient: DiscordApiClient): Promise<OnEventResponse> => {

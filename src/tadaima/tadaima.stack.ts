@@ -9,14 +9,14 @@ import { EventBus, Rule } from 'aws-cdk-lib/aws-events';
 import { LambdaFunction } from 'aws-cdk-lib/aws-events-targets';
 import { LogGroup, RetentionDays } from 'aws-cdk-lib/aws-logs';
 import type { Construct } from 'constructs';
-import { PingFunction } from './ping-function';
+import { TadaimaFunction } from './tadaima-function';
 
-const MODULE = 'ping';
+const MODULE = 'tadaima';
 
-export interface PingProps extends StackProps, AppInfo {}
+export interface TadaimaProps extends StackProps, AppInfo {}
 
-export class Ping extends Stack {
-  constructor(scope: Construct, id: string, props: PingProps) {
+export class Tadaima extends Stack {
+  constructor(scope: Construct, id: string, props: TadaimaProps) {
     super(scope, id, props);
 
     const { appName, appStage } = props;
@@ -24,10 +24,10 @@ export class Ping extends Stack {
 
     const eventBus = EventBus.fromEventBusName(this, 'EventsBus', eventsBusName);
 
-    const command = new DiscordSlashCommand(this, 'Ping', {
+    const command = new DiscordSlashCommand(this, 'TadaimaCommand', {
       ...props,
-      name: 'ping',
-      description: 'Responds with pong!',
+      name: 'tadaima',
+      description: 'Greets you with a warm welcome!',
     });
 
     const logGroup = new LogGroup(this, 'LogGroup', {
@@ -36,7 +36,7 @@ export class Ping extends Stack {
       removalPolicy: RemovalPolicy.DESTROY,
     });
 
-    const pingHandler = new PingFunction(this, 'PingHandler', {
+    const tadaimaHandler = new TadaimaFunction(this, 'TadaimaHandler', {
       ...commonFunctionProps,
       memorySize: 512,
       environment: {
@@ -45,23 +45,24 @@ export class Ping extends Stack {
       logGroup,
     });
 
-    new Rule(this, 'PingRule', {
+    new Rule(this, 'TadaimaRule', {
       eventBus,
       eventPattern: {
         source: [EVENTS_SOURCE],
         detailType: [MODULE],
       },
       targets: [
-        new LambdaFunction(pingHandler, {
+        new LambdaFunction(tadaimaHandler, {
           maxEventAge: Duration.minutes(1),
           retryAttempts: 2,
         }),
       ],
+      description: `/${MODULE}`,
     });
 
     logGroup.node.addDependency(command);
-    pingHandler.node.addDependency(command);
+    tadaimaHandler.node.addDependency(command);
 
-    Aspects.of(this).add(new Tag('module', 'ping'));
+    Aspects.of(this).add(new Tag('module', MODULE));
   }
 }

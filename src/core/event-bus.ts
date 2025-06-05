@@ -56,6 +56,7 @@ export class EventsBus extends Construct {
           ],
         },
         targets: [new CloudWatchLogGroup(devLogGroup)],
+        description: 'Log all events to the dev log group',
       });
     }
   }

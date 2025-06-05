@@ -7,7 +7,7 @@ const powertoolsVersion = '2.20.0';
 const sdkVersion = '3.817.0';
 
 const project = new awscdk.AwsCdkTypeScriptApp({
-  name: 'waifu-bot',
+  name: 'meido',
   cdkVersion,
   cdkVersionPinning: true,
 
@@ -16,6 +16,9 @@ const project = new awscdk.AwsCdkTypeScriptApp({
   defaultReleaseBranch: 'main',
   github: false,
   packageManager: NodePackageManager.PNPM,
+
+  authorName: 'Michal Slota',
+  authorEmail: 'malaniusprivierre@gmail.com',
 
   scripts: {
     prepare: 'npx lefthook install',

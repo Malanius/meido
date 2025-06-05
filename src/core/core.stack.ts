@@ -26,6 +26,7 @@ export class Core extends Stack {
           publicKey: 'TODO: add public key',
           botToken: 'TODO: add bot token',
           guildId: 'TODO: add guild id when using guild commands',
+          masterUserId: 'TODO: add master user id',
         } as DiscordSecret),
       },
     });

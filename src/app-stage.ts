@@ -1,5 +1,5 @@
 import { Core } from '@/core/core.stack';
-import { Ping } from '@/ping/ping.stack';
+import { Tadaima } from '@/tadaima/tadaima.stack';
 import { Aspects, Stage, type StageProps, Tag } from 'aws-cdk-lib';
 import type { Construct } from 'constructs';
 
@@ -19,8 +19,8 @@ export class AppStage extends Stage {
       appStage,
     });
 
-    new Ping(this, 'ping', {
-      stackName: `${appName}-${appStage}-ping`,
+    new Tadaima(this, 'tadaima', {
+      stackName: `${appName}-${appStage}-tadaima`,
       appName,
       appStage,
     });
