@@ -44,6 +44,7 @@ const assertValidRecord: AssertValidRecord = (record) => {
     typeof record.dynamodb.Keys.sk.S !== 'string' ||
     (!record.dynamodb.NewImage && !record.dynamodb.OldImage)
   ) {
+    logger.error('Invalid DynamoDB stream record', { record });
     throw new Error('Invalid DynamoDB stream record');
   }
 };
