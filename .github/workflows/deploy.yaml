@@ -18,7 +18,7 @@ jobs:
         uses: actions/checkout@v3
 
       - name: Prepare environment
-        uses: ./.github/workflows/prepare.yaml
+        uses: ./.github/workflows/prepare
 
       - name: Assume GHA role
         uses: aws-actions/configure-aws-credentials@v4
@@ -39,7 +39,7 @@ jobs:
         uses: actions/checkout@v3
 
       - name: Prepare environment
-        uses: ./.github/workflows/prepare.yaml
+        uses: ./.github/workflows/prepare
 
       - name: Assume GHA role
         uses: aws-actions/configure-aws-credentials@v4
