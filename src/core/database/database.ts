@@ -52,6 +52,8 @@ export class Database extends Construct {
       }),
     });
 
+    eventsBus.grantPutEventsTo(dynamoBridge);
+
     dynamoBridge.addEventSource(
       new DynamoEventSource(this.table, {
         startingPosition: StartingPosition.LATEST,
