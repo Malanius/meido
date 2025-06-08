@@ -1,26 +1,22 @@
 import type { AppInfo } from '@/types';
-import { Duration, RemovalPolicy } from 'aws-cdk-lib';
+import { RemovalPolicy } from 'aws-cdk-lib';
 import { EventBus, Rule } from 'aws-cdk-lib/aws-events';
 import { CloudWatchLogGroup } from 'aws-cdk-lib/aws-events-targets';
 import { LogGroup, RetentionDays } from 'aws-cdk-lib/aws-logs';
-import { Queue } from 'aws-cdk-lib/aws-sqs';
+import type { IQueue } from 'aws-cdk-lib/aws-sqs';
 import { StringParameter } from 'aws-cdk-lib/aws-ssm';
 import { Construct } from 'constructs';
 
-export interface EventsBusProps extends AppInfo {}
+export interface EventsBusProps extends AppInfo {
+  deadLetterQueue: IQueue;
+}
 
 export class EventsBus extends Construct {
   public readonly eventsBus: EventBus;
   constructor(scope: Construct, id: string, props: EventsBusProps) {
     super(scope, id);
 
-    const { appName, appStage } = props;
-
-    const deadLetterQueue = new Queue(this, 'BusDlq', {
-      queueName: `${appName}-${appStage}-bus-dlq`,
-      retentionPeriod: Duration.days(14),
-    });
-    // TODO: add DLQ monitoring
+    const { appName, appStage, deadLetterQueue } = props;
 
     this.eventsBus = new EventBus(this, 'EventBus', {
       eventBusName: `${appName}-${appStage}`,

@@ -81,6 +81,11 @@
       "type": "build"
     },
     {
+      "name": "@aws-lambda-powertools/batch",
+      "version": "2.20.0",
+      "type": "runtime"
+    },
+    {
       "name": "@aws-lambda-powertools/logger",
       "version": "2.20.0",
       "type": "runtime"

@@ -1,5 +1,5 @@
 import { env } from 'node:process';
-import { EVENTS_SOURCE } from '@/shared/constants';
+import { EventsSource } from '@/shared/event-source';
 import type { DiscordSecret, MeidoInteraction } from '@/types';
 import { Logger } from '@aws-lambda-powertools/logger';
 import { injectLambdaContext } from '@aws-lambda-powertools/logger/middleware';
@@ -122,7 +122,7 @@ const sendEvent = async (command: APIApplicationCommandInteraction, invokedByMas
     Entries: [
       {
         EventBusName: EVENTS_BUS_NAME,
-        Source: EVENTS_SOURCE,
+        Source: EventsSource.Interactions,
         DetailType: command.data.name,
         Time: new Date(timestamp),
         Detail: JSON.stringify(payload),

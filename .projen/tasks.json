@@ -47,6 +47,9 @@
       "description": "Prepare assets",
       "steps": [
         {
+          "spawn": "bundle:core/database/dynamo-bridge.lambda"
+        },
+        {
           "spawn": "bundle:core/interaction-handler/interaction-handler.lambda"
         },
         {
@@ -54,6 +57,24 @@
         },
         {
           "spawn": "bundle:tadaima/tadaima.lambda"
+        }
+      ]
+    },
+    "bundle:core/database/dynamo-bridge.lambda": {
+      "name": "bundle:core/database/dynamo-bridge.lambda",
+      "description": "Create a JavaScript bundle from src/core/database/dynamo-bridge.lambda.ts",
+      "steps": [
+        {
+          "exec": "esbuild --bundle src/core/database/dynamo-bridge.lambda.ts --target=\"node22\" --platform=\"node\" --outfile=\"assets/core/database/dynamo-bridge.lambda/index.js\" --tsconfig=\"tsconfig.dev.json\" --sourcemap"
+        }
+      ]
+    },
+    "bundle:core/database/dynamo-bridge.lambda:watch": {
+      "name": "bundle:core/database/dynamo-bridge.lambda:watch",
+      "description": "Continuously update the JavaScript bundle from src/core/database/dynamo-bridge.lambda.ts",
+      "steps": [
+        {
+          "exec": "esbuild --bundle src/core/database/dynamo-bridge.lambda.ts --target=\"node22\" --platform=\"node\" --outfile=\"assets/core/database/dynamo-bridge.lambda/index.js\" --tsconfig=\"tsconfig.dev.json\" --sourcemap --watch"
         }
       ]
     },
@@ -385,7 +406,7 @@
           "exec": "pnpm i --no-frozen-lockfile"
         },
         {
-          "exec": "pnpm update @biomejs/biome @commitlint/config-conventional @types/aws-lambda @types/jest @types/node aws-cdk commit-and-tag-version commitlint cz-conventional-changelog discord-api-types esbuild jest jest-junit lefthook projen ts-jest ts-node tsconfig-paths typescript @aws-lambda-powertools/logger @aws-lambda-powertools/parameters @aws-lambda-powertools/parser @aws-lambda-powertools/tracer @aws-lambda-powertools/validation @aws-sdk/client-dynamodb @aws-sdk/client-eventbridge @aws-sdk/client-secrets-manager @aws-sdk/lib-dynamodb @middy/core aws-cdk-lib axios constructs tweetnacl zod"
+          "exec": "pnpm update @biomejs/biome @commitlint/config-conventional @types/aws-lambda @types/jest @types/node aws-cdk commit-and-tag-version commitlint cz-conventional-changelog discord-api-types esbuild jest jest-junit lefthook projen ts-jest ts-node tsconfig-paths typescript @aws-lambda-powertools/batch @aws-lambda-powertools/logger @aws-lambda-powertools/parameters @aws-lambda-powertools/parser @aws-lambda-powertools/tracer @aws-lambda-powertools/validation @aws-sdk/client-dynamodb @aws-sdk/client-eventbridge @aws-sdk/client-secrets-manager @aws-sdk/lib-dynamodb @middy/core aws-cdk-lib axios constructs tweetnacl zod"
         },
         {
           "exec": "npx projen"
