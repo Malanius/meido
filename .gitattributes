@@ -14,6 +14,7 @@
 /LICENSE linguist-generated
 /package.json linguist-generated
 /pnpm-lock.yaml linguist-generated
+/src/core/database/dynamo-bridge-function.ts linguist-generated
 /src/core/interaction-handler/interaction-handler-function.ts linguist-generated
 /src/shared/discord-slash-command/register-slash-command-function.ts linguist-generated
 /src/tadaima/tadaima-function.ts linguist-generated
