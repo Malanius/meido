@@ -16,6 +16,7 @@ export class AppStage extends Stage {
 
     if (appStage === 'prod') {
       new GitHubDeploy(this, 'gh-deploy', {
+        stackName: `${appName}-${appStage}-gh-deploy`,
         repository: 'Malanius/meido',
       });
     }
@@ -31,7 +32,6 @@ export class AppStage extends Stage {
       appName,
       appStage,
     });
-
     tadaima.addDependency(core);
 
     Aspects.of(this).add(new Tag('project', appName));
