@@ -16,7 +16,7 @@ export class AppStage extends Stage {
 
     if (appStage === 'prod') {
       new GitHubDeploy(this, 'gh-deploy', {
-        repository: 'malanius/meido',
+        repository: 'Malanius/meido',
       });
     }
 
