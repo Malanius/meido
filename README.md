@@ -22,7 +22,7 @@ Absolutely — this project is a proof-of-concept Discord bot built entirely wit
 
 ### ⚙ Core Module
 
-The **Core Module** is the central entry point and shared infrastructure for the bot.
+The **Core Module** is the central entry point and shared infrastructure for the bot. It handles incoming interactions, signature verification, and provides the plumbing to route both Discord interactions and database changes via EventBridge.
 
 > See [module docs](src/core/README.md) for more details.
 
