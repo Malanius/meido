@@ -23,6 +23,7 @@ export class Database extends Construct {
         name: 'sk',
         type: AttributeType.STRING,
       },
+      timeToLiveAttribute: 'expiresAt',
       removalPolicy: appStage === 'prod' ? RemovalPolicy.RETAIN : RemovalPolicy.DESTROY,
       deletionProtection: appStage === 'prod',
     });
