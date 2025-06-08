@@ -1,5 +1,5 @@
-import { EVENTS_SOURCE } from '@/shared/constants';
 import { DiscordSlashCommand } from '@/shared/discord-slash-command/discord-slash-command';
+import { EventsSource } from '@/shared/event-source';
 import { commonFunctionEnvironment } from '@/shared/functions/common-env';
 import { commonFunctionProps } from '@/shared/functions/common-props';
 import type { AppInfo } from '@/types';
@@ -48,7 +48,7 @@ export class Tadaima extends Stack {
     new Rule(this, 'TadaimaRule', {
       eventBus,
       eventPattern: {
-        source: [EVENTS_SOURCE],
+        source: [EventsSource.Interactions],
         detailType: [MODULE],
       },
       targets: [
