@@ -1,7 +1,8 @@
 import { EventsBus } from '@/core/event-bus';
 import type { AppInfo, DiscordSecret } from '@/types';
-import { Aspects, Stack, type StackProps, Tag } from 'aws-cdk-lib';
+import { Aspects, Duration, Stack, type StackProps, Tag } from 'aws-cdk-lib';
 import { Secret } from 'aws-cdk-lib/aws-secretsmanager';
+import { Queue } from 'aws-cdk-lib/aws-sqs';
 import type { Construct } from 'constructs';
 import { Database } from './database/database';
 import { InteractionHandler } from './interaction-handler/interaction-handler';
@@ -29,7 +30,16 @@ export class Core extends Stack {
       },
     });
 
-    const eventsBus = new EventsBus(this, 'EventsBus', props);
+    const deadLetterQueue = new Queue(this, 'SharedDlq', {
+      queueName: `${appName}-${appStage}-dlq`,
+      retentionPeriod: Duration.days(14),
+    });
+    // TODO: add DLQ monitoring
+
+    const eventsBus = new EventsBus(this, 'EventsBus', {
+      ...props,
+      deadLetterQueue,
+    });
 
     new Database(this, 'Database', {
       ...props,
