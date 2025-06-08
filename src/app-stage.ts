@@ -20,17 +20,19 @@ export class AppStage extends Stage {
       });
     }
 
-    new Core(this, 'core', {
+    const core = new Core(this, 'core', {
       stackName: `${appName}-${appStage}-core`,
       appName,
       appStage,
     });
 
-    new Tadaima(this, 'tadaima', {
+    const tadaima = new Tadaima(this, 'tadaima', {
       stackName: `${appName}-${appStage}-tadaima`,
       appName,
       appStage,
     });
+
+    tadaima.addDependency(core);
 
     Aspects.of(this).add(new Tag('project', appName));
     Aspects.of(this).add(new Tag('env', appStage));
