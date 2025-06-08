@@ -62,6 +62,7 @@
     "typescript": "^5.8.3"
   },
   "dependencies": {
+    "@aws-lambda-powertools/batch": "2.20.0",
     "@aws-lambda-powertools/logger": "2.20.0",
     "@aws-lambda-powertools/parameters": "2.20.0",
     "@aws-lambda-powertools/parser": "2.20.0",

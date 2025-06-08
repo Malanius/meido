@@ -51,6 +51,7 @@ const project = new awscdk.AwsCdkTypeScriptApp({
   },
 
   deps: [
+    `@aws-lambda-powertools/batch@${powertoolsVersion}`,
     `@aws-lambda-powertools/logger@${powertoolsVersion}`,
     `@aws-lambda-powertools/parameters@${powertoolsVersion}`,
     `@aws-lambda-powertools/parser@${powertoolsVersion}`,
