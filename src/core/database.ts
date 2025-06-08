@@ -1,6 +1,6 @@
 import type { AppInfo } from '@/types';
 import { RemovalPolicy } from 'aws-cdk-lib';
-import { AttributeType, TableV2 } from 'aws-cdk-lib/aws-dynamodb';
+import { AttributeType, StreamViewType, TableV2 } from 'aws-cdk-lib/aws-dynamodb';
 import { StringParameter } from 'aws-cdk-lib/aws-ssm';
 import { Construct } from 'constructs';
 
@@ -24,6 +24,7 @@ export class Database extends Construct {
         type: AttributeType.STRING,
       },
       timeToLiveAttribute: 'expiresAt',
+      dynamoStream: StreamViewType.NEW_AND_OLD_IMAGES, // Meido is interested both in new, updated and deleted items
       removalPolicy: appStage === 'prod' ? RemovalPolicy.RETAIN : RemovalPolicy.DESTROY,
       deletionProtection: appStage === 'prod',
     });
