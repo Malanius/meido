@@ -30,6 +30,7 @@ jobs:
         run: npx cdk diff ${APP_ENV}/*
 
   deploy:
+    needs: diff
     environment: prod
     runs-on: ubuntu-latest
     env:
