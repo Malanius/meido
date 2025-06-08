@@ -4,14 +4,17 @@ import { RemovalPolicy } from 'aws-cdk-lib';
 import { AttributeType, StreamViewType, TableV2 } from 'aws-cdk-lib/aws-dynamodb';
 import type { IEventBus } from 'aws-cdk-lib/aws-events';
 import { StartingPosition } from 'aws-cdk-lib/aws-lambda';
+import { SqsDestination } from 'aws-cdk-lib/aws-lambda-destinations';
 import { DynamoEventSource } from 'aws-cdk-lib/aws-lambda-event-sources';
 import { LogGroup, RetentionDays } from 'aws-cdk-lib/aws-logs';
+import type { IQueue } from 'aws-cdk-lib/aws-sqs';
 import { StringParameter } from 'aws-cdk-lib/aws-ssm';
 import { Construct } from 'constructs';
 import { DynamoBridgeFunction } from './dynamo-bridge-function';
 
 export interface DatabaseProps extends AppInfo {
   eventsBus: IEventBus;
+  deadLetterQueue: IQueue;
 }
 
 export class Database extends Construct {
@@ -20,7 +23,7 @@ export class Database extends Construct {
   constructor(scope: Construct, id: string, props: DatabaseProps) {
     super(scope, id);
 
-    const { appName, appStage, eventsBus } = props;
+    const { appName, appStage, eventsBus, deadLetterQueue } = props;
 
     this.table = new TableV2(this, 'Table', {
       partitionKey: {
@@ -53,6 +56,8 @@ export class Database extends Construct {
       new DynamoEventSource(this.table, {
         startingPosition: StartingPosition.LATEST,
         reportBatchItemFailures: true,
+        retryAttempts: 2,
+        onFailure: new SqsDestination(deadLetterQueue),
       })
     );
 

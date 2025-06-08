@@ -44,6 +44,7 @@ export class Core extends Stack {
     new Database(this, 'Database', {
       ...props,
       eventsBus: eventsBus.eventsBus,
+      deadLetterQueue,
     });
 
     new InteractionHandler(this, 'InteractionHandler', {
