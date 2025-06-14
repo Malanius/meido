@@ -9,6 +9,7 @@ import { EventsSource } from '@/shared/event-source';
 import { commonFunctionEnvironment } from '@/shared/functions/common-env';
 import { commonFunctionProps } from '@/shared/functions/common-props';
 import type { AppInfo } from '@/types';
+import { tadaimaCommand } from './commands';
 import { TadaimaFunction } from './tadaima-function';
 
 const MODULE = 'tadaima';
@@ -26,8 +27,7 @@ export class Tadaima extends Stack {
 
     const command = new DiscordSlashCommand(this, 'TadaimaCommand', {
       ...props,
-      name: 'tadaima',
-      description: 'Greets you with a warm welcome!',
+      command: tadaimaCommand,
     });
 
     const logGroup = new LogGroup(this, 'LogGroup', {
