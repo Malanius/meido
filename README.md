@@ -6,8 +6,8 @@
   - [❓ Can Discord bots be built using serverless technologies?](#-can-discord-bots-be-built-using-serverless-technologies)
   - [🧩 Modules](#-modules)
     - [⚙ Core Module](#-core-module)
-    - [🏠 ただいま (tadaima) module](#-ただいま-tadaima-module)
     - [📝 Journal Module](#-journal-module)
+    - [🏠 ただいま (tadaima) module](#-ただいま-tadaima-module)
   - [🛠 Local Development](#-local-development)
     - [📦 Prerequisites](#-prerequisites)
     - [🔧 Setup](#-setup)
@@ -31,16 +31,6 @@ The **Core Module** is the central entry point and shared infrastructure for the
 
 ---
 
-### 🏠 ただいま (tadaima) module
-
-A minimal proof-of-concept command that respods to `/tadaima` command. Served as test for the bot's infrastructure and interaction handling along withthe CDK custom resource for command registration.
-
-> See [module docs](src/tadaima/README.md) for more details.
-
-<!-- TODO: include tadaima module docs -->
-
----
-
 ### 📝 Journal Module
 
 The **Journal module** allows Meido to gracefully announce her newly acquired skills, improvements, and duties. Users may subscribe one channel per server to these updates to be kept informed of Meido’s capabilities as she continues to serve with excellence.
@@ -50,6 +40,16 @@ This module is tightly integrated with Meido’s deployment pipeline: each newly
 > See [module docs](src/journal/README.md) for more details.
 
 <!-- TODO: include journal module docs -->
+
+---
+
+### 🏠 ただいま (tadaima) module
+
+A minimal proof-of-concept command that respods to `/tadaima` command. Served as test for the bot's infrastructure and interaction handling along withthe CDK custom resource for command registration.
+
+> See [module docs](src/tadaima/README.md) for more details.
+
+<!-- TODO: include tadaima module docs -->
 
 ---
 
