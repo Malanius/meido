@@ -45,7 +45,10 @@ export class DiscordSlashCommand extends Construct {
     new CustomResource(this, 'DiscordSlashCommandCustomResource', {
       serviceToken: provider.serviceToken,
       resourceType: 'Custom::DiscordSlashCommand',
-      properties: command,
+      properties: {
+        command: Buffer.from(JSON.stringify(command)).toString('base64'),
+        ...command, // For visibility in diff
+      },
     });
   }
 }

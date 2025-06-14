@@ -1,6 +1,6 @@
 import { env } from 'node:process';
 import { DiscordApiClient } from '@/shared/discord-api-client';
-import type { DiscordSecret, OnEventRequest, OnEventResponse, SlashCommandResourceProps } from '@/types';
+import type { DiscordSecret, OnEventRequest, OnEventResponse } from '@/types';
 import { Logger } from '@aws-lambda-powertools/logger';
 import { injectLambdaContext } from '@aws-lambda-powertools/logger/middleware';
 import { SecretsProvider } from '@aws-lambda-powertools/parameters/secrets';
@@ -53,16 +53,12 @@ const lambdaHandler = async (event: OnEventRequest): Promise<OnEventResponse | u
 };
 
 const onCreate = async (event: OnEventRequest, discordApiClient: DiscordApiClient): Promise<OnEventResponse> => {
-  const props = event.ResourceProperties as unknown as RESTPostAPIChatInputApplicationCommandsJSONBody;
-  const { name, description, options } = props;
-  logger.info('Creating slash command', { name, description, options });
+  const payload = Buffer.from(event.ResourceProperties.command, 'base64').toString('utf-8');
+  const command = JSON.parse(payload) as RESTPostAPIChatInputApplicationCommandsJSONBody;
+  logger.info('Creating slash command', { command });
 
   try {
-    const response = await discordApiClient.registerCommand({
-      name,
-      description,
-      options,
-    });
+    const response = await discordApiClient.registerCommand(command);
     logger.info('Slash command created', {
       commandId: response.id,
       name: response.name,
@@ -74,6 +70,7 @@ const onCreate = async (event: OnEventRequest, discordApiClient: DiscordApiClien
       Data: {
         commandId: response.id,
         name: response.name,
+        command: event.ResourceProperties.command,
       },
     };
   } catch (error) {
@@ -83,12 +80,13 @@ const onCreate = async (event: OnEventRequest, discordApiClient: DiscordApiClien
 };
 
 const onUpdate = async (event: OnEventRequest, apiClient: DiscordApiClient): Promise<OnEventResponse> => {
-  const oldProps = event.OldResourceProperties as unknown as RESTPostAPIChatInputApplicationCommandsJSONBody;
-  const newProps = event.ResourceProperties as unknown as RESTPostAPIChatInputApplicationCommandsJSONBody;
-  const { name, description, options } = newProps;
-  logger.info('Updating slash command', { name, description, options });
+  const oldPayload = Buffer.from(event.OldResourceProperties?.command, 'base64').toString('utf-8');
+  const oldCommand = JSON.parse(oldPayload) as RESTPostAPIChatInputApplicationCommandsJSONBody;
+  const newPayload = Buffer.from(event.ResourceProperties.command, 'base64').toString('utf-8');
+  const newCommand = JSON.parse(newPayload) as RESTPostAPIChatInputApplicationCommandsJSONBody;
+  logger.info('Updating slash command', { oldCommand, newCommand });
 
-  if (oldProps.name !== newProps.name) {
+  if (oldCommand.name !== newCommand.name) {
     logger.info('Name is different, deleting old command and creating new one');
     await onDelete(event, apiClient);
   }
@@ -97,8 +95,9 @@ const onUpdate = async (event: OnEventRequest, apiClient: DiscordApiClient): Pro
 };
 
 const onDelete = async (event: OnEventRequest, apiClient: DiscordApiClient): Promise<OnEventResponse> => {
-  const props = event.ResourceProperties as unknown as RESTPostAPIChatInputApplicationCommandsJSONBody;
-  const { name } = props;
+  const payload = Buffer.from(event.ResourceProperties.command, 'base64').toString('utf-8');
+  const command = JSON.parse(payload) as RESTPostAPIChatInputApplicationCommandsJSONBody;
+  const { name } = command;
   logger.info('Deleting slash command', { name });
 
   try {
