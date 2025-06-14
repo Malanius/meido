@@ -50,9 +50,9 @@ const assertValidRecord: AssertValidRecord = (record) => {
 };
 
 const semanticAction = {
-  INSERT: 'Created',
-  MODIFY: 'Updated',
-  REMOVE: 'Deleted',
+  INSERT: 'created',
+  MODIFY: 'updated',
+  REMOVE: 'deleted',
 };
 
 const lambdaHandler: DynamoDBStreamHandler = async (event, context) =>
