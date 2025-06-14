@@ -73,19 +73,13 @@ export class DiscordApiClient {
     if (!this.botToken) {
       throw new Error('Bot token is required to register commands!');
     }
-    const { name, description, options } = command;
     let endpoint = this.guildId ? REGISTER_GUILD_COMMAND_ENDPOINT : REGISTER_GLOBAL_COMMAND_ENDPOINT;
     endpoint = endpoint.replace(':app_id', this.appId);
     if (this.guildId) {
       endpoint = endpoint.replace(':guild_id', this.guildId);
     }
-    this.logger?.info('Registering command', { endpoint, name, description, options });
-    const response: AxiosResponse<APIApplicationCommand> = await this.api.post(endpoint, {
-      type: ApplicationCommandType.ChatInput, // Supporting slash commands only for now
-      name,
-      description,
-      options,
-    });
+    this.logger?.info('Registering command', { endpoint, command });
+    const response: AxiosResponse<APIApplicationCommand> = await this.api.post(endpoint, command);
     return response.data;
   }
 
@@ -99,7 +93,7 @@ export class DiscordApiClient {
       endpoint = endpoint.replace(':guild_id', this.guildId);
     }
     endpoint = endpoint.replace(':command_id', commandId);
-    this.logger?.info('Deleting command', { endpoint });
+    this.logger?.info('Deleting command', { commandId, endpoint });
     await this.api.delete(endpoint);
   }
 }
