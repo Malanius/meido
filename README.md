@@ -7,6 +7,7 @@
   - [🧩 Modules](#-modules)
     - [⚙ Core Module](#-core-module)
     - [🏠 ただいま (tadaima) module](#-ただいま-tadaima-module)
+    - [📝 Journal Module](#-journal-module)
   - [🛠 Local Development](#-local-development)
     - [📦 Prerequisites](#-prerequisites)
     - [🔧 Setup](#-setup)
@@ -37,6 +38,18 @@ A minimal proof-of-concept command that respods to `/tadaima` command. Served as
 > See [module docs](src/tadaima/README.md) for more details.
 
 <!-- TODO: include tadaima module docs -->
+
+---
+
+### 📝 Journal Module
+
+The **Journal module** allows Meido to gracefully announce her newly acquired skills, improvements, and duties. Users may subscribe one channel per server to these updates to be kept informed of Meido’s capabilities as she continues to serve with excellence.
+
+This module is tightly integrated with Meido’s deployment pipeline: each newly published skill update is inserted as a journal entry into DynamoDB, triggering a cascade that notifies all subscribers.
+
+> See [module docs](src/journal/README.md) for more details.
+
+<!-- TODO: include journal module docs -->
 
 ---
 
