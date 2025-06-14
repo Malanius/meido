@@ -42,9 +42,8 @@ const lambdaHandler = async (event: OnEventRequest): Promise<OnEventResponse | u
 
   switch (event.RequestType) {
     case 'Create':
+    case 'Update': // When we return new physical ID, custom resource framework will call Delete with the old command id itself
       return await onCreate(event, discordApiClient);
-    case 'Update':
-      return await onUpdate(event, discordApiClient);
     case 'Delete':
       return await onDelete(event, discordApiClient);
     default:
@@ -77,21 +76,6 @@ const onCreate = async (event: OnEventRequest, discordApiClient: DiscordApiClien
     logger.error('Error creating slash command', { error });
     throw error;
   }
-};
-
-const onUpdate = async (event: OnEventRequest, apiClient: DiscordApiClient): Promise<OnEventResponse> => {
-  const oldPayload = Buffer.from(event.OldResourceProperties?.command, 'base64').toString('utf-8');
-  const oldCommand = JSON.parse(oldPayload) as RESTPostAPIChatInputApplicationCommandsJSONBody;
-  const newPayload = Buffer.from(event.ResourceProperties.command, 'base64').toString('utf-8');
-  const newCommand = JSON.parse(newPayload) as RESTPostAPIChatInputApplicationCommandsJSONBody;
-  logger.info('Updating slash command', { oldCommand, newCommand });
-
-  if (oldCommand.name !== newCommand.name) {
-    logger.info('Name is different, deleting old command and creating new one');
-    await onDelete(event, apiClient);
-  }
-
-  return await onCreate(event, apiClient);
 };
 
 const onDelete = async (event: OnEventRequest, apiClient: DiscordApiClient): Promise<OnEventResponse> => {
