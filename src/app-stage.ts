@@ -3,6 +3,7 @@ import { Tadaima } from '@/tadaima/tadaima.stack';
 import { Aspects, Stage, type StageProps, Tag } from 'aws-cdk-lib';
 import type { Construct } from 'constructs';
 import { GitHubDeploy } from './deploy/github-deploy.stack';
+import { Journal } from './journal/journal.stack';
 
 interface AppStageProps extends StageProps {
   appName: string;
@@ -26,6 +27,13 @@ export class AppStage extends Stage {
       appName,
       appStage,
     });
+
+    const journal = new Journal(this, 'journal', {
+      stackName: `${appName}-${appStage}-journal`,
+      appName,
+      appStage,
+    });
+    journal.addDependency(core);
 
     const tadaima = new Tadaima(this, 'tadaima', {
       stackName: `${appName}-${appStage}-tadaima`,
