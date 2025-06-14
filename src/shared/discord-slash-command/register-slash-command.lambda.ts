@@ -8,6 +8,7 @@ import { Tracer } from '@aws-lambda-powertools/tracer';
 import { captureLambdaHandler } from '@aws-lambda-powertools/tracer/middleware';
 import { SecretsManagerClient } from '@aws-sdk/client-secrets-manager';
 import middy from '@middy/core';
+import type { RESTPostAPIChatInputApplicationCommandsJSONBody } from 'discord-api-types/v10';
 
 const tracer = new Tracer();
 const logger = new Logger();
@@ -52,7 +53,7 @@ const lambdaHandler = async (event: OnEventRequest): Promise<OnEventResponse | u
 };
 
 const onCreate = async (event: OnEventRequest, discordApiClient: DiscordApiClient): Promise<OnEventResponse> => {
-  const props = event.ResourceProperties as unknown as SlashCommandResourceProps;
+  const props = event.ResourceProperties as unknown as RESTPostAPIChatInputApplicationCommandsJSONBody;
   const { name, description, options } = props;
   logger.info('Creating slash command', { name, description, options });
 
@@ -82,8 +83,8 @@ const onCreate = async (event: OnEventRequest, discordApiClient: DiscordApiClien
 };
 
 const onUpdate = async (event: OnEventRequest, apiClient: DiscordApiClient): Promise<OnEventResponse> => {
-  const oldProps = event.OldResourceProperties as unknown as SlashCommandResourceProps;
-  const newProps = event.ResourceProperties as unknown as SlashCommandResourceProps;
+  const oldProps = event.OldResourceProperties as unknown as RESTPostAPIChatInputApplicationCommandsJSONBody;
+  const newProps = event.ResourceProperties as unknown as RESTPostAPIChatInputApplicationCommandsJSONBody;
   const { name, description, options } = newProps;
   logger.info('Updating slash command', { name, description, options });
 
@@ -96,7 +97,7 @@ const onUpdate = async (event: OnEventRequest, apiClient: DiscordApiClient): Pro
 };
 
 const onDelete = async (event: OnEventRequest, apiClient: DiscordApiClient): Promise<OnEventResponse> => {
-  const props = event.ResourceProperties as unknown as SlashCommandResourceProps;
+  const props = event.ResourceProperties as unknown as RESTPostAPIChatInputApplicationCommandsJSONBody;
   const { name } = props;
   logger.info('Deleting slash command', { name });
 

@@ -9,6 +9,7 @@ import { EventBus, Rule } from 'aws-cdk-lib/aws-events';
 import { LambdaFunction } from 'aws-cdk-lib/aws-events-targets';
 import { LogGroup, RetentionDays } from 'aws-cdk-lib/aws-logs';
 import type { Construct } from 'constructs';
+import { tadaimaCommand } from './commands';
 import { TadaimaFunction } from './tadaima-function';
 
 const MODULE = 'tadaima';
@@ -26,8 +27,7 @@ export class Tadaima extends Stack {
 
     const command = new DiscordSlashCommand(this, 'TadaimaCommand', {
       ...props,
-      name: 'tadaima',
-      description: 'Greets you with a warm welcome!',
+      command: tadaimaCommand,
     });
 
     const logGroup = new LogGroup(this, 'LogGroup', {
