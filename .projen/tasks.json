@@ -56,6 +56,9 @@
           "spawn": "bundle:core/interaction-handler/interaction-handler.lambda"
         },
         {
+          "spawn": "bundle:journal/subscription-manager/subscription-manager.lambda"
+        },
+        {
           "spawn": "bundle:shared/discord-slash-command/register-slash-command.lambda"
         }
       ]
@@ -93,6 +96,24 @@
       "steps": [
         {
           "exec": "esbuild --bundle src/core/interaction-handler/interaction-handler.lambda.ts --target=\"node22\" --platform=\"node\" --outfile=\"assets/core/interaction-handler/interaction-handler.lambda/index.js\" --tsconfig=\"tsconfig.dev.json\" --sourcemap --watch"
+        }
+      ]
+    },
+    "bundle:journal/subscription-manager/subscription-manager.lambda": {
+      "name": "bundle:journal/subscription-manager/subscription-manager.lambda",
+      "description": "Create a JavaScript bundle from src/journal/subscription-manager/subscription-manager.lambda.ts",
+      "steps": [
+        {
+          "exec": "esbuild --bundle src/journal/subscription-manager/subscription-manager.lambda.ts --target=\"node22\" --platform=\"node\" --outfile=\"assets/journal/subscription-manager/subscription-manager.lambda/index.js\" --tsconfig=\"tsconfig.dev.json\" --sourcemap"
+        }
+      ]
+    },
+    "bundle:journal/subscription-manager/subscription-manager.lambda:watch": {
+      "name": "bundle:journal/subscription-manager/subscription-manager.lambda:watch",
+      "description": "Continuously update the JavaScript bundle from src/journal/subscription-manager/subscription-manager.lambda.ts",
+      "steps": [
+        {
+          "exec": "esbuild --bundle src/journal/subscription-manager/subscription-manager.lambda.ts --target=\"node22\" --platform=\"node\" --outfile=\"assets/journal/subscription-manager/subscription-manager.lambda/index.js\" --tsconfig=\"tsconfig.dev.json\" --sourcemap --watch"
         }
       ]
     },
