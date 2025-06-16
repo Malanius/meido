@@ -1,10 +1,9 @@
 import type { Logger } from '@aws-lambda-powertools/logger';
 import axios, { type AxiosInstance, type AxiosResponse, type RawAxiosRequestHeaders } from 'axios';
-import {
-  type APIApplicationCommand,
-  ApplicationCommandType,
-  type RESTPostAPIChatInputApplicationCommandsJSONBody,
-  type RESTPostAPIWebhookWithTokenJSONBody,
+import type {
+  APIApplicationCommand,
+  RESTPostAPIChatInputApplicationCommandsJSONBody,
+  RESTPostAPIWebhookWithTokenJSONBody,
 } from 'discord-api-types/v10';
 
 const SEND_FOLLOWUP_MESSAGE_ENDPOINT = '/webhooks/:app_id/:interaction_token';

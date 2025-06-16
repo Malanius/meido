@@ -1,8 +1,8 @@
-import { DiscordSlashCommand } from '@/shared/discord-slash-command/discord-slash-command';
-import type { AppInfo } from '@/types';
 import { Stack, type StackProps } from 'aws-cdk-lib';
 import { EventBus } from 'aws-cdk-lib/aws-events';
 import type { Construct } from 'constructs';
+import { DiscordSlashCommand } from '@/shared/discord-slash-command/discord-slash-command';
+import type { AppInfo } from '@/types';
 import { journalCommand } from './commands';
 
 export interface JournalProps extends StackProps, AppInfo {}

@@ -1,6 +1,4 @@
 import { env } from 'node:process';
-import { DiscordApiClient } from '@/shared/discord-api-client';
-import type { DiscordSecret, OnEventRequest, OnEventResponse } from '@/types';
 import { Logger } from '@aws-lambda-powertools/logger';
 import { injectLambdaContext } from '@aws-lambda-powertools/logger/middleware';
 import { SecretsProvider } from '@aws-lambda-powertools/parameters/secrets';
