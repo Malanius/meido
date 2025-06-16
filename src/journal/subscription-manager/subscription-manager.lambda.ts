@@ -10,6 +10,11 @@ import type { EventBridgeEvent } from 'aws-lambda';
 const tracer = new Tracer();
 const logger = new Logger();
 
+const DATABASE_TABLE_NAME = process.env.DATABASE_TABLE_NAME;
+if (!DATABASE_TABLE_NAME) {
+  throw new Error('DATABASE_TABLE_NAME is not set');
+}
+
 const lambdaHandler = async (event: EventBridgeEvent<'journal', MeidoInteraction>) => {
   const { application_id, guild_id, token } = event.detail.command;
 
