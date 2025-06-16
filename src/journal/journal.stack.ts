@@ -4,6 +4,7 @@ import type { Construct } from 'constructs';
 import { DiscordSlashCommand } from '@/shared/discord-slash-command/discord-slash-command';
 import type { AppInfo } from '@/types';
 import { journalCommand } from './commands';
+import { SubscriptionManager } from './subscription-manager/subscription-manager';
 
 export interface JournalProps extends StackProps, AppInfo {}
 
@@ -21,8 +22,12 @@ export class Journal extends Stack {
       command: journalCommand,
     });
 
-    // TODO: create subscription manager
-    // TODO: create journal broadcaster
+    new SubscriptionManager(this, 'SubscriptionManager', {
+      ...props,
+      eventBus,
+    });
+
     // TODO: create custom resource to insert journal entries into database
+    // TODO: create journal broadcaster
   }
 }

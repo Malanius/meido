@@ -49,5 +49,6 @@ junit.xml
 !/src/tadaima/tadaima-function.ts
 !/src/core/database/dynamo-bridge-function.ts
 !/src/core/interaction-handler/interaction-handler-function.ts
+!/src/journal/subscription-manager/subscription-manager-function.ts
 !/src/shared/discord-slash-command/register-slash-command-function.ts
 !/.projenrc.ts
