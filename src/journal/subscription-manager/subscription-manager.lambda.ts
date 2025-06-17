@@ -16,12 +16,22 @@ if (!DATABASE_TABLE_NAME) {
 }
 
 const lambdaHandler = async (event: EventBridgeEvent<'journal', MeidoInteraction>) => {
-  const { application_id, guild_id, token } = event.detail.command;
+  const { application_id, guild_id, token, data } = event.detail.command;
+  const { options } = data;
+
+  if (!options || options.length === 0) {
+    logger.error('Received command without options!', {
+      command: event.detail.command,
+    });
+    throw new Error('Received command without options!');
+  }
+
+  const action = options[0].name;
 
   const discordApiClient = new DiscordApiClient(application_id, guild_id);
   await discordApiClient.sendFollowupMessage(
     token,
-    "ごめんなさい！ Master-sama didn't trained me yet to handle this. :woman_bowing:"
+    `ごめんなさい！ Master-sama didn't trained me yet to handle '${action}'. :woman_bowing:`
   );
 };
 
