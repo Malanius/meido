@@ -6,6 +6,7 @@ import { Tracer } from '@aws-lambda-powertools/tracer';
 import { captureLambdaHandler } from '@aws-lambda-powertools/tracer/middleware';
 import middy from '@middy/core';
 import type { EventBridgeEvent } from 'aws-lambda';
+import { getSubscriptionInfo } from './commands/info';
 
 const tracer = new Tracer();
 const logger = new Logger();
@@ -27,12 +28,28 @@ const lambdaHandler = async (event: EventBridgeEvent<'journal', MeidoInteraction
   }
 
   const action = options[0].name;
+  const message = await (async () => {
+    switch (action) {
+      case 'info':
+        return await getSubscriptionInfo(event.detail.command);
+      case 'subscribe':
+      // TODO: Implement subscribe logic
+      case 'unsubscribe':
+        // TODO: Implement unsubscribe logic
+        return `ごめんなさい！ Master-sama didn't trained me yet how to handle \`${action}\`. :woman_bowing:`;
+      default:
+        logger.error('Received unknown subcommand!', {
+          command: event.detail.command,
+        });
+        throw new Error(`Unknown subcommand: ${action}`);
+    }
+  })();
 
+  logger.debug('Sending followup message', {
+    message,
+  });
   const discordApiClient = new DiscordApiClient(application_id, guild_id);
-  await discordApiClient.sendFollowupMessage(
-    token,
-    `ごめんなさい！ Master-sama didn't trained me yet to handle '${action}'. :woman_bowing:`
-  );
+  await discordApiClient.sendFollowupMessage(token, message);
 };
 
 export const handler = middy(lambdaHandler)
