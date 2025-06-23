@@ -1,8 +1,9 @@
 import { DiscordSlashCommand } from '@/shared/discord-slash-command/discord-slash-command';
 import type { AppInfo } from '@/types';
 import { Stack, type StackProps } from 'aws-cdk-lib';
-import { TableBaseV2, TableV2 } from 'aws-cdk-lib/aws-dynamodb';
+import { TableV2 } from 'aws-cdk-lib/aws-dynamodb';
 import { EventBus } from 'aws-cdk-lib/aws-events';
+import { Queue } from 'aws-cdk-lib/aws-sqs';
 import { StringParameter } from 'aws-cdk-lib/aws-ssm';
 import type { Construct } from 'constructs';
 import { journalCommand } from './commands';
@@ -16,8 +17,16 @@ export class Journal extends Stack {
 
     const { appName, appStage } = props;
     const eventsBusName = `${appName}-${appStage}`;
+    const region = Stack.of(this).region;
+    const account = Stack.of(this).account;
 
     const eventBus = EventBus.fromEventBusName(this, 'EventsBus', eventsBusName);
+
+    const deadLetterQueue = Queue.fromQueueArn(
+      this,
+      'DeadLetterQueue',
+      `arn:aws:sqs:${region}:${account}:${appName}-${appStage}-dlq`
+    );
 
     const databaseTableName = StringParameter.fromStringParameterName(
       this,
@@ -31,10 +40,11 @@ export class Journal extends Stack {
       command: journalCommand,
     });
 
-    new SubscriptionManager(this, 'SubscriptionManager', {
+    const subscriptionManager = new SubscriptionManager(this, 'SubscriptionManager', {
       ...props,
       eventBus,
       database,
+      deadLetterQueue,
     });
 
     // TODO: create custom resource to insert journal entries into database

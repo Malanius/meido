@@ -7,7 +7,9 @@ import type { StackProps } from 'aws-cdk-lib';
 import { Aspects, Duration, RemovalPolicy, Stack, Tag } from 'aws-cdk-lib';
 import { EventBus, Rule } from 'aws-cdk-lib/aws-events';
 import { LambdaFunction } from 'aws-cdk-lib/aws-events-targets';
+import { SqsDestination } from 'aws-cdk-lib/aws-lambda-destinations';
 import { LogGroup, RetentionDays } from 'aws-cdk-lib/aws-logs';
+import { Queue } from 'aws-cdk-lib/aws-sqs';
 import type { Construct } from 'constructs';
 import { tadaimaCommand } from './commands';
 import { TadaimaFunction } from './tadaima-function';
@@ -22,8 +24,16 @@ export class Tadaima extends Stack {
 
     const { appName, appStage } = props;
     const eventsBusName = `${appName}-${appStage}`;
+    const region = Stack.of(this).region;
+    const account = Stack.of(this).account;
 
     const eventBus = EventBus.fromEventBusName(this, 'EventsBus', eventsBusName);
+
+    const deadLetterQueue = Queue.fromQueueArn(
+      this,
+      'DeadLetterQueue',
+      `arn:aws:sqs:${region}:${account}:${appName}-${appStage}-dlq`
+    );
 
     const command = new DiscordSlashCommand(this, 'TadaimaCommand', {
       ...props,
@@ -55,6 +65,7 @@ export class Tadaima extends Stack {
         new LambdaFunction(tadaimaHandler, {
           maxEventAge: Duration.minutes(1),
           retryAttempts: 2,
+          deadLetterQueue,
         }),
       ],
       description: `/${MODULE}`,
