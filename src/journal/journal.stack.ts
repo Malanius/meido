@@ -46,6 +46,7 @@ export class Journal extends Stack {
       database,
       deadLetterQueue,
     });
+    subscriptionManager.node.addDependency(command);
 
     // TODO: create custom resource to insert journal entries into database
     // TODO: create journal broadcaster
