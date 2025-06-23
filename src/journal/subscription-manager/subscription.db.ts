@@ -1,5 +1,5 @@
 import { DynamoDBClient } from '@aws-sdk/client-dynamodb';
-import { DynamoDBDocumentClient, GetCommand } from '@aws-sdk/lib-dynamodb';
+import { DynamoDBDocumentClient, GetCommand, PutCommand } from '@aws-sdk/lib-dynamodb';
 
 const TABLE_NAME = process.env.DATABASE_TABLE_NAME;
 if (!TABLE_NAME) {
@@ -12,8 +12,8 @@ const docClient = DynamoDBDocumentClient.from(client);
 export interface SubscriptionEntry {
   pk: 'journal#subscription';
   sk: string;
-  channel_id: string;
-  subscribed_by: string;
+  channel_id?: string;
+  subscribed_by?: string;
   subscribed_at: number;
 }
 
@@ -32,4 +32,13 @@ export const getSubscriptionEntry = async (type: 'user' | 'guild', id: string) =
   }
 
   return result.Item as unknown as SubscriptionEntry;
+};
+
+export const createSubscriptionEntry = async (entry: SubscriptionEntry) => {
+  const command = new PutCommand({
+    TableName: TABLE_NAME,
+    Item: entry,
+  });
+
+  await docClient.send(command);
 };
