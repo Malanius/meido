@@ -20,7 +20,7 @@ To subscribe, use the \`/journal subscribe\` command in the channel you want to 
   }
 
   return `Your server is subscribed to journal updates in the following channel: <#${subscription.channel_id}>.
-This subscription was done by <@${subscription.subscribed_by}> <t:${subscription.subscribed_at}:R>.
+This subscription was done by <@${subscription.subscribed_by}> <t:${Math.floor(subscription.subscribed_at / 1000)}:R>.
 I will send a message in the channel when a new entry is published. :blush:
 You can unsubscribe at any time using the \`/journal unsubscribe\` command. :pleading_face:`;
 };
@@ -32,7 +32,7 @@ const getUserSubscription = async (userId: string) => {
 To subscribe, use the \`/journal subscribe\` command.`;
   }
 
-  return `You are subscribed to journal updates since <t:${subscription.subscribed_at}:R>.
+  return `You are subscribed to journal updates since <t:${Math.floor(subscription.subscribed_at / 1000)}:R>.
 I will send you a DM when a new entry is published. :blush:
 You can unsubscribe at any time using the \`/journal unsubscribe\` command. :pleading_face:`;
 };
