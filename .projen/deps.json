@@ -2,7 +2,7 @@
   "dependencies": [
     {
       "name": "@biomejs/biome",
-      "version": "2.0.5",
+      "version": "^2",
       "type": "build"
     },
     {
