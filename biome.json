@@ -6,13 +6,13 @@
     "useIgnoreFile": true
   },
   "files": {
-    "ignoreUnknown": false,
+    "ignoreUnknown": true,
     "includes": [
       "**",
-      "!**/cdk.json",
-      "!**/.projen/",
-      "!**/tsconfig*.json",
-      "!**/package.json",
+      "!cdk.json",
+      "!.projen/**",
+      "!tsconfig*.json",
+      "!package.json",
       "!**/*test.ts.snapshot/**",
       "!**/*-function.ts"
     ]
