@@ -1,5 +1,6 @@
 import type { APIChatInputApplicationCommandInteraction } from 'discord-api-types/v10';
 import { getSubscriptionEntry } from '../subscription.db';
+import { journalMessages } from './messages';
 
 export const getSubscriptionInfo = async (command: APIChatInputApplicationCommandInteraction): Promise<string> => {
   if (command.guild_id) {
@@ -9,30 +10,24 @@ export const getSubscriptionInfo = async (command: APIChatInputApplicationComman
     return await getUserSubscription(command.user.id);
   }
 
-  return "Sumimasen! :woman_bowing: I don't know where this command came from?! :confused:";
+  return journalMessages.unknownContext;
 };
 
 const getGuildSubscription = async (guildId: string) => {
   const subscription = await getSubscriptionEntry('guild', guildId);
   if (!subscription) {
-    return `Your server is not subscribed to journal updates in any channel. :frowning:
-To subscribe, use the \`/journal subscribe\` command in the channel you want to receive updates. :pray:`;
+    return journalMessages.info.notSubscribedGuild;
   }
 
-  return `Your server is subscribed to journal updates in the following channel: <#${subscription.channel_id}>.
-This subscription was done by <@${subscription.subscribed_by}> <t:${Math.floor(subscription.subscribed_at / 1000)}:R>.
-I will send a message in the channel when a new entry is published. :blush:
-You can unsubscribe at any time using the \`/journal unsubscribe\` command. :pleading_face:`;
+  // biome-ignore lint/style/noNonNullAssertion: channel_id, subscribed_by is guaranteed to be set when type is guild
+  return journalMessages.info.guild(subscription.channel_id!, subscription.subscribed_at, subscription.subscribed_by!);
 };
 
 const getUserSubscription = async (userId: string) => {
   const subscription = await getSubscriptionEntry('user', userId);
   if (!subscription) {
-    return `You are not subscribed to journal updates.
-To subscribe, use the \`/journal subscribe\` command.`;
+    return journalMessages.info.notSubscribedDM;
   }
 
-  return `You are subscribed to journal updates since <t:${Math.floor(subscription.subscribed_at / 1000)}:R>.
-I will send you a DM when a new entry is published. :blush:
-You can unsubscribe at any time using the \`/journal unsubscribe\` command. :pleading_face:`;
+  return journalMessages.info.dm;
 };
