@@ -1,5 +1,3 @@
-import { commonFunctionEnvironment, commonFunctionProps } from '@/shared/functions';
-import type { AppInfo } from '@/types';
 import { RemovalPolicy } from 'aws-cdk-lib';
 import { AttributeType, StreamViewType, TableV2 } from 'aws-cdk-lib/aws-dynamodb';
 import type { IEventBus } from 'aws-cdk-lib/aws-events';
@@ -10,6 +8,8 @@ import { LogGroup, RetentionDays } from 'aws-cdk-lib/aws-logs';
 import type { IQueue } from 'aws-cdk-lib/aws-sqs';
 import { StringParameter } from 'aws-cdk-lib/aws-ssm';
 import { Construct } from 'constructs';
+import { commonFunctionEnvironment, commonFunctionProps } from '@/shared/functions';
+import type { AppInfo } from '@/types';
 import { DynamoBridgeFunction } from './dynamo-bridge-function';
 
 export interface DatabaseProps extends AppInfo {

@@ -1,6 +1,4 @@
 import { env } from 'node:process';
-import { EventsSource } from '@/shared/event-source';
-import type { DiscordSecret, MeidoInteraction } from '@/types';
 import { Logger } from '@aws-lambda-powertools/logger';
 import { injectLambdaContext } from '@aws-lambda-powertools/logger/middleware';
 import { SecretsProvider } from '@aws-lambda-powertools/parameters/secrets';
@@ -17,6 +15,8 @@ import {
   InteractionType,
 } from 'discord-api-types/v10';
 import * as nacl from 'tweetnacl';
+import { EventsSource } from '@/shared/event-source';
+import type { DiscordSecret, MeidoInteraction } from '@/types';
 
 const tracer = new Tracer();
 const logger = new Logger();

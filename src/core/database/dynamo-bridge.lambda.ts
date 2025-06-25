@@ -1,5 +1,4 @@
 import { env } from 'node:process';
-import { EventsSource } from '@/shared/event-source';
 import { BatchProcessor, EventType, processPartialResponse } from '@aws-lambda-powertools/batch';
 import { Logger } from '@aws-lambda-powertools/logger';
 import { injectLambdaContext } from '@aws-lambda-powertools/logger/middleware';
@@ -8,6 +7,7 @@ import { captureLambdaHandler } from '@aws-lambda-powertools/tracer/middleware';
 import { EventBridgeClient, PutEventsCommand } from '@aws-sdk/client-eventbridge';
 import middy from '@middy/core';
 import type { AttributeValue, DynamoDBRecord, DynamoDBStreamHandler } from 'aws-lambda';
+import { EventsSource } from '@/shared/event-source';
 
 const tracer = new Tracer();
 const logger = new Logger();
