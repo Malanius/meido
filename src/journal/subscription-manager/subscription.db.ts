@@ -1,5 +1,5 @@
 import { DynamoDBClient } from '@aws-sdk/client-dynamodb';
-import { DynamoDBDocumentClient, GetCommand, PutCommand } from '@aws-sdk/lib-dynamodb';
+import { DeleteCommand, DynamoDBDocumentClient, GetCommand, PutCommand } from '@aws-sdk/lib-dynamodb';
 
 const TABLE_NAME = process.env.DATABASE_TABLE_NAME;
 if (!TABLE_NAME) {
@@ -38,6 +38,15 @@ export const createSubscriptionEntry = async (entry: SubscriptionEntry) => {
   const command = new PutCommand({
     TableName: TABLE_NAME,
     Item: entry,
+  });
+
+  await docClient.send(command);
+};
+
+export const deleteSubscriptionEntry = async (pk: string, sk: string) => {
+  const command = new DeleteCommand({
+    TableName: TABLE_NAME,
+    Key: { pk, sk },
   });
 
   await docClient.send(command);

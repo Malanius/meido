@@ -6,7 +6,7 @@ import { Tracer } from '@aws-lambda-powertools/tracer';
 import { captureLambdaHandler } from '@aws-lambda-powertools/tracer/middleware';
 import middy from '@middy/core';
 import type { EventBridgeEvent } from 'aws-lambda';
-import { getSubscriptionInfo, subscribe } from './commands';
+import { getSubscriptionInfo, subscribe, unsubscribe } from './commands';
 
 const tracer = new Tracer();
 const logger = new Logger();
@@ -35,8 +35,7 @@ const lambdaHandler = async (event: EventBridgeEvent<'journal', MeidoInteraction
       case 'subscribe':
         return await subscribe(event.detail.command);
       case 'unsubscribe':
-        // TODO: Implement unsubscribe logic
-        return `ごめんなさい！ Master-sama didn't trained me yet how to handle \`${action}\`. :woman_bowing:`;
+        return await unsubscribe(event.detail.command);
       default:
         logger.error('Received unknown subcommand!', {
           command: event.detail.command,
