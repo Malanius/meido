@@ -15,12 +15,7 @@ export const subscribe = async (command: APIChatInputApplicationCommandInteracti
   // biome-ignore lint/style/noNonNullAssertion: we will have one of these or fail above
   const subscription = await getSubscriptionEntry(type, command.guild_id ?? command.user!.id);
   if (subscription) {
-    if (type === 'guild') {
-      // biome-ignore lint/style/noNonNullAssertion: channel_id is guaranteed to be set when type is guild
-      return journalMessages.subscribe.guild(subscription.channel_id!);
-    }
-
-    return journalMessages.subscribe.dm;
+    return journalMessages.subscribe.alreadySubscribed[type];
   }
 
   const newSubscription: SubscriptionEntry = {
@@ -35,8 +30,8 @@ export const subscribe = async (command: APIChatInputApplicationCommandInteracti
 
   if (type === 'guild') {
     // biome-ignore lint/style/noNonNullAssertion: channel_id is guaranteed to be set when type is guild
-    return journalMessages.subscribe.guild(newSubscription.channel_id!);
+    return journalMessages.subscribe.subscribed.guild(newSubscription.channel_id!);
   }
 
-  return journalMessages.subscribe.dm;
+  return journalMessages.subscribe.subscribed.user;
 };
