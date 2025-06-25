@@ -16,7 +16,7 @@ export interface OnEventRequest extends CloudFormationCustomResourceEventCommon 
    * declared previous to the update request.
    */
 
-  // biome-ignore lint/suspicious/noExplicitAny:
+  // biome-ignore lint/suspicious/noExplicitAny: this can be anything depending on the custom resource
   readonly OldResourceProperties?: { [key: string]: any };
 
   /**
@@ -56,14 +56,14 @@ export interface OnEventResponse {
    * Resource attributes to return.
    */
 
-  // biome-ignore lint/suspicious/noExplicitAny:
+  // biome-ignore lint/suspicious/noExplicitAny: this can be anything depending on the custom resource
   readonly Data?: { [name: string]: any };
 
   /**
    * Custom fields returned from OnEvent will be passed to IsComplete.
    */
 
-  // biome-ignore lint/suspicious/noExplicitAny:
+  // biome-ignore lint/suspicious/noExplicitAny: this can be anything depending on the custom resource
   readonly [key: string]: any;
 
   /**

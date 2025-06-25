@@ -1,3 +1,4 @@
+// biome-ignore-all lint: this is just a template
 import { env } from 'node:process';
 import { Logger } from '@aws-lambda-powertools/logger';
 import { injectLambdaContext } from '@aws-lambda-powertools/logger/middleware';
