@@ -43,7 +43,7 @@
     "organization": false
   },
   "devDependencies": {
-    "@biomejs/biome": "1.9.4",
+    "@biomejs/biome": "2.0.5",
     "@commitlint/config-conventional": "^19.8.1",
     "@types/aws-lambda": "^8.10.149",
     "@types/jest": "^29.5.14",
