@@ -46,8 +46,8 @@ junit.xml
 /cdk.out/
 .cdk.staging/
 .parcel-cache/
+!/src/tadaima/tadaima-function.ts
 !/src/core/database/dynamo-bridge-function.ts
 !/src/core/interaction-handler/interaction-handler-function.ts
 !/src/shared/discord-slash-command/register-slash-command-function.ts
-!/src/tadaima/tadaima-function.ts
 !/.projenrc.ts

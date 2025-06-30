@@ -47,6 +47,9 @@
       "description": "Prepare assets",
       "steps": [
         {
+          "spawn": "bundle:tadaima/tadaima.lambda"
+        },
+        {
           "spawn": "bundle:core/database/dynamo-bridge.lambda"
         },
         {
@@ -54,9 +57,6 @@
         },
         {
           "spawn": "bundle:shared/discord-slash-command/register-slash-command.lambda"
-        },
-        {
-          "spawn": "bundle:tadaima/tadaima.lambda"
         }
       ]
     },

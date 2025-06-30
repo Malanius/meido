@@ -68,7 +68,7 @@ const project = new awscdk.AwsCdkTypeScriptApp({
   ],
   devDeps: [
     '@types/aws-lambda',
-    '@biomejs/biome@1.9.4',
+    '@biomejs/biome@^2',
     '@commitlint/config-conventional',
     'commitlint',
     'cz-conventional-changelog',
