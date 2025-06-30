@@ -7,6 +7,8 @@ import type { Construct } from 'constructs';
 import { DiscordSlashCommand } from '@/shared/discord-slash-command/discord-slash-command';
 import type { AppInfo } from '@/types';
 import { journalCommand } from './commands';
+import { entries } from './entries/entries';
+import { JournalEntryResource } from './entries/journal-entry.resource';
 import { SubscriptionManager } from './subscription-manager/subscription-manager';
 
 export interface JournalProps extends StackProps, AppInfo {}
@@ -48,7 +50,16 @@ export class Journal extends Stack {
     });
     subscriptionManager.node.addDependency(command);
 
-    // TODO: create custom resource to insert journal entries into database
+    entries.forEach((entry) => {
+      if (entry.publish) {
+        new JournalEntryResource(this, `JournalEntry#${entry.version}`, {
+          ...props,
+          database,
+          entry,
+        });
+      }
+    });
+
     // TODO: create journal broadcaster
   }
 }
