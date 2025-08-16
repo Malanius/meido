@@ -6,7 +6,7 @@ export const journalMessages = {
       guild: (channelId: string, subscribedAt: number, subscribedBy: string) =>
         `This server is subscribed to journal updates in <#${channelId}>. 🎉\n\
 This subscription was done by <@${subscribedBy}> <t:${Math.floor(subscribedAt / 1000)}:R>.
-If you need to change the channel or no longer want to receive updates, use the \`/journal unsubscribe\` command. 🥺`,
+Only Master-sama may change or cancel this subscription. 💌`,
 
       user:
         'You are already subscribed to journal updates. 🎉\n' +
@@ -15,7 +15,7 @@ If you need to change the channel or no longer want to receive updates, use the 
     notSubscribed: {
       guild:
         'This server is not currently subscribed to journal updates. 🕊️\n' +
-        `To begin receiving my improvement journal, use the \`/journal subscribe\` command in the channel you'd like updates sent to. 💌`,
+        'Only Master-sama may subscribe a channel using \`/journal subscribe\`. 💌`',
 
       user:
         'You are not currently subscribed to journal updates. 🕊️\n' +
@@ -30,7 +30,7 @@ I cannot subscribe this server to journal updates without Master's permission.`,
       guild: (channelId: string) =>
         `This server is now subscribed to journal updates in <#${channelId}>. 🎉\n\
 I will send a message in the channel when a new entry is published. 😊\n\
-You can unsubscribe at any time using the \`/journal unsubscribe\` command. 🥺`,
+Only Master-sama may change or cancel this subscription. 💌`,
 
       user:
         'You are now subscribed to journal updates. 🎉\n' +
@@ -40,7 +40,7 @@ You can unsubscribe at any time using the \`/journal unsubscribe\` command. 🥺
     alreadySubscribed: {
       guild:
         'This server is already subscribed to journal updates. 🎉\n' +
-        'If you need to change the channel or no longer want to receive updates, use the `/journal unsubscribe` command. 🥺',
+        'Only Master-sama may change or cancel this subscription. 💌',
 
       user:
         'You are already subscribed to journal updates. 🎉\n' +

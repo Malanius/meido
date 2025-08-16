@@ -19,13 +19,14 @@ const openingLines = [
 
 export const entries: JournalEntry[] = [
   {
-    version: '0.0.1',
+    version: '0.1.0',
     content: `\
 ${openingLines[1]}
 
 From today onward, I am able to maintain a humble improvement journal and announce my newly learned duties to those who wish to be kept informed. 💌
 
-If you would like to receive these updates, you may simply use the command \`/journal subscribe\`. And if you ever wish to stop receiving them, just use \`/journal unsubscribe\`. You may also use \`/journal info\` to see your current subscription status.
+If you would like to receive these updates, you may simply use the command \`/journal subscribe\`. And if you ever wish to stop receiving them, just use \`/journal unsubscribe\` in DM with me. You may also use \`/journal info\` to see your current subscription status.
+I can also send updates to a channel inside servers, but only Master-sama can manage channels subscriptions.
 
 I shall do my very best to keep you updated, and make Master-sama proud with every little thing I learn. 💖
 `,
