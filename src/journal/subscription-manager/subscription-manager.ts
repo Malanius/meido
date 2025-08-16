@@ -1,6 +1,3 @@
-import { EventsSource } from '@/shared/event-source';
-import { commonFunctionEnvironment, commonFunctionProps } from '@/shared/functions';
-import type { AppInfo } from '@/types';
 import { Aspects, Duration, Tag } from 'aws-cdk-lib';
 import type { ITableV2 } from 'aws-cdk-lib/aws-dynamodb';
 import { type IEventBus, Rule } from 'aws-cdk-lib/aws-events';
@@ -8,6 +5,9 @@ import { LambdaFunction } from 'aws-cdk-lib/aws-events-targets';
 import { LogGroup } from 'aws-cdk-lib/aws-logs';
 import type { IQueue } from 'aws-cdk-lib/aws-sqs';
 import { Construct } from 'constructs';
+import { EventsSource } from '@/shared/event-source';
+import { commonFunctionEnvironment, commonFunctionProps } from '@/shared/functions';
+import type { AppInfo } from '@/types';
 import { SubscriptionManagerFunction } from './subscription-manager-function';
 
 const MODULE = 'journal';

@@ -15,7 +15,7 @@ Only Master-sama may change or cancel this subscription. 💌`,
     notSubscribed: {
       guild:
         'This server is not currently subscribed to journal updates. 🕊️\n' +
-        'Only Master-sama may subscribe a channel using \`/journal subscribe\`. 💌`',
+        'Only Master-sama may subscribe a channel using `/journal subscribe`. 💌`',
 
       user:
         'You are not currently subscribed to journal updates. 🕊️\n' +

@@ -2,7 +2,6 @@ import type { StackProps } from 'aws-cdk-lib';
 import { Aspects, Duration, RemovalPolicy, Stack, Tag } from 'aws-cdk-lib';
 import { EventBus, Rule } from 'aws-cdk-lib/aws-events';
 import { LambdaFunction } from 'aws-cdk-lib/aws-events-targets';
-import { SqsDestination } from 'aws-cdk-lib/aws-lambda-destinations';
 import { LogGroup, RetentionDays } from 'aws-cdk-lib/aws-logs';
 import { Queue } from 'aws-cdk-lib/aws-sqs';
 import type { Construct } from 'constructs';

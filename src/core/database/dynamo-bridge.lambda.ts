@@ -8,6 +8,7 @@ import { EventBridgeClient, PutEventsCommand } from '@aws-sdk/client-eventbridge
 import middy from '@middy/core';
 import type { AttributeValue, DynamoDBRecord, DynamoDBStreamHandler } from 'aws-lambda';
 import { EventsSource } from '@/shared/event-source';
+import type { DynamoEvent } from '@/types/dynamo-event';
 
 const tracer = new Tracer();
 const logger = new Logger();
@@ -79,7 +80,7 @@ const sendEvent = async (
   newImage?: Record<string, AttributeValue>,
   oldImage?: Record<string, AttributeValue>
 ) => {
-  const payload = {
+  const payload: DynamoEvent = {
     newImage,
     oldImage,
   };
