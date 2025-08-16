@@ -1,11 +1,11 @@
-import { DiscordApiClient } from '@/shared/discord-api-client';
-import type { MeidoInteraction } from '@/types';
 import { Logger } from '@aws-lambda-powertools/logger';
 import { injectLambdaContext } from '@aws-lambda-powertools/logger/middleware';
 import { Tracer } from '@aws-lambda-powertools/tracer';
 import { captureLambdaHandler } from '@aws-lambda-powertools/tracer/middleware';
 import middy from '@middy/core';
 import type { EventBridgeEvent } from 'aws-lambda';
+import { DiscordApiClient } from '@/shared/discord-api-client';
+import type { MeidoInteraction } from '@/types';
 import { getSubscriptionInfo, subscribe, unsubscribe } from './commands';
 
 const tracer = new Tracer();
@@ -17,6 +17,7 @@ if (!DATABASE_TABLE_NAME) {
 }
 
 const lambdaHandler = async (event: EventBridgeEvent<'journal', MeidoInteraction>) => {
+  const { invokedByMaster } = event.detail;
   const { application_id, guild_id, token, data } = event.detail.command;
   const { options } = data;
 
@@ -33,9 +34,9 @@ const lambdaHandler = async (event: EventBridgeEvent<'journal', MeidoInteraction
       case 'info':
         return await getSubscriptionInfo(event.detail.command);
       case 'subscribe':
-        return await subscribe(event.detail.command);
+        return await subscribe(event.detail.command, invokedByMaster);
       case 'unsubscribe':
-        return await unsubscribe(event.detail.command);
+        return await unsubscribe(event.detail.command, invokedByMaster);
       default:
         logger.error('Received unknown subcommand!', {
           command: event.detail.command,

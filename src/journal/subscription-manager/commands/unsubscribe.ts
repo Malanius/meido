@@ -2,7 +2,7 @@ import type { APIChatInputApplicationCommandInteraction } from 'discord-api-type
 import { deleteSubscriptionEntry, getSubscriptionEntry } from '../subscription.db';
 import { journalMessages } from './messages';
 
-export const unsubscribe = async (command: APIChatInputApplicationCommandInteraction) => {
+export const unsubscribe = async (command: APIChatInputApplicationCommandInteraction, invokedByMaster: boolean) => {
   let type: 'guild' | 'user';
   if (command.guild_id) {
     type = 'guild';
@@ -16,6 +16,10 @@ export const unsubscribe = async (command: APIChatInputApplicationCommandInterac
   const subscription = await getSubscriptionEntry(type, command.guild_id ?? command.user!.id);
   if (!subscription) {
     return journalMessages.unsubscribe.notSubscribed[type];
+  }
+
+  if (type === 'guild' && !invokedByMaster) {
+    return journalMessages.unsubscribe.restricted;
   }
 
   await deleteSubscriptionEntry(subscription.pk, subscription.sk);

@@ -24,6 +24,8 @@ If you need to change the channel or no longer want to receive updates, use the 
   },
 
   subscribe: {
+    restricted: `Sumimasen… 🙇‍♀️ This command is reserved for my Master-sama only. 💖
+I cannot subscribe this server to journal updates without Master's permission.`,
     subscribed: {
       guild: (channelId: string) =>
         `This server is now subscribed to journal updates in <#${channelId}>. 🎉\n\
@@ -47,6 +49,8 @@ You can unsubscribe at any time using the \`/journal unsubscribe\` command. 🥺
   },
 
   unsubscribe: {
+    restricted: `Gomen nasai… 🙇‍♀️ Only my Master-sama may decide when to stop receiving my journal updates here. 💖
+I cannot unsubscribe this server without Master's command.`,
     guild:
       'This server has been unsubscribed from journal updates. 📪\n' +
       'To subscribe again in a different channel, use the `/journal subscribe` command there. 💌',

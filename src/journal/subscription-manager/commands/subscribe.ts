@@ -1,8 +1,8 @@
 import type { APIChatInputApplicationCommandInteraction } from 'discord-api-types/v10';
-import { type SubscriptionEntry, createSubscriptionEntry, getSubscriptionEntry } from '../subscription.db';
+import { createSubscriptionEntry, getSubscriptionEntry, type SubscriptionEntry } from '../subscription.db';
 import { journalMessages } from './messages';
 
-export const subscribe = async (command: APIChatInputApplicationCommandInteraction) => {
+export const subscribe = async (command: APIChatInputApplicationCommandInteraction, invokedByMaster: boolean) => {
   let type: 'guild' | 'user';
   if (command.guild_id) {
     type = 'guild';
@@ -16,6 +16,10 @@ export const subscribe = async (command: APIChatInputApplicationCommandInteracti
   const subscription = await getSubscriptionEntry(type, command.guild_id ?? command.user!.id);
   if (subscription) {
     return journalMessages.subscribe.alreadySubscribed[type];
+  }
+
+  if (type === 'guild' && !invokedByMaster) {
+    return journalMessages.subscribe.restricted;
   }
 
   const newSubscription: SubscriptionEntry = {
