@@ -1,4 +1,4 @@
-import { Stack, type StackProps } from 'aws-cdk-lib';
+import { Aspects, Stack, type StackProps, Tag } from 'aws-cdk-lib';
 import { TableV2 } from 'aws-cdk-lib/aws-dynamodb';
 import { EventBus } from 'aws-cdk-lib/aws-events';
 import { Queue } from 'aws-cdk-lib/aws-sqs';
@@ -6,6 +6,7 @@ import { StringParameter } from 'aws-cdk-lib/aws-ssm';
 import type { Construct } from 'constructs';
 import { DiscordSlashCommand } from '@/shared/discord-slash-command/discord-slash-command';
 import type { AppInfo } from '@/types';
+import { Broadcaster } from './broadcaster/broadcaster';
 import { journalCommand } from './commands';
 import { entries } from './entries/entries';
 import { JournalEntryResource } from './entries/journal-entry.resource';
@@ -60,6 +61,14 @@ export class Journal extends Stack {
       }
     });
 
-    // TODO: create journal broadcaster
+    const broadcaster = new Broadcaster(this, 'Broadcaster', {
+      ...props,
+      eventBus,
+      database,
+      deadLetterQueue,
+    });
+    broadcaster.node.addDependency(command);
+
+    Aspects.of(this).add(new Tag('module', 'journal'));
   }
 }

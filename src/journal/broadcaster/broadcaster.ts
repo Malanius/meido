@@ -3,56 +3,61 @@ import type { ITableV2 } from 'aws-cdk-lib/aws-dynamodb';
 import { type IEventBus, Rule } from 'aws-cdk-lib/aws-events';
 import { LambdaFunction } from 'aws-cdk-lib/aws-events-targets';
 import { LogGroup } from 'aws-cdk-lib/aws-logs';
+import { Secret } from 'aws-cdk-lib/aws-secretsmanager';
 import type { IQueue } from 'aws-cdk-lib/aws-sqs';
 import { Construct } from 'constructs';
 import { EventsSource } from '@/shared/event-source';
 import { commonFunctionEnvironment, commonFunctionProps } from '@/shared/functions';
 import type { AppInfo } from '@/types';
-import { SubscriptionManagerFunction } from './subscription-manager-function';
+import { BrodcastHandlerFunction } from './brodcast-handler-function';
 
 const MODULE = 'journal';
 
-export interface SubscriptionManagerProps extends AppInfo {
+export interface BroadcasterProps extends AppInfo {
   eventBus: IEventBus;
   database: ITableV2;
   deadLetterQueue: IQueue;
 }
 
-export class SubscriptionManager extends Construct {
-  constructor(scope: Construct, id: string, props: SubscriptionManagerProps) {
+export class Broadcaster extends Construct {
+  constructor(scope: Construct, id: string, props: BroadcasterProps) {
     super(scope, id);
 
     const { appName, appStage, eventBus, database, deadLetterQueue } = props;
 
+    const discordSecrets = Secret.fromSecretNameV2(this, 'DiscordSecret', `/${appName}/${appStage}/discord`);
+
     const logGroup = new LogGroup(this, 'LogGroup', {
-      logGroupName: `/${appName}/${appStage}/${MODULE}/subscription-manager`,
+      logGroupName: `/${appName}/${appStage}/${MODULE}/broadcaster`,
     });
 
-    const subHandler = new SubscriptionManagerFunction(this, 'SubscriptionManagerFunction', {
+    const brodcastHandler = new BrodcastHandlerFunction(this, 'BrodcastHandler', {
       ...commonFunctionProps,
       environment: {
         ...commonFunctionEnvironment(props, MODULE),
         DATABASE_TABLE_NAME: database.tableName,
+        DISCORD_SECRET_NAME: discordSecrets.secretName,
       },
       logGroup,
     });
 
-    database.grantReadWriteData(subHandler);
+    database.grantReadData(brodcastHandler);
+    discordSecrets.grantRead(brodcastHandler);
 
-    new Rule(this, 'SubscriptionManagerRule', {
+    new Rule(this, 'BrodcastRule', {
       eventBus,
       eventPattern: {
-        source: [EventsSource.Interactions],
-        detailType: [MODULE],
+        source: [EventsSource.Database],
+        detailType: ['journal.entry.created'],
       },
       targets: [
-        new LambdaFunction(subHandler, {
+        new LambdaFunction(brodcastHandler, {
           maxEventAge: Duration.minutes(1),
           retryAttempts: 2,
           deadLetterQueue,
         }),
       ],
-      description: `/${MODULE}/subscription-manager`,
+      description: `/${MODULE}/broadcaster`,
     });
   }
 }
