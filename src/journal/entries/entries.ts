@@ -30,7 +30,7 @@ I can also send updates to a channel inside servers, but only Master-sama can ma
 
 I shall do my very best to keep you updated, and make Master-sama proud with every little thing I learn. 💖
 `,
-    // TODO: switch to false before deploying to PROD, subscribe relevant channels and then switch to true, deploy and observe Meido sending her first entry
-    publish: true,
+    // TODO: switch to true after deploying to PROD, subscribe relevant channels and then switch to true, deploy and observe Meido sending her first entry
+    publish: false,
   },
 ];
