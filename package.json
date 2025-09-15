@@ -5,8 +5,6 @@
     "build": "npx projen build",
     "bump": "npx projen bump",
     "bundle": "npx projen bundle",
-    "bundle:core/database/dynamo-bridge.lambda": "npx projen bundle:core/database/dynamo-bridge.lambda",
-    "bundle:core/database/dynamo-bridge.lambda:watch": "npx projen bundle:core/database/dynamo-bridge.lambda:watch",
     "bundle:core/interaction-handler/interaction-handler.lambda": "npx projen bundle:core/interaction-handler/interaction-handler.lambda",
     "bundle:core/interaction-handler/interaction-handler.lambda:watch": "npx projen bundle:core/interaction-handler/interaction-handler.lambda:watch",
     "bundle:journal/broadcaster/brodcast-handler.lambda": "npx projen bundle:journal/broadcaster/brodcast-handler.lambda",

@@ -47,7 +47,6 @@ junit.xml
 .cdk.staging/
 .parcel-cache/
 !/src/tadaima/tadaima-function.ts
-!/src/core/database/dynamo-bridge-function.ts
 !/src/core/interaction-handler/interaction-handler-function.ts
 !/src/journal/broadcaster/brodcast-handler-function.ts
 !/src/journal/subscription-manager/subscription-manager-function.ts

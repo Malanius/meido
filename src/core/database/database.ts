@@ -4,17 +4,11 @@ import { EventBridgeTarget } from '@aws-cdk/aws-pipes-targets-alpha';
 import { Duration, RemovalPolicy } from 'aws-cdk-lib';
 import { AttributeType, StreamViewType, TableV2 } from 'aws-cdk-lib/aws-dynamodb';
 import type { IEventBus } from 'aws-cdk-lib/aws-events';
-import { StartingPosition } from 'aws-cdk-lib/aws-lambda';
-import { SqsDestination } from 'aws-cdk-lib/aws-lambda-destinations';
-import { DynamoEventSource } from 'aws-cdk-lib/aws-lambda-event-sources';
-import { LogGroup, RetentionDays } from 'aws-cdk-lib/aws-logs';
 import type { IQueue } from 'aws-cdk-lib/aws-sqs';
 import { StringParameter } from 'aws-cdk-lib/aws-ssm';
 import { Construct } from 'constructs';
 import { EventsSource } from '@/shared/event-source';
-import { commonFunctionEnvironment, commonFunctionProps } from '@/shared/functions';
 import type { AppInfo } from '@/types';
-import { DynamoBridgeFunction } from './dynamo-bridge-function';
 
 export interface DatabaseProps extends AppInfo {
   eventsBus: IEventBus;
@@ -56,29 +50,6 @@ export class Database extends Construct {
         source: EventsSource.Database,
       }),
     });
-
-    const dynamoBridge = new DynamoBridgeFunction(this, 'DynamoBridge', {
-      ...commonFunctionProps,
-      environment: {
-        ...commonFunctionEnvironment(props, 'core'),
-        EVENTS_BUS_NAME: eventsBus.eventBusName,
-      },
-      logGroup: new LogGroup(this, 'LogGroup', {
-        logGroupName: `/${appName}/${appStage}/database/dynamo-bridge`,
-        retention: RetentionDays.ONE_DAY,
-      }),
-    });
-
-    eventsBus.grantPutEventsTo(dynamoBridge);
-
-    dynamoBridge.addEventSource(
-      new DynamoEventSource(this.table, {
-        startingPosition: StartingPosition.LATEST,
-        reportBatchItemFailures: true,
-        retryAttempts: 2,
-        onFailure: new SqsDestination(deadLetterQueue),
-      })
-    );
 
     new StringParameter(this, 'TableName', {
       parameterName: `/${appName}/${appStage}/database/name`,
