@@ -1,4 +1,7 @@
-import { RemovalPolicy } from 'aws-cdk-lib';
+import { Pipe } from '@aws-cdk/aws-pipes-alpha';
+import { DynamoDBSource, DynamoDBStartingPosition } from '@aws-cdk/aws-pipes-sources-alpha';
+import { EventBridgeTarget } from '@aws-cdk/aws-pipes-targets-alpha';
+import { Duration, RemovalPolicy } from 'aws-cdk-lib';
 import { AttributeType, StreamViewType, TableV2 } from 'aws-cdk-lib/aws-dynamodb';
 import type { IEventBus } from 'aws-cdk-lib/aws-events';
 import { StartingPosition } from 'aws-cdk-lib/aws-lambda';
@@ -8,6 +11,7 @@ import { LogGroup, RetentionDays } from 'aws-cdk-lib/aws-logs';
 import type { IQueue } from 'aws-cdk-lib/aws-sqs';
 import { StringParameter } from 'aws-cdk-lib/aws-ssm';
 import { Construct } from 'constructs';
+import { EventsSource } from '@/shared/event-source';
 import { commonFunctionEnvironment, commonFunctionProps } from '@/shared/functions';
 import type { AppInfo } from '@/types';
 import { DynamoBridgeFunction } from './dynamo-bridge-function';
@@ -38,6 +42,19 @@ export class Database extends Construct {
       dynamoStream: StreamViewType.NEW_AND_OLD_IMAGES, // Meido is interested both in new, updated and deleted items
       removalPolicy: appStage === 'prod' ? RemovalPolicy.RETAIN : RemovalPolicy.DESTROY,
       deletionProtection: appStage === 'prod',
+    });
+
+    new Pipe(this, 'Pipe', {
+      source: new DynamoDBSource(this.table, {
+        startingPosition: DynamoDBStartingPosition.LATEST,
+        batchSize: 10,
+        maximumBatchingWindow: Duration.minutes(1),
+        maximumRetryAttempts: 2,
+        deadLetterTarget: deadLetterQueue,
+      }),
+      target: new EventBridgeTarget(eventsBus, {
+        source: EventsSource.Database,
+      }),
     });
 
     const dynamoBridge = new DynamoBridgeFunction(this, 'DynamoBridge', {
