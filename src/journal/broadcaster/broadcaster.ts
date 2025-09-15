@@ -48,7 +48,9 @@ export class Broadcaster extends Construct {
       eventBus,
       eventPattern: {
         source: [EventsSource.Database],
-        detailType: ['journal.entry.created'],
+        detail: {
+          eventName: ['INSERT'],
+        },
       },
       targets: [
         new LambdaFunction(brodcastHandler, {
