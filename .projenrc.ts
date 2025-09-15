@@ -50,6 +50,9 @@ const project = new awscdk.AwsCdkTypeScriptApp({
   },
 
   deps: [
+    `@aws-cdk/aws-pipes-alpha@${cdkVersion}-alpha.0`,
+    `@aws-cdk/aws-pipes-sources-alpha@${cdkVersion}-alpha.0`,
+    `@aws-cdk/aws-pipes-targets-alpha@${cdkVersion}-alpha.0`,
     `@aws-lambda-powertools/batch@${powertoolsVersion}`,
     `@aws-lambda-powertools/logger@${powertoolsVersion}`,
     `@aws-lambda-powertools/parameters@${powertoolsVersion}`,
