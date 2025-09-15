@@ -6,5 +6,8 @@
   },
   "[github-actions-workflow]": {
     "editor.defaultFormatter": "esbenp.prettier-vscode"
+  },
+  "editor.codeActionsOnSave": {
+    "source.organizeImports.biome": "explicit"
   }
 }
