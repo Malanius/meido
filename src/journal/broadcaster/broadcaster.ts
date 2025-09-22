@@ -50,6 +50,13 @@ export class Broadcaster extends Construct {
         source: [EventsSource.Database],
         detail: {
           eventName: ['INSERT'],
+          dynamodb: {
+            Keys: {
+              pk: {
+                S: [{ prefix: 'journal#entry#' }],
+              },
+            },
+          },
         },
       },
       targets: [
