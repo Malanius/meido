@@ -85,8 +85,13 @@ const cdkJson = project.tryFindObjectFile('cdk.json');
 cdkJson?.addOverride('app', 'npx ts-node -r tsconfig-paths/register --prefer-ts-exts src/main.ts');
 
 // Not sure why projen is not setting this
+const pnpmVersion = '10.18.0';
 project.addFields({
-  packageManager: 'pnpm@10.11.0',
+  packageManager: `pnpm@${pnpmVersion}`,
+  volta: {
+    node: '22.20.0',
+    pnpm: pnpmVersion,
+  },
 });
 
 project.synth();
