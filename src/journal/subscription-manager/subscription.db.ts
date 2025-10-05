@@ -1,5 +1,12 @@
 import { DynamoDBClient } from '@aws-sdk/client-dynamodb';
-import { DeleteCommand, DynamoDBDocumentClient, GetCommand, PutCommand } from '@aws-sdk/lib-dynamodb';
+import {
+  DeleteCommand,
+  DynamoDBDocument,
+  GetCommand,
+  PutCommand,
+  paginateQuery,
+  type QueryCommandInput,
+} from '@aws-sdk/lib-dynamodb';
 
 const TABLE_NAME = process.env.DATABASE_TABLE_NAME;
 if (!TABLE_NAME) {
@@ -7,7 +14,7 @@ if (!TABLE_NAME) {
 }
 
 const client = new DynamoDBClient();
-const docClient = DynamoDBDocumentClient.from(client);
+const docClient = DynamoDBDocument.from(client);
 
 export interface SubscriptionEntry {
   pk: 'journal#subscription';
@@ -17,7 +24,9 @@ export interface SubscriptionEntry {
   subscribed_at: number;
 }
 
-export const getSubscriptionEntry = async (type: 'user' | 'guild', id: string) => {
+export type SubscriptionType = 'user' | 'guild';
+
+export const getSubscriptionEntry = async (type: SubscriptionType, id: string) => {
   const command = new GetCommand({
     TableName: TABLE_NAME,
     Key: {
@@ -50,4 +59,25 @@ export const deleteSubscriptionEntry = async (pk: string, sk: string) => {
   });
 
   await docClient.send(command);
+};
+
+export const getAllSubscriptions = async () => {
+  const queryInput: QueryCommandInput = {
+    TableName: TABLE_NAME,
+    KeyConditionExpression: 'pk = :pk',
+    ExpressionAttributeValues: {
+      ':pk': 'journal#subscription',
+    },
+  };
+
+  const paginatorConfig = {
+    client: docClient,
+  };
+
+  let items = [] as SubscriptionEntry[];
+  for await (const page of paginateQuery(paginatorConfig, queryInput)) {
+    items = items.concat(page.Items as SubscriptionEntry[]);
+  }
+
+  return items;
 };

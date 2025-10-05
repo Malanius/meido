@@ -9,6 +9,7 @@ import middy from '@middy/core';
 import type { EventBridgeEvent, StreamRecord } from 'aws-lambda';
 import { DiscordApiClient } from '@/shared/discord-api-client';
 import type { DiscordSecret } from '@/types';
+import { getAllSubscriptions } from '../subscription-manager/subscription.db';
 
 const tracer = new Tracer();
 const logger = new Logger();
@@ -20,7 +21,7 @@ if (!DISCORD_SECRET_NAME) {
   throw new Error('DISCORD_SECRET_NAME environment variable is not set');
 }
 
-const lambdaHandler = async (event: EventBridgeEvent<'journal', { dynamodb: StreamRecord }>) => {
+const checkIncomingEvent = (event: EventBridgeEvent<'journal', { dynamodb: StreamRecord }>) => {
   const { NewImage } = event.detail.dynamodb;
 
   if (!NewImage) {
@@ -30,6 +31,18 @@ const lambdaHandler = async (event: EventBridgeEvent<'journal', { dynamodb: Stre
     });
     throw new Error('Received event without NewImage!');
   }
+};
+
+const lambdaHandler = async (event: EventBridgeEvent<'journal', { dynamodb: StreamRecord }>) => {
+  checkIncomingEvent(event);
+
+  const subscriptions = await getAllSubscriptions();
+  if (subscriptions.length === 0) {
+    logger.info('No subscriptions found, skipping broadcast');
+    return;
+  }
+  console.info(`Found ${subscriptions.length} subscriptions`);
+  console.debug(subscriptions);
 
   // Use only when required to access bot token to send messages without previous interaction
   const discordSecret = (await secretsProvider.get(DISCORD_SECRET_NAME, {
