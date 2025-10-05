@@ -41,8 +41,6 @@ export class Database extends Construct {
     new Pipe(this, 'Pipe', {
       source: new DynamoDBSource(this.table, {
         startingPosition: DynamoDBStartingPosition.LATEST,
-        batchSize: 10,
-        maximumBatchingWindow: Duration.minutes(1),
         maximumRetryAttempts: 2,
         deadLetterTarget: deadLetterQueue,
       }),
