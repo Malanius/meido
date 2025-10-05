@@ -1,12 +1,5 @@
 import { DynamoDBClient } from '@aws-sdk/client-dynamodb';
-import {
-  DeleteCommand,
-  DynamoDBDocument,
-  GetCommand,
-  PutCommand,
-  paginateQuery,
-  type QueryCommandInput,
-} from '@aws-sdk/lib-dynamodb';
+import { DynamoDBDocument, paginateQuery, type QueryCommandInput } from '@aws-sdk/lib-dynamodb';
 
 const TABLE_NAME = process.env.DATABASE_TABLE_NAME;
 if (!TABLE_NAME) {
@@ -27,7 +20,7 @@ export interface SubscriptionEntry {
 export type SubscriptionType = 'user' | 'guild';
 
 export const getSubscriptionEntry = async (type: SubscriptionType, id: string) => {
-  const command = new GetCommand({
+  const result = await docClient.get({
     TableName: TABLE_NAME,
     Key: {
       pk: 'journal#subscription',
@@ -35,30 +28,24 @@ export const getSubscriptionEntry = async (type: SubscriptionType, id: string) =
     },
   });
 
-  const result = await docClient.send(command);
   if (!result.Item) {
     return undefined;
   }
-
-  return result.Item as unknown as SubscriptionEntry;
+  return result.Item as SubscriptionEntry;
 };
 
 export const createSubscriptionEntry = async (entry: SubscriptionEntry) => {
-  const command = new PutCommand({
+  await docClient.put({
     TableName: TABLE_NAME,
     Item: entry,
   });
-
-  await docClient.send(command);
 };
 
 export const deleteSubscriptionEntry = async (pk: string, sk: string) => {
-  const command = new DeleteCommand({
+  await docClient.delete({
     TableName: TABLE_NAME,
     Key: { pk, sk },
   });
-
-  await docClient.send(command);
 };
 
 export const getAllSubscriptions = async () => {
