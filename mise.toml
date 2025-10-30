@@ -1,0 +1,4 @@
+[tools]
+node = { version = "22", postinstall = "corepack enable" }
+pnpm = "10.20"
+"npm:aws-cdk" = "latest"
