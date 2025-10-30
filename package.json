@@ -75,7 +75,7 @@
     "@aws-sdk/client-secrets-manager": "3.817.0",
     "@aws-sdk/lib-dynamodb": "3.817.0",
     "@middy/core": "^6.3.2",
-    "aws-cdk-lib": "2.196.0",
+    "aws-cdk-lib": "2.221.1",
     "axios": "^1.10.0",
     "constructs": "^10.0.5",
     "tweetnacl": "^1.0.3",

@@ -2,7 +2,7 @@ import { awscdk } from 'projen';
 import { NodePackageManager } from 'projen/lib/javascript/node-package';
 import { ReleaseTrigger } from 'projen/lib/release';
 
-const cdkVersion = '2.196.0';
+const cdkVersion = '2.221.1';
 const powertoolsVersion = '2.20.0';
 const sdkVersion = '3.817.0';
 
