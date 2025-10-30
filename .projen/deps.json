@@ -82,32 +82,32 @@
     },
     {
       "name": "@aws-lambda-powertools/batch",
-      "version": "2.20.0",
+      "version": "2.28.1",
       "type": "runtime"
     },
     {
       "name": "@aws-lambda-powertools/logger",
-      "version": "2.20.0",
+      "version": "2.28.1",
       "type": "runtime"
     },
     {
       "name": "@aws-lambda-powertools/parameters",
-      "version": "2.20.0",
+      "version": "2.28.1",
       "type": "runtime"
     },
     {
       "name": "@aws-lambda-powertools/parser",
-      "version": "2.20.0",
+      "version": "2.28.1",
       "type": "runtime"
     },
     {
       "name": "@aws-lambda-powertools/tracer",
-      "version": "2.20.0",
+      "version": "2.28.1",
       "type": "runtime"
     },
     {
       "name": "@aws-lambda-powertools/validation",
-      "version": "2.20.0",
+      "version": "2.28.1",
       "type": "runtime"
     },
     {

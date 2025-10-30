@@ -3,7 +3,7 @@ import { NodePackageManager } from 'projen/lib/javascript/node-package';
 import { ReleaseTrigger } from 'projen/lib/release';
 
 const cdkVersion = '2.221.1';
-const powertoolsVersion = '2.20.0';
+const powertoolsVersion = '2.28.1';
 const sdkVersion = '3.817.0';
 
 const project = new awscdk.AwsCdkTypeScriptApp({
