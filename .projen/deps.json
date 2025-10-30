@@ -112,22 +112,22 @@
     },
     {
       "name": "@aws-sdk/client-dynamodb",
-      "version": "3.817.0",
+      "version": "3.920.0",
       "type": "runtime"
     },
     {
       "name": "@aws-sdk/client-eventbridge",
-      "version": "3.817.0",
+      "version": "3.920.0",
       "type": "runtime"
     },
     {
       "name": "@aws-sdk/client-secrets-manager",
-      "version": "3.817.0",
+      "version": "3.920.0",
       "type": "runtime"
     },
     {
       "name": "@aws-sdk/lib-dynamodb",
-      "version": "3.817.0",
+      "version": "3.920.0",
       "type": "runtime"
     },
     {

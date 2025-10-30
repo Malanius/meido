@@ -4,7 +4,7 @@ import { ReleaseTrigger } from 'projen/lib/release';
 
 const cdkVersion = '2.221.1';
 const powertoolsVersion = '2.28.1';
-const sdkVersion = '3.817.0';
+const sdkVersion = '3.920.0';
 
 const project = new awscdk.AwsCdkTypeScriptApp({
   name: 'meido',
