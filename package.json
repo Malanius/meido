@@ -79,14 +79,9 @@
     "axios": "^1.10.0",
     "constructs": "^10.0.5",
     "tweetnacl": "^1.0.3",
-    "zod": "~3"
+    "zod": "~4"
   },
-  "pnpm": {
-    "onlyBuiltDependencies": [
-      "esbuild",
-      "lefthook"
-    ]
-  },
+  "pnpm": {},
   "license": "Apache-2.0",
   "publishConfig": {
     "access": "public"

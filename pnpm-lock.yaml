@@ -19,7 +19,7 @@ importers:
         version: 2.28.1(@aws-sdk/client-dynamodb@3.817.0)(@aws-sdk/client-secrets-manager@3.817.0)(@aws-sdk/util-dynamodb@3.817.0(@aws-sdk/client-dynamodb@3.817.0))(@middy/core@6.3.2)
       '@aws-lambda-powertools/parser':
         specifier: 2.28.1
-        version: 2.28.1(@middy/core@6.3.2)(zod@3.25.67)
+        version: 2.28.1(@middy/core@6.3.2)(zod@4.1.12)
       '@aws-lambda-powertools/tracer':
         specifier: 2.28.1
         version: 2.28.1(@middy/core@6.3.2)
@@ -54,8 +54,8 @@ importers:
         specifier: ^1.0.3
         version: 1.0.3
       zod:
-        specifier: ~3
-        version: 3.25.67
+        specifier: ~4
+        version: 4.1.12
     devDependencies:
       '@biomejs/biome':
         specifier: ^2
@@ -3331,8 +3331,8 @@ packages:
     resolution: {integrity: sha512-AyeEbWOu/TAXdxlV9wmGcR0+yh2j3vYPGOECcIj2S7MkrLyC7ne+oye2BKTItt0ii2PHk4cDy+95+LshzbXnGg==}
     engines: {node: '>=12.20'}
 
-  zod@3.25.67:
-    resolution: {integrity: sha512-idA2YXwpCdqUSKRCACDE6ItZD9TZzy3OZMtpfLoh6oPR47lipysRrJfjzMqFxQ3uJuUPyUeWe1r9vLH33xO/Qw==}
+  zod@4.1.12:
+    resolution: {integrity: sha512-JInaHOamG8pt5+Ey8kGmdcAcg3OL9reK8ltczgHTAwNhMys/6ThXHityHxVV2p3fkw/c+MAvBHFVYHFZDmjMCQ==}
 
 snapshots:
 
@@ -3409,13 +3409,13 @@ snapshots:
       '@aws-sdk/util-dynamodb': 3.817.0(@aws-sdk/client-dynamodb@3.817.0)
       '@middy/core': 6.3.2
 
-  '@aws-lambda-powertools/parser@2.28.1(@middy/core@6.3.2)(zod@3.25.67)':
+  '@aws-lambda-powertools/parser@2.28.1(@middy/core@6.3.2)(zod@4.1.12)':
     dependencies:
       '@aws-lambda-powertools/commons': 2.28.1
       '@standard-schema/spec': 1.0.0
     optionalDependencies:
       '@middy/core': 6.3.2
-      zod: 3.25.67
+      zod: 4.1.12
 
   '@aws-lambda-powertools/tracer@2.28.1(@middy/core@6.3.2)':
     dependencies:
@@ -7182,4 +7182,4 @@ snapshots:
 
   yocto-queue@1.2.1: {}
 
-  zod@3.25.67: {}
+  zod@4.1.12: {}
