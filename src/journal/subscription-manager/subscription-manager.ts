@@ -1,8 +1,8 @@
-import { Duration } from 'aws-cdk-lib';
+import { Duration, RemovalPolicy } from 'aws-cdk-lib';
 import type { ITableV2 } from 'aws-cdk-lib/aws-dynamodb';
 import { type IEventBus, Rule } from 'aws-cdk-lib/aws-events';
 import { LambdaFunction } from 'aws-cdk-lib/aws-events-targets';
-import { LogGroup } from 'aws-cdk-lib/aws-logs';
+import { LogGroup, RetentionDays } from 'aws-cdk-lib/aws-logs';
 import type { IQueue } from 'aws-cdk-lib/aws-sqs';
 import { Construct } from 'constructs';
 import { EventsSource } from '@/shared/event-source';
@@ -26,6 +26,8 @@ export class SubscriptionManager extends Construct {
 
     const logGroup = new LogGroup(this, 'LogGroup', {
       logGroupName: `/${appName}/${appStage}/${MODULE}/subscription-manager`,
+      retention: RetentionDays.ONE_WEEK,
+      removalPolicy: RemovalPolicy.DESTROY,
     });
 
     const subHandler = new SubscriptionManagerFunction(this, 'SubscriptionManagerFunction', {

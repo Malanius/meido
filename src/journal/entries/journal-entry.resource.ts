@@ -57,7 +57,7 @@ export class JournalEntryResource extends Construct {
       }),
       logGroup: new LogGroup(this, 'LogGroup', {
         logGroupName: `/${appName}/${appStage}/journal/entries/${entry.version}`,
-        retention: RetentionDays.ONE_DAY,
+        retention: RetentionDays.ONE_WEEK,
         removalPolicy: RemovalPolicy.DESTROY,
       }),
     });
