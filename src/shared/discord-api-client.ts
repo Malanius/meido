@@ -12,6 +12,7 @@ const REGISTER_GLOBAL_COMMAND_ENDPOINT = 'applications/:app_id/commands';
 const REGISTER_GUILD_COMMAND_ENDPOINT = 'applications/:app_id/guilds/:guild_id/commands';
 const DELETE_GLOBAL_COMMAND_ENDPOINT = 'applications/:app_id/commands/:command_id';
 const DELETE_GUILD_COMMAND_ENDPOINT = 'applications/:app_id/guilds/:guild_id/commands/:command_id';
+const SEND_GUILD_CHANNEL_MESSAGE_ENDPOINT = '/channels/:channel_id/messages';
 
 export class DiscordApiClient {
   private readonly api: AxiosInstance;
@@ -96,6 +97,17 @@ export class DiscordApiClient {
     await this.api.post(endpoint, {
       content: message,
     } as RESTPostAPIWebhookWithTokenJSONBody);
+  }
+
+  async postMessageToChannel(channelId: string, message: string) {
+    if (!this.botToken) {
+      throw new Error('Bot token is required to send messages!');
+    }
+
+    const endpoint = SEND_GUILD_CHANNEL_MESSAGE_ENDPOINT.replace(':channel_id', channelId);
+    await this.api.post(endpoint, {
+      content: message,
+    });
   }
 
   async registerCommand(command: RESTPostAPIChatInputApplicationCommandsJSONBody) {

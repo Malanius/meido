@@ -7,9 +7,9 @@ import { captureLambdaHandler } from '@aws-lambda-powertools/tracer/middleware';
 import { SecretsManagerClient } from '@aws-sdk/client-secrets-manager';
 import middy from '@middy/core';
 import type { EventBridgeEvent, StreamRecord } from 'aws-lambda';
+import { getAllSubscriptions, type SubscriptionEntry } from '@/journal/subscription-manager/subscription.db';
 import { DiscordApiClient } from '@/shared/discord-api-client';
 import type { DiscordSecret } from '@/types';
-import { getAllSubscriptions } from '../subscription-manager/subscription.db';
 
 const tracer = new Tracer();
 const logger = new Logger();
@@ -21,7 +21,7 @@ if (!DISCORD_SECRET_NAME) {
   throw new Error('DISCORD_SECRET_NAME environment variable is not set');
 }
 
-const checkIncomingEvent = (event: EventBridgeEvent<'journal', { dynamodb: StreamRecord }>) => {
+const getMessage = (event: EventBridgeEvent<'journal', { dynamodb: StreamRecord }>) => {
   const { NewImage } = event.detail.dynamodb;
 
   if (!NewImage) {
@@ -31,10 +31,36 @@ const checkIncomingEvent = (event: EventBridgeEvent<'journal', { dynamodb: Strea
     });
     throw new Error('Received event without NewImage!');
   }
+
+  const message = NewImage.content.S;
+  if (!message) {
+    logger.error('No content found in the journal entry!', {
+      event,
+    });
+    throw new Error('No content found in the journal entry!');
+  }
+
+  return message;
+};
+
+const broadcastGuilds = async (subs: SubscriptionEntry[], message: string, discordApiClient: DiscordApiClient) => {
+  for (const sub of subs) {
+    const channelId = sub.channel_id;
+    try {
+      logger.info(`Sending journal entry to channel ${channelId}`);
+      // biome-ignore lint/style/noNonNullAssertion: it's already filtered above
+      await discordApiClient.postMessageToChannel(channelId!, message);
+      logger.info(`Successfully sent journal entry to channel ${channelId}`);
+    } catch (error) {
+      logger.error(`Failed to send journal entry to channel ${channelId}`, {
+        error,
+      });
+    }
+  }
 };
 
 const lambdaHandler = async (event: EventBridgeEvent<'journal', { dynamodb: StreamRecord }>) => {
-  checkIncomingEvent(event);
+  const message = getMessage(event);
 
   const subscriptions = await getAllSubscriptions();
   if (subscriptions.length === 0) {
@@ -44,13 +70,26 @@ const lambdaHandler = async (event: EventBridgeEvent<'journal', { dynamodb: Stre
   console.info(`Found ${subscriptions.length} subscriptions`);
   console.debug(subscriptions);
 
-  // Use only when required to access bot token to send messages without previous interaction
   const discordSecret = (await secretsProvider.get(DISCORD_SECRET_NAME, {
     transform: 'json',
   })) as DiscordSecret;
 
   const { appId, botToken } = discordSecret;
   const discordApiClient = new DiscordApiClient(appId, undefined, botToken, logger);
+
+  const guildSubscriptions = subscriptions.filter((sub) => sub.sk.startsWith('guild#'));
+  if (guildSubscriptions.length !== 0) {
+    await broadcastGuilds(guildSubscriptions, message, discordApiClient);
+  } else {
+    logger.info('No guild subscriptions found, skipping guilds broadcast');
+  }
+
+  const userSubscriptions = subscriptions.filter((sub) => sub.sk.startsWith('user#'));
+  if (userSubscriptions.length !== 0) {
+    // TODO: implement user broadcast
+  } else {
+    logger.info('No user subscriptions found, skipping users broadcast');
+  }
 };
 
 export const handler = middy(lambdaHandler)
