@@ -65,6 +65,7 @@ const project = new awscdk.AwsCdkTypeScriptApp({
     `@aws-sdk/lib-dynamodb@${sdkVersion}`,
     '@middy/core',
     'axios',
+    'axios-retry',
     'tweetnacl',
     'zod@~4',
   ],

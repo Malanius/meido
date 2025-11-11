@@ -159,6 +159,10 @@
       "type": "runtime"
     },
     {
+      "name": "axios-retry",
+      "type": "runtime"
+    },
+    {
       "name": "constructs",
       "version": "^10.5.1",
       "type": "runtime"

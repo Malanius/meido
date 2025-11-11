@@ -1,7 +1,7 @@
 import { Pipe } from '@aws-cdk/aws-pipes-alpha';
 import { DynamoDBSource, DynamoDBStartingPosition } from '@aws-cdk/aws-pipes-sources-alpha';
 import { EventBridgeTarget } from '@aws-cdk/aws-pipes-targets-alpha';
-import { Duration, RemovalPolicy } from 'aws-cdk-lib';
+import { RemovalPolicy } from 'aws-cdk-lib';
 import { AttributeType, StreamViewType, TableV2 } from 'aws-cdk-lib/aws-dynamodb';
 import type { IEventBus } from 'aws-cdk-lib/aws-events';
 import type { IQueue } from 'aws-cdk-lib/aws-sqs';

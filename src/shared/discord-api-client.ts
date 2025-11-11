@@ -1,5 +1,6 @@
 import type { Logger } from '@aws-lambda-powertools/logger';
 import axios, { type AxiosInstance, type AxiosResponse, type RawAxiosRequestHeaders } from 'axios';
+import axiosRetry from 'axios-retry';
 import type {
   APIApplicationCommand,
   RESTPostAPIChatInputApplicationCommandsJSONBody,
@@ -54,6 +55,35 @@ export class DiscordApiClient {
           data: response.data,
         });
         return response;
+      });
+
+      axiosRetry(this.api, {
+        retries: 5,
+        shouldResetTimeout: true,
+        retryDelay: axiosRetry.exponentialDelay,
+        retryCondition: (error) => {
+          const status = error?.response?.status;
+          const retryStatusCodes = [429, 500, 502, 503, 504];
+          if (status && retryStatusCodes.includes(status)) {
+            return true;
+          }
+          const networkErrors = [
+            'ECONNABORTED',
+            'ENOTFOUND',
+            'ECONNREFUSED',
+            'ECONNRESET',
+            'EPIPE',
+            'ETIMEDOUT',
+            'EHOSTUNREACH',
+            'EAI_AGAIN',
+          ];
+          return !!(error.code && networkErrors.includes(error.code));
+        },
+        onRetry: (retryCount, error, requestConfig) => {
+          this.logger?.warn(
+            `Retrying request to "${requestConfig.url}" due to error "${error.message}". Attempt #${retryCount}`
+          );
+        },
       });
     }
   }
