@@ -434,13 +434,13 @@
       },
       "steps": [
         {
-          "exec": "bunx npm-check-updates@18 --upgrade --target=minor --peer --no-deprecated --dep=dev,peer,prod,optional --filter=@commitlint/config-conventional,@types/aws-lambda,@types/jest,@types/node,commitlint,cz-conventional-changelog,discord-api-types,esbuild,jest,lefthook,projen,ts-jest,ts-node,tsconfig-paths,typescript,@middy/core,axios,tweetnacl"
+          "exec": "bunx npm-check-updates@18 --upgrade --target=minor --peer --no-deprecated --dep=dev,peer,prod,optional --filter=@commitlint/config-conventional,@types/aws-lambda,@types/jest,@types/node,commitlint,cz-conventional-changelog,discord-api-types,esbuild,jest,lefthook,projen,ts-jest,ts-node,tsconfig-paths,typescript,@middy/core,axios,axios-retry,tweetnacl"
         },
         {
           "exec": "bun install"
         },
         {
-          "exec": "bun update @biomejs/biome @commitlint/config-conventional @types/aws-lambda @types/jest @types/node aws-cdk commit-and-tag-version commitlint cz-conventional-changelog discord-api-types esbuild jest jest-junit lefthook projen ts-jest ts-node tsconfig-paths typescript @aws-lambda-powertools/batch @aws-lambda-powertools/logger @aws-lambda-powertools/parameters @aws-lambda-powertools/parser @aws-lambda-powertools/tracer @aws-lambda-powertools/validation @aws-sdk/client-dynamodb @aws-sdk/client-eventbridge @aws-sdk/client-secrets-manager @aws-sdk/lib-dynamodb @middy/core aws-cdk-lib axios constructs tweetnacl zod"
+          "exec": "bun update @biomejs/biome @commitlint/config-conventional @types/aws-lambda @types/jest @types/node aws-cdk commit-and-tag-version commitlint cz-conventional-changelog discord-api-types esbuild jest jest-junit lefthook projen ts-jest ts-node tsconfig-paths typescript @aws-cdk/aws-pipes-alpha @aws-cdk/aws-pipes-sources-alpha @aws-cdk/aws-pipes-targets-alpha @aws-lambda-powertools/batch @aws-lambda-powertools/logger @aws-lambda-powertools/parameters @aws-lambda-powertools/parser @aws-lambda-powertools/tracer @aws-lambda-powertools/validation @aws-sdk/client-dynamodb @aws-sdk/client-eventbridge @aws-sdk/client-secrets-manager @aws-sdk/lib-dynamodb @middy/core aws-cdk-lib axios axios-retry constructs tweetnacl zod"
         },
         {
           "exec": "npx projen"

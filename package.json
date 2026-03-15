@@ -67,6 +67,9 @@
     "typescript": "^5.9.3"
   },
   "dependencies": {
+    "@aws-cdk/aws-pipes-alpha": "2.243.0-alpha.0",
+    "@aws-cdk/aws-pipes-sources-alpha": "2.243.0-alpha.0",
+    "@aws-cdk/aws-pipes-targets-alpha": "2.243.0-alpha.0",
     "@aws-lambda-powertools/batch": "2.31.0",
     "@aws-lambda-powertools/logger": "2.31.0",
     "@aws-lambda-powertools/parameters": "2.31.0",
@@ -79,11 +82,8 @@
     "@aws-sdk/lib-dynamodb": "3.1009.0",
     "@middy/core": "^6.4.5",
     "aws-cdk-lib": "2.243.0",
-    "axios-retry": "^4.5.0",
     "axios": "^1.13.6",
-    "@aws-cdk/aws-pipes-alpha": "2.214.0-alpha.0",
-    "@aws-cdk/aws-pipes-sources-alpha": "2.214.0-alpha.0",
-    "@aws-cdk/aws-pipes-targets-alpha": "2.214.0-alpha.0",
+    "axios-retry": "^4.5.0",
     "constructs": "^10.5.1",
     "tweetnacl": "^1.0.3",
     "zod": "~4"
