@@ -37,13 +37,13 @@ jobs:
       APP_ENV: prod
     steps:
       - name: Git clone the repository
-        uses: actions/checkout@v3
+        uses: actions/checkout@v6
 
       - name: Prepare environment
         uses: ./.github/workflows/prepare
 
       - name: Assume GHA role
-        uses: aws-actions/configure-aws-credentials@v4
+        uses: aws-actions/configure-aws-credentials@v6
         with:
           role-to-assume: ${{ vars.PROD_DEPLOY_ROLE_ARN }}
           aws-region: ${{ vars.AWS_REGION }}

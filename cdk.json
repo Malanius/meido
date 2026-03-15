@@ -1,5 +1,5 @@
 {
-  "app": "npx ts-node -r tsconfig-paths/register --prefer-ts-exts src/main.ts",
+  "app": "bun run --tsconfig-override=tsconfig.json ./src/main.ts",
   "output": "cdk.out",
   "build": "npx projen bundle",
   "watch": {

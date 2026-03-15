@@ -5,15 +5,14 @@
 /.gitattributes linguist-generated
 /.gitignore linguist-generated
 /.npmignore linguist-generated
-/.npmrc linguist-generated
 /.projen/** linguist-generated
 /.projen/deps.json linguist-generated
 /.projen/files.json linguist-generated
 /.projen/tasks.json linguist-generated
+/bun.lockb linguist-generated
 /cdk.json linguist-generated
 /LICENSE linguist-generated
 /package.json linguist-generated
-/pnpm-lock.yaml linguist-generated
 /src/core/database/dynamo-bridge-function.ts linguist-generated
 /src/core/interaction-handler/interaction-handler-function.ts linguist-generated
 /src/shared/discord-slash-command/register-slash-command-function.ts linguist-generated
