@@ -1,6 +1,7 @@
 {
   "name": "meido",
   "scripts": {
+    "biome": "npx projen biome",
     "build": "npx projen build",
     "bump": "npx projen bump",
     "bundle": "npx projen bundle",

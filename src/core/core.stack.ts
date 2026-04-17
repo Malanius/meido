@@ -1,9 +1,9 @@
-import { EventsBus } from '@/core/event-bus';
-import type { AppInfo, DiscordSecret } from '@/types';
 import { Aspects, Duration, Stack, type StackProps, Tag } from 'aws-cdk-lib';
 import { Secret } from 'aws-cdk-lib/aws-secretsmanager';
 import { Queue } from 'aws-cdk-lib/aws-sqs';
 import type { Construct } from 'constructs';
+import { EventsBus } from '@/core/event-bus';
+import type { AppInfo, DiscordSecret } from '@/types';
 import { Database } from './database/database';
 import { InteractionHandler } from './interaction-handler/interaction-handler';
 

@@ -1,11 +1,11 @@
-import { commonFunctionEnvironment, commonFunctionProps } from '@/shared/functions';
-import type { AppInfo } from '@/types';
 import { CfnOutput, Duration, RemovalPolicy } from 'aws-cdk-lib';
 import type { IEventBus } from 'aws-cdk-lib/aws-events';
 import { FunctionUrlAuthType } from 'aws-cdk-lib/aws-lambda';
 import { LogGroup, RetentionDays } from 'aws-cdk-lib/aws-logs';
 import type { ISecret } from 'aws-cdk-lib/aws-secretsmanager';
 import { Construct } from 'constructs';
+import { commonFunctionEnvironment, commonFunctionProps } from '@/shared/functions';
+import type { AppInfo } from '@/types';
 import { InteractionHandlerFunction } from './interaction-handler-function';
 
 export interface InteractionHandlerProps extends AppInfo {

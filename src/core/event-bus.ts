@@ -1,4 +1,3 @@
-import type { AppInfo } from '@/types';
 import { RemovalPolicy } from 'aws-cdk-lib';
 import { EventBus, Rule } from 'aws-cdk-lib/aws-events';
 import { CloudWatchLogGroup } from 'aws-cdk-lib/aws-events-targets';
@@ -6,6 +5,7 @@ import { LogGroup, RetentionDays } from 'aws-cdk-lib/aws-logs';
 import type { IQueue } from 'aws-cdk-lib/aws-sqs';
 import { StringParameter } from 'aws-cdk-lib/aws-ssm';
 import { Construct } from 'constructs';
+import type { AppInfo } from '@/types';
 
 export interface EventsBusProps extends AppInfo {
   deadLetterQueue: IQueue;
@@ -44,7 +44,7 @@ export class EventsBus extends Construct {
       new Rule(this, 'DevLogEventsRule', {
         eventBus: this.eventsBus,
         eventPattern: {
-          // @ts-ignore - this is a valid pattern, exists for replays
+          // @ts-expect-error - this is a valid pattern, exists for replays
           'replay-name': [
             {
               exists: false,
