@@ -1,11 +1,11 @@
-import { commonFunctionEnvironment, commonFunctionProps } from '@/shared/functions';
-import type { AppInfo } from '@/types';
-import type { SlashCommandResourceProps } from '@/types/slash-command-resource-props';
 import { CustomResource, RemovalPolicy } from 'aws-cdk-lib';
 import { LogGroup, RetentionDays } from 'aws-cdk-lib/aws-logs';
 import { Secret } from 'aws-cdk-lib/aws-secretsmanager';
 import { Provider } from 'aws-cdk-lib/custom-resources';
 import { Construct } from 'constructs';
+import { commonFunctionEnvironment, commonFunctionProps } from '@/shared/functions';
+import type { AppInfo } from '@/types';
+import type { SlashCommandResourceProps } from '@/types/slash-command-resource-props';
 import { RegisterSlashCommandFunction } from './register-slash-command-function';
 
 export interface DiscordSlashCommandProps extends AppInfo, SlashCommandResourceProps {}
