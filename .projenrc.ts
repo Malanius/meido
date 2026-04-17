@@ -1,6 +1,7 @@
 import { awscdk } from 'projen';
 import { NodePackageManager } from 'projen/lib/javascript/node-package';
 import { ReleaseTrigger } from 'projen/lib/release';
+import { biomeOptions } from './.projenrc.biome';
 
 const cdkVersion = '2.243.0';
 const powertoolsVersion = '2.31.0';
@@ -36,10 +37,8 @@ const project = new awscdk.AwsCdkTypeScriptApp({
     },
   },
 
-  // Using biome for linting and formatting
-  prettier: false,
-  eslint: false,
-  // TODO: add biome config once projen supports it
+  biome: true,
+  biomeOptions,
 
   lambdaOptions: {
     runtime: awscdk.LambdaRuntime.NODEJS_22_X,

@@ -34,6 +34,7 @@ junit.xml
 /coverage/
 /dist/changelog.md
 /dist/version.txt
+!/biome.jsonc
 !/test/
 !/tsconfig.json
 !/tsconfig.dev.json
