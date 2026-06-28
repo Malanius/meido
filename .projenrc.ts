@@ -24,9 +24,8 @@ const project = new awscdk.AwsCdkTypeScriptApp({
   projenrcTs: true,
   tsconfig: {
     compilerOptions: {
-      baseUrl: '.',
       paths: {
-        '@/*': ['src/*'],
+        '@/*': ['./src/*'],
       },
     },
   },
