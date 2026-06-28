@@ -6,8 +6,9 @@ import { Tracer } from '@aws-lambda-powertools/tracer';
 import { captureLambdaHandler } from '@aws-lambda-powertools/tracer/middleware';
 import { SecretsManagerClient } from '@aws-sdk/client-secrets-manager';
 import middy from '@middy/core';
+import type { RESTPostAPIChatInputApplicationCommandsJSONBody } from 'discord-api-types/v10';
 import { DiscordApiClient } from '@/shared/discord-api-client';
-import type { DiscordSecret, OnEventRequest, OnEventResponse, SlashCommandResourceProps } from '@/types';
+import type { DiscordSecret, OnEventRequest, OnEventResponse } from '@/types';
 
 const tracer = new Tracer();
 const logger = new Logger();
@@ -41,9 +42,8 @@ const lambdaHandler = async (event: OnEventRequest): Promise<OnEventResponse | u
 
   switch (event.RequestType) {
     case 'Create':
+    case 'Update': // When we return new physical ID, custom resource framework will call Delete with the old command id itself
       return await onCreate(event, discordApiClient);
-    case 'Update':
-      return await onUpdate(event, discordApiClient);
     case 'Delete':
       return await onDelete(event, discordApiClient);
     default:
@@ -52,16 +52,12 @@ const lambdaHandler = async (event: OnEventRequest): Promise<OnEventResponse | u
 };
 
 const onCreate = async (event: OnEventRequest, discordApiClient: DiscordApiClient): Promise<OnEventResponse> => {
-  const props = event.ResourceProperties as unknown as SlashCommandResourceProps;
-  const { name, description, options } = props;
-  logger.info('Creating slash command', { name, description, options });
+  const payload = Buffer.from(event.ResourceProperties.command, 'base64').toString('utf-8');
+  const command = JSON.parse(payload) as RESTPostAPIChatInputApplicationCommandsJSONBody;
+  logger.info('Creating slash command', { command });
 
   try {
-    const response = await discordApiClient.registerCommand({
-      name,
-      description,
-      options,
-    });
+    const response = await discordApiClient.registerCommand(command);
     logger.info('Slash command created', {
       commandId: response.id,
       name: response.name,
@@ -73,6 +69,7 @@ const onCreate = async (event: OnEventRequest, discordApiClient: DiscordApiClien
       Data: {
         commandId: response.id,
         name: response.name,
+        command: event.ResourceProperties.command,
       },
     };
   } catch (error) {
@@ -81,23 +78,10 @@ const onCreate = async (event: OnEventRequest, discordApiClient: DiscordApiClien
   }
 };
 
-const onUpdate = async (event: OnEventRequest, apiClient: DiscordApiClient): Promise<OnEventResponse> => {
-  const oldProps = event.OldResourceProperties as unknown as SlashCommandResourceProps;
-  const newProps = event.ResourceProperties as unknown as SlashCommandResourceProps;
-  const { name, description, options } = newProps;
-  logger.info('Updating slash command', { name, description, options });
-
-  if (oldProps.name !== newProps.name) {
-    logger.info('Name is different, deleting old command and creating new one');
-    await onDelete(event, apiClient);
-  }
-
-  return await onCreate(event, apiClient);
-};
-
 const onDelete = async (event: OnEventRequest, apiClient: DiscordApiClient): Promise<OnEventResponse> => {
-  const props = event.ResourceProperties as unknown as SlashCommandResourceProps;
-  const { name } = props;
+  const payload = Buffer.from(event.ResourceProperties.command, 'base64').toString('utf-8');
+  const command = JSON.parse(payload) as RESTPostAPIChatInputApplicationCommandsJSONBody;
+  const { name } = command;
   logger.info('Deleting slash command', { name });
 
   try {

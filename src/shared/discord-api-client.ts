@@ -1,10 +1,10 @@
 import type { Logger } from '@aws-lambda-powertools/logger';
 import axios, { type AxiosInstance, type AxiosResponse, type RawAxiosRequestHeaders } from 'axios';
-import {
-  type APIApplicationCommand,
-  ApplicationCommandType,
-  type RESTPostAPIChatInputApplicationCommandsJSONBody,
-  type RESTPostAPIWebhookWithTokenJSONBody,
+import axiosRetry from 'axios-retry';
+import type {
+  APIApplicationCommand,
+  RESTPostAPIChatInputApplicationCommandsJSONBody,
+  RESTPostAPIWebhookWithTokenJSONBody,
 } from 'discord-api-types/v10';
 
 const SEND_FOLLOWUP_MESSAGE_ENDPOINT = '/webhooks/:app_id/:interaction_token';
@@ -12,6 +12,7 @@ const REGISTER_GLOBAL_COMMAND_ENDPOINT = 'applications/:app_id/commands';
 const REGISTER_GUILD_COMMAND_ENDPOINT = 'applications/:app_id/guilds/:guild_id/commands';
 const DELETE_GLOBAL_COMMAND_ENDPOINT = 'applications/:app_id/commands/:command_id';
 const DELETE_GUILD_COMMAND_ENDPOINT = 'applications/:app_id/guilds/:guild_id/commands/:command_id';
+const SEND_GUILD_CHANNEL_MESSAGE_ENDPOINT = '/channels/:channel_id/messages';
 
 export class DiscordApiClient {
   private readonly api: AxiosInstance;
@@ -56,6 +57,35 @@ export class DiscordApiClient {
         });
         return response;
       });
+
+      axiosRetry(this.api, {
+        retries: 5,
+        shouldResetTimeout: true,
+        retryDelay: axiosRetry.exponentialDelay,
+        retryCondition: (error) => {
+          const status = error?.response?.status;
+          const retryStatusCodes = [429, 500, 502, 503, 504];
+          if (status && retryStatusCodes.includes(status)) {
+            return true;
+          }
+          const networkErrors = [
+            'ECONNABORTED',
+            'ENOTFOUND',
+            'ECONNREFUSED',
+            'ECONNRESET',
+            'EPIPE',
+            'ETIMEDOUT',
+            'EHOSTUNREACH',
+            'EAI_AGAIN',
+          ];
+          return !!(error.code && networkErrors.includes(error.code));
+        },
+        onRetry: (retryCount, error, requestConfig) => {
+          this.logger?.warn(
+            `Retrying request to "${requestConfig.url}" due to error "${error.message}". Attempt #${retryCount}`
+          );
+        },
+      });
     }
   }
 
@@ -69,23 +99,28 @@ export class DiscordApiClient {
     } as RESTPostAPIWebhookWithTokenJSONBody);
   }
 
+  async postMessageToChannel(channelId: string, message: string) {
+    if (!this.botToken) {
+      throw new Error('Bot token is required to send messages!');
+    }
+
+    const endpoint = SEND_GUILD_CHANNEL_MESSAGE_ENDPOINT.replace(':channel_id', channelId);
+    await this.api.post(endpoint, {
+      content: message,
+    });
+  }
+
   async registerCommand(command: RESTPostAPIChatInputApplicationCommandsJSONBody) {
     if (!this.botToken) {
       throw new Error('Bot token is required to register commands!');
     }
-    const { name, description, options } = command;
     let endpoint = this.guildId ? REGISTER_GUILD_COMMAND_ENDPOINT : REGISTER_GLOBAL_COMMAND_ENDPOINT;
     endpoint = endpoint.replace(':app_id', this.appId);
     if (this.guildId) {
       endpoint = endpoint.replace(':guild_id', this.guildId);
     }
-    this.logger?.info('Registering command', { endpoint, name, description, options });
-    const response: AxiosResponse<APIApplicationCommand> = await this.api.post(endpoint, {
-      type: ApplicationCommandType.ChatInput, // Supporting slash commands only for now
-      name,
-      description,
-      options,
-    });
+    this.logger?.info('Registering command', { endpoint, command });
+    const response: AxiosResponse<APIApplicationCommand> = await this.api.post(endpoint, command);
     return response.data;
   }
 
@@ -99,7 +134,7 @@ export class DiscordApiClient {
       endpoint = endpoint.replace(':guild_id', this.guildId);
     }
     endpoint = endpoint.replace(':command_id', commandId);
-    this.logger?.info('Deleting command', { endpoint });
+    this.logger?.info('Deleting command', { commandId, endpoint });
     await this.api.delete(endpoint);
   }
 }

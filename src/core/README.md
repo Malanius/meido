@@ -1,8 +1,8 @@
-# 🧩 Core Module
+# ⚙ Core Module
 
 The **Core Module** is the central entry point and shared infrastructure for the bot. It handles incoming interactions, signature verification, and provides the plumbing to route both Discord interactions and database changes via EventBridge.
 
-## Responsibilities
+## ✨ Features
 
 - **Signature & input handling**  
   - `InteractionHandler` Lambda verifies Discord request signatures  
@@ -25,7 +25,7 @@ The **Core Module** is the central entry point and shared infrastructure for the
   - PK/SK pattern `<module>#<entity>#<id>` for all modules to share  
   - Streams enabled (NEW_AND_OLD_IMAGES) for cross‐module triggers
 
-## Components
+## 🧩 Components
 
 - **Lambda:** `InteractionHandler` - uses Lambda function URL for receiving events from Discord
 - **SecretsManager**: `DiscordSecrets`: - fill this after core stack creation, used for command registration while deploying commands modules
@@ -43,7 +43,7 @@ The **Core Module** is the central entry point and shared infrastructure for the
 - **DynamoDB Table:** `Database` - single table provided for rest of the modules, not directly used by core
 - **Lambda** `DynamoBridge` - parses and forwards DynamoDB stream events to event bus
 
-## Architecture
+## 🏗 Architecture
 
 ```mermaid
 architecture-beta

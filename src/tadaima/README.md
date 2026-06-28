@@ -2,7 +2,7 @@
 
 A minimal proof-of-concept command that responds to `/tadaima` command. Served as test for the bot's infrastructure and interaction handling along with the CDK custom resource for command registration.
 
-## Features
+## ✨ Features
 
 - Responds to `/tadaima` with greeting "Welcome home!" with time took to respond
 - If called by master user, adds "master" to the reply
@@ -11,11 +11,11 @@ A minimal proof-of-concept command that responds to `/tadaima` command. Served a
 - Uses follow-up messaging via the interaction token, token is enough to respond to the interaction without having to read secrets
 - Serves as a template for other command modules
 
-## Components
+## 🧩 Components
 
 - **Lambda Function** `TadaimaHandler` - Responds to the `/tadaima` command interaction
 
-## Architecture
+## 🏗 Architecture
 
 ```mermaid
 architecture-beta

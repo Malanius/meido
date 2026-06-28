@@ -2,3 +2,17 @@
 node = { version = "22", postinstall = "corepack enable" }
 bun = "latest"
 "npm:aws-cdk" = "latest"
+
+[tasks.diff]
+description = "Diff the CDK stack against the deployed stacks of specified environment"
+usage = '''
+arg "<env>" help="The target environment to diff against" default="dev"
+'''
+run = "cdk diff ${usage_env?}/*"
+
+[tasks.deploy]
+description = "Deploy the CDK stacks to the specified environment"
+usage = '''
+arg "<env>" help="The target environment to deploy to" default="dev"
+'''
+run = "cdk deploy ${usage_env?}/*"

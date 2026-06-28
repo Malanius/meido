@@ -60,31 +60,16 @@
           "spawn": "bundle:tadaima/tadaima.lambda"
         },
         {
-          "spawn": "bundle:core/database/dynamo-bridge.lambda"
-        },
-        {
           "spawn": "bundle:core/interaction-handler/interaction-handler.lambda"
         },
         {
+          "spawn": "bundle:journal/broadcaster/brodcast-handler.lambda"
+        },
+        {
+          "spawn": "bundle:journal/subscription-manager/subscription-manager.lambda"
+        },
+        {
           "spawn": "bundle:shared/discord-slash-command/register-slash-command.lambda"
-        }
-      ]
-    },
-    "bundle:core/database/dynamo-bridge.lambda": {
-      "name": "bundle:core/database/dynamo-bridge.lambda",
-      "description": "Create a JavaScript bundle from src/core/database/dynamo-bridge.lambda.ts",
-      "steps": [
-        {
-          "exec": "esbuild --bundle src/core/database/dynamo-bridge.lambda.ts --target=\"node22\" --platform=\"node\" --outfile=\"assets/core/database/dynamo-bridge.lambda/index.js\" --tsconfig=\"tsconfig.dev.json\" --sourcemap"
-        }
-      ]
-    },
-    "bundle:core/database/dynamo-bridge.lambda:watch": {
-      "name": "bundle:core/database/dynamo-bridge.lambda:watch",
-      "description": "Continuously update the JavaScript bundle from src/core/database/dynamo-bridge.lambda.ts",
-      "steps": [
-        {
-          "exec": "esbuild --bundle src/core/database/dynamo-bridge.lambda.ts --target=\"node22\" --platform=\"node\" --outfile=\"assets/core/database/dynamo-bridge.lambda/index.js\" --tsconfig=\"tsconfig.dev.json\" --sourcemap --watch"
         }
       ]
     },
@@ -103,6 +88,42 @@
       "steps": [
         {
           "exec": "esbuild --bundle src/core/interaction-handler/interaction-handler.lambda.ts --target=\"node22\" --platform=\"node\" --outfile=\"assets/core/interaction-handler/interaction-handler.lambda/index.js\" --tsconfig=\"tsconfig.dev.json\" --sourcemap --watch"
+        }
+      ]
+    },
+    "bundle:journal/broadcaster/brodcast-handler.lambda": {
+      "name": "bundle:journal/broadcaster/brodcast-handler.lambda",
+      "description": "Create a JavaScript bundle from src/journal/broadcaster/brodcast-handler.lambda.ts",
+      "steps": [
+        {
+          "exec": "esbuild --bundle src/journal/broadcaster/brodcast-handler.lambda.ts --target=\"node22\" --platform=\"node\" --outfile=\"assets/journal/broadcaster/brodcast-handler.lambda/index.js\" --tsconfig=\"tsconfig.dev.json\" --sourcemap"
+        }
+      ]
+    },
+    "bundle:journal/broadcaster/brodcast-handler.lambda:watch": {
+      "name": "bundle:journal/broadcaster/brodcast-handler.lambda:watch",
+      "description": "Continuously update the JavaScript bundle from src/journal/broadcaster/brodcast-handler.lambda.ts",
+      "steps": [
+        {
+          "exec": "esbuild --bundle src/journal/broadcaster/brodcast-handler.lambda.ts --target=\"node22\" --platform=\"node\" --outfile=\"assets/journal/broadcaster/brodcast-handler.lambda/index.js\" --tsconfig=\"tsconfig.dev.json\" --sourcemap --watch"
+        }
+      ]
+    },
+    "bundle:journal/subscription-manager/subscription-manager.lambda": {
+      "name": "bundle:journal/subscription-manager/subscription-manager.lambda",
+      "description": "Create a JavaScript bundle from src/journal/subscription-manager/subscription-manager.lambda.ts",
+      "steps": [
+        {
+          "exec": "esbuild --bundle src/journal/subscription-manager/subscription-manager.lambda.ts --target=\"node22\" --platform=\"node\" --outfile=\"assets/journal/subscription-manager/subscription-manager.lambda/index.js\" --tsconfig=\"tsconfig.dev.json\" --sourcemap"
+        }
+      ]
+    },
+    "bundle:journal/subscription-manager/subscription-manager.lambda:watch": {
+      "name": "bundle:journal/subscription-manager/subscription-manager.lambda:watch",
+      "description": "Continuously update the JavaScript bundle from src/journal/subscription-manager/subscription-manager.lambda.ts",
+      "steps": [
+        {
+          "exec": "esbuild --bundle src/journal/subscription-manager/subscription-manager.lambda.ts --target=\"node22\" --platform=\"node\" --outfile=\"assets/journal/subscription-manager/subscription-manager.lambda/index.js\" --tsconfig=\"tsconfig.dev.json\" --sourcemap --watch"
         }
       ]
     },
@@ -413,13 +434,13 @@
       },
       "steps": [
         {
-          "exec": "bunx npm-check-updates@18 --upgrade --target=minor --peer --no-deprecated --dep=dev,peer,prod,optional --filter=@commitlint/config-conventional,@types/aws-lambda,@types/jest,@types/node,commitlint,cz-conventional-changelog,discord-api-types,esbuild,jest,lefthook,projen,ts-jest,ts-node,tsconfig-paths,typescript,@middy/core,axios,tweetnacl"
+          "exec": "bunx npm-check-updates@18 --upgrade --target=minor --peer --no-deprecated --dep=dev,peer,prod,optional --filter=@commitlint/config-conventional,@types/aws-lambda,@types/jest,@types/node,commitlint,cz-conventional-changelog,discord-api-types,esbuild,jest,lefthook,projen,ts-jest,ts-node,tsconfig-paths,typescript,@middy/core,axios,axios-retry,tweetnacl"
         },
         {
           "exec": "bun install"
         },
         {
-          "exec": "bun update @biomejs/biome @commitlint/config-conventional @types/aws-lambda @types/jest @types/node aws-cdk commit-and-tag-version commitlint cz-conventional-changelog discord-api-types esbuild jest jest-junit lefthook projen ts-jest ts-node tsconfig-paths typescript @aws-lambda-powertools/batch @aws-lambda-powertools/logger @aws-lambda-powertools/parameters @aws-lambda-powertools/parser @aws-lambda-powertools/tracer @aws-lambda-powertools/validation @aws-sdk/client-dynamodb @aws-sdk/client-eventbridge @aws-sdk/client-secrets-manager @aws-sdk/lib-dynamodb @middy/core aws-cdk-lib axios constructs tweetnacl zod"
+          "exec": "bun update @biomejs/biome @commitlint/config-conventional @types/aws-lambda @types/jest @types/node aws-cdk commit-and-tag-version commitlint cz-conventional-changelog discord-api-types esbuild jest jest-junit lefthook projen ts-jest ts-node tsconfig-paths typescript @aws-cdk/aws-pipes-alpha @aws-cdk/aws-pipes-sources-alpha @aws-cdk/aws-pipes-targets-alpha @aws-lambda-powertools/batch @aws-lambda-powertools/logger @aws-lambda-powertools/parameters @aws-lambda-powertools/parser @aws-lambda-powertools/tracer @aws-lambda-powertools/validation @aws-sdk/client-dynamodb @aws-sdk/client-eventbridge @aws-sdk/client-secrets-manager @aws-sdk/lib-dynamodb @middy/core aws-cdk-lib axios axios-retry constructs tweetnacl zod"
         },
         {
           "exec": "npx projen"

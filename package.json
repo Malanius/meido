@@ -5,10 +5,12 @@
     "build": "npx projen build",
     "bump": "npx projen bump",
     "bundle": "npx projen bundle",
-    "bundle:core/database/dynamo-bridge.lambda": "npx projen bundle:core/database/dynamo-bridge.lambda",
-    "bundle:core/database/dynamo-bridge.lambda:watch": "npx projen bundle:core/database/dynamo-bridge.lambda:watch",
     "bundle:core/interaction-handler/interaction-handler.lambda": "npx projen bundle:core/interaction-handler/interaction-handler.lambda",
     "bundle:core/interaction-handler/interaction-handler.lambda:watch": "npx projen bundle:core/interaction-handler/interaction-handler.lambda:watch",
+    "bundle:journal/broadcaster/brodcast-handler.lambda": "npx projen bundle:journal/broadcaster/brodcast-handler.lambda",
+    "bundle:journal/broadcaster/brodcast-handler.lambda:watch": "npx projen bundle:journal/broadcaster/brodcast-handler.lambda:watch",
+    "bundle:journal/subscription-manager/subscription-manager.lambda": "npx projen bundle:journal/subscription-manager/subscription-manager.lambda",
+    "bundle:journal/subscription-manager/subscription-manager.lambda:watch": "npx projen bundle:journal/subscription-manager/subscription-manager.lambda:watch",
     "bundle:shared/discord-slash-command/register-slash-command.lambda": "npx projen bundle:shared/discord-slash-command/register-slash-command.lambda",
     "bundle:shared/discord-slash-command/register-slash-command.lambda:watch": "npx projen bundle:shared/discord-slash-command/register-slash-command.lambda:watch",
     "bundle:tadaima/tadaima.lambda": "npx projen bundle:tadaima/tadaima.lambda",
@@ -65,6 +67,9 @@
     "typescript": "^5.9.3"
   },
   "dependencies": {
+    "@aws-cdk/aws-pipes-alpha": "2.243.0-alpha.0",
+    "@aws-cdk/aws-pipes-sources-alpha": "2.243.0-alpha.0",
+    "@aws-cdk/aws-pipes-targets-alpha": "2.243.0-alpha.0",
     "@aws-lambda-powertools/batch": "2.31.0",
     "@aws-lambda-powertools/logger": "2.31.0",
     "@aws-lambda-powertools/parameters": "2.31.0",
@@ -78,6 +83,7 @@
     "@middy/core": "^6.4.5",
     "aws-cdk-lib": "2.243.0",
     "axios": "^1.13.6",
+    "axios-retry": "^4.5.0",
     "constructs": "^10.5.1",
     "tweetnacl": "^1.0.3",
     "zod": "~4"

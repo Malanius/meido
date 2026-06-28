@@ -3,12 +3,14 @@ import { Aspects, Duration, RemovalPolicy, Stack, Tag } from 'aws-cdk-lib';
 import { EventBus, Rule } from 'aws-cdk-lib/aws-events';
 import { LambdaFunction } from 'aws-cdk-lib/aws-events-targets';
 import { LogGroup, RetentionDays } from 'aws-cdk-lib/aws-logs';
+import { Queue } from 'aws-cdk-lib/aws-sqs';
 import type { Construct } from 'constructs';
 import { DiscordSlashCommand } from '@/shared/discord-slash-command/discord-slash-command';
 import { EventsSource } from '@/shared/event-source';
 import { commonFunctionEnvironment } from '@/shared/functions/common-env';
 import { commonFunctionProps } from '@/shared/functions/common-props';
 import type { AppInfo } from '@/types';
+import { tadaimaCommand } from './commands';
 import { TadaimaFunction } from './tadaima-function';
 
 const MODULE = 'tadaima';
@@ -21,13 +23,20 @@ export class Tadaima extends Stack {
 
     const { appName, appStage } = props;
     const eventsBusName = `${appName}-${appStage}`;
+    const region = Stack.of(this).region;
+    const account = Stack.of(this).account;
 
     const eventBus = EventBus.fromEventBusName(this, 'EventsBus', eventsBusName);
 
+    const deadLetterQueue = Queue.fromQueueArn(
+      this,
+      'DeadLetterQueue',
+      `arn:aws:sqs:${region}:${account}:${appName}-${appStage}-dlq`
+    );
+
     const command = new DiscordSlashCommand(this, 'TadaimaCommand', {
       ...props,
-      name: 'tadaima',
-      description: 'Greets you with a warm welcome!',
+      command: tadaimaCommand,
     });
 
     const logGroup = new LogGroup(this, 'LogGroup', {
@@ -55,6 +64,7 @@ export class Tadaima extends Stack {
         new LambdaFunction(tadaimaHandler, {
           maxEventAge: Duration.minutes(1),
           retryAttempts: 2,
+          deadLetterQueue,
         }),
       ],
       description: `/${MODULE}`,

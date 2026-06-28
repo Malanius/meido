@@ -6,6 +6,7 @@
   - [❓ Can Discord bots be built using serverless technologies?](#-can-discord-bots-be-built-using-serverless-technologies)
   - [🧩 Modules](#-modules)
     - [⚙ Core Module](#-core-module)
+    - [📝 Journal Module](#-journal-module)
     - [🏠 ただいま (tadaima) module](#-ただいま-tadaima-module)
   - [🛠 Local Development](#-local-development)
     - [📦 Prerequisites](#-prerequisites)
@@ -27,6 +28,18 @@ The **Core Module** is the central entry point and shared infrastructure for the
 > See [module docs](src/core/README.md) for more details.
 
 <!-- TODO: include core module docs -->
+
+---
+
+### 📝 Journal Module
+
+The **Journal module** allows Meido to gracefully announce her newly acquired skills, improvements, and duties. Users may subscribe one channel per server to these updates to be kept informed of Meido’s capabilities as she continues to serve with excellence.
+
+This module is tightly integrated with Meido’s deployment pipeline: each newly published skill update is inserted as a journal entry into DynamoDB, triggering a cascade that notifies all subscribers.
+
+> See [module docs](src/journal/README.md) for more details.
+
+<!-- TODO: include journal module docs -->
 
 ---
 
