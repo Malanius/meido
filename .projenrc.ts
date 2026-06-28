@@ -31,6 +31,9 @@ const project = new awscdk.AwsCdkTypeScriptApp({
     },
   },
 
+  // No need for this with bun tests
+  jest: false,
+
   biome: true,
   biomeOptions,
 

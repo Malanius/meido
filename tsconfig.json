@@ -28,7 +28,6 @@
     "target": "ES2022",
     "types": [
       "aws-lambda",
-      "jest",
       "node"
     ],
     "moduleResolution": "nodenext",
