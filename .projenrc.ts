@@ -21,12 +21,6 @@ const project = new awscdk.AwsCdkTypeScriptApp({
   authorName: 'Michal Slota',
   authorEmail: 'malaniusprivierre@gmail.com',
 
-  scripts: {
-    prepare: 'npx lefthook install',
-    check: 'npx @biomejs/biome check --write',
-    'check:staged': 'npx @biomejs/biome check --write --staged',
-  },
-
   projenrcTs: true,
   tsconfig: {
     compilerOptions: {
@@ -80,6 +74,21 @@ const project = new awscdk.AwsCdkTypeScriptApp({
     'ts-node',
     'tsconfig-paths',
   ],
+});
+
+project.addTask('prepare', {
+  description: 'Prepare the project for development',
+  exec: 'bunx lefthook install',
+});
+
+project.addTask('check', {
+  description: 'Check the code style and formatting',
+  exec: 'bunx biome check --write',
+});
+
+project.addTask('check:staged', {
+  description: 'Check the code style and formatting for staged files',
+  exec: 'bunx biome check --write --staged',
 });
 
 project.synth();

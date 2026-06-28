@@ -1,44 +1,44 @@
 {
   "name": "meido",
   "scripts": {
-    "biome": "npx projen biome",
-    "build": "npx projen build",
-    "bump": "npx projen bump",
-    "bundle": "npx projen bundle",
-    "bundle:core/interaction-handler/interaction-handler.lambda": "npx projen bundle:core/interaction-handler/interaction-handler.lambda",
-    "bundle:core/interaction-handler/interaction-handler.lambda:watch": "npx projen bundle:core/interaction-handler/interaction-handler.lambda:watch",
-    "bundle:journal/broadcaster/brodcast-handler.lambda": "npx projen bundle:journal/broadcaster/brodcast-handler.lambda",
-    "bundle:journal/broadcaster/brodcast-handler.lambda:watch": "npx projen bundle:journal/broadcaster/brodcast-handler.lambda:watch",
-    "bundle:journal/subscription-manager/subscription-manager.lambda": "npx projen bundle:journal/subscription-manager/subscription-manager.lambda",
-    "bundle:journal/subscription-manager/subscription-manager.lambda:watch": "npx projen bundle:journal/subscription-manager/subscription-manager.lambda:watch",
-    "bundle:shared/discord-slash-command/register-slash-command.lambda": "npx projen bundle:shared/discord-slash-command/register-slash-command.lambda",
-    "bundle:shared/discord-slash-command/register-slash-command.lambda:watch": "npx projen bundle:shared/discord-slash-command/register-slash-command.lambda:watch",
-    "bundle:tadaima/tadaima.lambda": "npx projen bundle:tadaima/tadaima.lambda",
-    "bundle:tadaima/tadaima.lambda:watch": "npx projen bundle:tadaima/tadaima.lambda:watch",
-    "check": "npx projen check",
-    "check:staged": "npx projen check:staged",
-    "clobber": "npx projen clobber",
-    "compile": "npx projen compile",
-    "default": "npx projen default",
-    "deploy": "npx projen deploy",
-    "destroy": "npx projen destroy",
-    "diff": "npx projen diff",
-    "eject": "npx projen eject",
-    "package": "npx projen package",
-    "post-compile": "npx projen post-compile",
-    "post-upgrade": "npx projen post-upgrade",
-    "pre-compile": "npx projen pre-compile",
-    "prepare": "npx projen prepare",
-    "publish:git": "npx projen publish:git",
-    "release": "npx projen release",
-    "synth": "npx projen synth",
-    "synth:silent": "npx projen synth:silent",
-    "test": "npx projen test",
-    "test:watch": "npx projen test:watch",
-    "unbump": "npx projen unbump",
-    "upgrade": "npx projen upgrade",
-    "watch": "npx projen watch",
-    "projen": "npx projen"
+    "biome": "projen biome",
+    "build": "projen build",
+    "bump": "projen bump",
+    "bundle": "projen bundle",
+    "bundle:core/interaction-handler/interaction-handler.lambda": "projen bundle:core/interaction-handler/interaction-handler.lambda",
+    "bundle:core/interaction-handler/interaction-handler.lambda:watch": "projen bundle:core/interaction-handler/interaction-handler.lambda:watch",
+    "bundle:journal/broadcaster/brodcast-handler.lambda": "projen bundle:journal/broadcaster/brodcast-handler.lambda",
+    "bundle:journal/broadcaster/brodcast-handler.lambda:watch": "projen bundle:journal/broadcaster/brodcast-handler.lambda:watch",
+    "bundle:journal/subscription-manager/subscription-manager.lambda": "projen bundle:journal/subscription-manager/subscription-manager.lambda",
+    "bundle:journal/subscription-manager/subscription-manager.lambda:watch": "projen bundle:journal/subscription-manager/subscription-manager.lambda:watch",
+    "bundle:shared/discord-slash-command/register-slash-command.lambda": "projen bundle:shared/discord-slash-command/register-slash-command.lambda",
+    "bundle:shared/discord-slash-command/register-slash-command.lambda:watch": "projen bundle:shared/discord-slash-command/register-slash-command.lambda:watch",
+    "bundle:tadaima/tadaima.lambda": "projen bundle:tadaima/tadaima.lambda",
+    "bundle:tadaima/tadaima.lambda:watch": "projen bundle:tadaima/tadaima.lambda:watch",
+    "check": "projen check",
+    "check:staged": "projen check:staged",
+    "clobber": "projen clobber",
+    "compile": "projen compile",
+    "default": "projen default",
+    "deploy": "projen deploy",
+    "destroy": "projen destroy",
+    "diff": "projen diff",
+    "eject": "projen eject",
+    "package": "projen package",
+    "post-compile": "projen post-compile",
+    "post-upgrade": "projen post-upgrade",
+    "pre-compile": "projen pre-compile",
+    "prepare": "projen prepare",
+    "publish:git": "projen publish:git",
+    "release": "projen release",
+    "synth": "projen synth",
+    "synth:silent": "projen synth:silent",
+    "test": "projen test",
+    "test:watch": "projen test:watch",
+    "unbump": "projen unbump",
+    "upgrade": "projen upgrade",
+    "watch": "projen watch",
+    "projen": "projen"
   },
   "author": {
     "name": "Michal Slota",
@@ -88,6 +88,12 @@
     "tweetnacl": "^1.0.3",
     "zod": "~4"
   },
+  "devEngines": {
+    "packageManager": {
+      "name": "bun",
+      "onFail": "ignore"
+    }
+  },
   "license": "Apache-2.0",
   "publishConfig": {
     "access": "public"
@@ -133,10 +139,10 @@
       "^.+\\.[t]sx?$": [
         "ts-jest",
         {
-          "tsconfig": "tsconfig.dev.json"
+          "tsconfig": "test/tsconfig.json"
         }
       ]
     }
   },
-  "//": "~~ Generated by projen. To modify, edit .projenrc.ts and run \"npx projen\"."
+  "//": "~~ Generated by projen. To modify, edit .projenrc.ts and run \"bunx projen\"."
 }
