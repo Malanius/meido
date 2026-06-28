@@ -3,7 +3,7 @@ import { NodePackageManager } from 'projen/lib/javascript/node-package';
 import { ReleaseTrigger } from 'projen/lib/release';
 import { biomeOptions } from './.projenrc.biome';
 
-const cdkVersion = '2.243.0';
+const cdkVersion = '2.260.0';
 const powertoolsVersion = '2.31.0';
 const sdkVersion = '3.1009.0';
 
@@ -21,27 +21,23 @@ const project = new awscdk.AwsCdkTypeScriptApp({
   authorName: 'Michal Slota',
   authorEmail: 'malaniusprivierre@gmail.com',
 
-  scripts: {
-    prepare: 'npx lefthook install',
-    check: 'npx @biomejs/biome check --write',
-    'check:staged': 'npx @biomejs/biome check --write --staged',
-  },
-
   projenrcTs: true,
   tsconfig: {
     compilerOptions: {
-      baseUrl: '.',
       paths: {
-        '@/*': ['src/*'],
+        '@/*': ['./src/*'],
       },
     },
   },
+
+  // No need for this with bun tests
+  jest: false,
 
   biome: true,
   biomeOptions,
 
   lambdaOptions: {
-    runtime: awscdk.LambdaRuntime.NODEJS_22_X,
+    runtime: awscdk.LambdaRuntime.NODEJS_24_X,
     awsSdkConnectionReuse: true,
     bundlingOptions: {
       externals: [],
@@ -80,6 +76,21 @@ const project = new awscdk.AwsCdkTypeScriptApp({
     'ts-node',
     'tsconfig-paths',
   ],
+});
+
+project.addTask('prepare', {
+  description: 'Prepare the project for development',
+  exec: 'bunx lefthook install',
+});
+
+project.addTask('check', {
+  description: 'Check the code style and formatting',
+  exec: 'bunx biome check --write',
+});
+
+project.addTask('check:staged', {
+  description: 'Check the code style and formatting for staged files',
+  exec: 'bunx biome check --write --staged',
 });
 
 project.synth();

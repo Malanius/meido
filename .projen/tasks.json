@@ -1,4 +1,8 @@
 {
+  "manifestVersion": 2,
+  "env": {
+    "PATH": "$(bun --eval \"console.log(process.env.PATH)\")"
+  },
   "tasks": {
     "biome": {
       "name": "biome",
@@ -78,7 +82,7 @@
       "description": "Create a JavaScript bundle from src/core/interaction-handler/interaction-handler.lambda.ts",
       "steps": [
         {
-          "exec": "esbuild --bundle src/core/interaction-handler/interaction-handler.lambda.ts --target=\"node22\" --platform=\"node\" --outfile=\"assets/core/interaction-handler/interaction-handler.lambda/index.js\" --tsconfig=\"tsconfig.dev.json\" --sourcemap"
+          "exec": "esbuild --bundle src/core/interaction-handler/interaction-handler.lambda.ts --target=\"node24\" --platform=\"node\" --outfile=\"assets/core/interaction-handler/interaction-handler.lambda/index.js\" --tsconfig=\"test/tsconfig.json\" --sourcemap"
         }
       ]
     },
@@ -87,7 +91,7 @@
       "description": "Continuously update the JavaScript bundle from src/core/interaction-handler/interaction-handler.lambda.ts",
       "steps": [
         {
-          "exec": "esbuild --bundle src/core/interaction-handler/interaction-handler.lambda.ts --target=\"node22\" --platform=\"node\" --outfile=\"assets/core/interaction-handler/interaction-handler.lambda/index.js\" --tsconfig=\"tsconfig.dev.json\" --sourcemap --watch"
+          "exec": "esbuild --bundle src/core/interaction-handler/interaction-handler.lambda.ts --target=\"node24\" --platform=\"node\" --outfile=\"assets/core/interaction-handler/interaction-handler.lambda/index.js\" --tsconfig=\"test/tsconfig.json\" --sourcemap --watch"
         }
       ]
     },
@@ -96,7 +100,7 @@
       "description": "Create a JavaScript bundle from src/journal/broadcaster/brodcast-handler.lambda.ts",
       "steps": [
         {
-          "exec": "esbuild --bundle src/journal/broadcaster/brodcast-handler.lambda.ts --target=\"node22\" --platform=\"node\" --outfile=\"assets/journal/broadcaster/brodcast-handler.lambda/index.js\" --tsconfig=\"tsconfig.dev.json\" --sourcemap"
+          "exec": "esbuild --bundle src/journal/broadcaster/brodcast-handler.lambda.ts --target=\"node24\" --platform=\"node\" --outfile=\"assets/journal/broadcaster/brodcast-handler.lambda/index.js\" --tsconfig=\"test/tsconfig.json\" --sourcemap"
         }
       ]
     },
@@ -105,7 +109,7 @@
       "description": "Continuously update the JavaScript bundle from src/journal/broadcaster/brodcast-handler.lambda.ts",
       "steps": [
         {
-          "exec": "esbuild --bundle src/journal/broadcaster/brodcast-handler.lambda.ts --target=\"node22\" --platform=\"node\" --outfile=\"assets/journal/broadcaster/brodcast-handler.lambda/index.js\" --tsconfig=\"tsconfig.dev.json\" --sourcemap --watch"
+          "exec": "esbuild --bundle src/journal/broadcaster/brodcast-handler.lambda.ts --target=\"node24\" --platform=\"node\" --outfile=\"assets/journal/broadcaster/brodcast-handler.lambda/index.js\" --tsconfig=\"test/tsconfig.json\" --sourcemap --watch"
         }
       ]
     },
@@ -114,7 +118,7 @@
       "description": "Create a JavaScript bundle from src/journal/subscription-manager/subscription-manager.lambda.ts",
       "steps": [
         {
-          "exec": "esbuild --bundle src/journal/subscription-manager/subscription-manager.lambda.ts --target=\"node22\" --platform=\"node\" --outfile=\"assets/journal/subscription-manager/subscription-manager.lambda/index.js\" --tsconfig=\"tsconfig.dev.json\" --sourcemap"
+          "exec": "esbuild --bundle src/journal/subscription-manager/subscription-manager.lambda.ts --target=\"node24\" --platform=\"node\" --outfile=\"assets/journal/subscription-manager/subscription-manager.lambda/index.js\" --tsconfig=\"test/tsconfig.json\" --sourcemap"
         }
       ]
     },
@@ -123,7 +127,7 @@
       "description": "Continuously update the JavaScript bundle from src/journal/subscription-manager/subscription-manager.lambda.ts",
       "steps": [
         {
-          "exec": "esbuild --bundle src/journal/subscription-manager/subscription-manager.lambda.ts --target=\"node22\" --platform=\"node\" --outfile=\"assets/journal/subscription-manager/subscription-manager.lambda/index.js\" --tsconfig=\"tsconfig.dev.json\" --sourcemap --watch"
+          "exec": "esbuild --bundle src/journal/subscription-manager/subscription-manager.lambda.ts --target=\"node24\" --platform=\"node\" --outfile=\"assets/journal/subscription-manager/subscription-manager.lambda/index.js\" --tsconfig=\"test/tsconfig.json\" --sourcemap --watch"
         }
       ]
     },
@@ -132,7 +136,7 @@
       "description": "Create a JavaScript bundle from src/shared/discord-slash-command/register-slash-command.lambda.ts",
       "steps": [
         {
-          "exec": "esbuild --bundle src/shared/discord-slash-command/register-slash-command.lambda.ts --target=\"node22\" --platform=\"node\" --outfile=\"assets/shared/discord-slash-command/register-slash-command.lambda/index.js\" --tsconfig=\"tsconfig.dev.json\" --sourcemap"
+          "exec": "esbuild --bundle src/shared/discord-slash-command/register-slash-command.lambda.ts --target=\"node24\" --platform=\"node\" --outfile=\"assets/shared/discord-slash-command/register-slash-command.lambda/index.js\" --tsconfig=\"test/tsconfig.json\" --sourcemap"
         }
       ]
     },
@@ -141,7 +145,7 @@
       "description": "Continuously update the JavaScript bundle from src/shared/discord-slash-command/register-slash-command.lambda.ts",
       "steps": [
         {
-          "exec": "esbuild --bundle src/shared/discord-slash-command/register-slash-command.lambda.ts --target=\"node22\" --platform=\"node\" --outfile=\"assets/shared/discord-slash-command/register-slash-command.lambda/index.js\" --tsconfig=\"tsconfig.dev.json\" --sourcemap --watch"
+          "exec": "esbuild --bundle src/shared/discord-slash-command/register-slash-command.lambda.ts --target=\"node24\" --platform=\"node\" --outfile=\"assets/shared/discord-slash-command/register-slash-command.lambda/index.js\" --tsconfig=\"test/tsconfig.json\" --sourcemap --watch"
         }
       ]
     },
@@ -150,7 +154,7 @@
       "description": "Create a JavaScript bundle from src/tadaima/tadaima.lambda.ts",
       "steps": [
         {
-          "exec": "esbuild --bundle src/tadaima/tadaima.lambda.ts --target=\"node22\" --platform=\"node\" --outfile=\"assets/tadaima/tadaima.lambda/index.js\" --tsconfig=\"tsconfig.dev.json\" --sourcemap"
+          "exec": "esbuild --bundle src/tadaima/tadaima.lambda.ts --target=\"node24\" --platform=\"node\" --outfile=\"assets/tadaima/tadaima.lambda/index.js\" --tsconfig=\"test/tsconfig.json\" --sourcemap"
         }
       ]
     },
@@ -159,23 +163,25 @@
       "description": "Continuously update the JavaScript bundle from src/tadaima/tadaima.lambda.ts",
       "steps": [
         {
-          "exec": "esbuild --bundle src/tadaima/tadaima.lambda.ts --target=\"node22\" --platform=\"node\" --outfile=\"assets/tadaima/tadaima.lambda/index.js\" --tsconfig=\"tsconfig.dev.json\" --sourcemap --watch"
+          "exec": "esbuild --bundle src/tadaima/tadaima.lambda.ts --target=\"node24\" --platform=\"node\" --outfile=\"assets/tadaima/tadaima.lambda/index.js\" --tsconfig=\"test/tsconfig.json\" --sourcemap --watch"
         }
       ]
     },
     "check": {
       "name": "check",
+      "description": "Check the code style and formatting",
       "steps": [
         {
-          "exec": "npx @biomejs/biome check --write"
+          "exec": "bunx biome check --write"
         }
       ]
     },
     "check:staged": {
       "name": "check:staged",
+      "description": "Check the code style and formatting for staged files",
       "steps": [
         {
-          "exec": "npx @biomejs/biome check --write --staged"
+          "exec": "bunx biome check --write --staged"
         }
       ]
     },
@@ -220,7 +226,7 @@
       "description": "Synthesize project files",
       "steps": [
         {
-          "exec": "ts-node --project tsconfig.dev.json .projenrc.ts"
+          "exec": "ts-node --project test/tsconfig.json .projenrc.ts"
         }
       ]
     },
@@ -229,7 +235,10 @@
       "description": "Deploys your CDK app to the AWS cloud",
       "steps": [
         {
-          "exec": "cdk deploy",
+          "execArgs": [
+            "cdk",
+            "deploy"
+          ],
           "receiveArgs": true
         }
       ]
@@ -239,7 +248,10 @@
       "description": "Destroys your cdk app in the AWS cloud",
       "steps": [
         {
-          "exec": "cdk destroy",
+          "execArgs": [
+            "cdk",
+            "destroy"
+          ],
           "receiveArgs": true
         }
       ]
@@ -249,7 +261,10 @@
       "description": "Diffs the currently deployed app against your code",
       "steps": [
         {
-          "exec": "cdk diff"
+          "execArgs": [
+            "cdk",
+            "diff"
+          ]
         }
       ]
     },
@@ -288,10 +303,19 @@
       "description": "Creates the distribution package",
       "steps": [
         {
-          "exec": "mkdir -p dist/js"
+          "execArgs": [
+            "mkdir",
+            "-p",
+            "dist/js"
+          ]
         },
         {
-          "exec": "npm pack --pack-destination dist/js"
+          "execArgs": [
+            "npm",
+            "pack",
+            "--pack-destination",
+            "dist/js"
+          ]
         }
       ]
     },
@@ -314,9 +338,10 @@
     },
     "prepare": {
       "name": "prepare",
+      "description": "Prepare the project for development",
       "steps": [
         {
-          "exec": "npx lefthook install"
+          "exec": "bunx lefthook install"
         }
       ]
     },
@@ -374,7 +399,10 @@
       "description": "Synthesizes your cdk app into cdk.out",
       "steps": [
         {
-          "exec": "cdk synth"
+          "execArgs": [
+            "cdk",
+            "synth"
+          ]
         }
       ]
     },
@@ -383,7 +411,11 @@
       "description": "Synthesizes your cdk app into cdk.out and suppresses the template in stdout (part of \"yarn build\")",
       "steps": [
         {
-          "exec": "cdk synth -q"
+          "execArgs": [
+            "cdk",
+            "synth",
+            "-q"
+          ]
         }
       ]
     },
@@ -392,20 +424,7 @@
       "description": "Run tests",
       "steps": [
         {
-          "exec": "jest --passWithNoTests --updateSnapshot",
-          "receiveArgs": true
-        },
-        {
           "spawn": "biome"
-        }
-      ]
-    },
-    "test:watch": {
-      "name": "test:watch",
-      "description": "Run jest in watch mode",
-      "steps": [
-        {
-          "exec": "jest --watch"
         }
       ]
     },
@@ -434,16 +453,16 @@
       },
       "steps": [
         {
-          "exec": "bunx npm-check-updates@18 --upgrade --target=minor --peer --no-deprecated --dep=dev,peer,prod,optional --filter=@commitlint/config-conventional,@types/aws-lambda,@types/jest,@types/node,commitlint,cz-conventional-changelog,discord-api-types,esbuild,jest,lefthook,projen,ts-jest,ts-node,tsconfig-paths,typescript,@middy/core,axios,axios-retry,tweetnacl"
+          "exec": "bunx npm-check-updates@20 --upgrade --target=minor --peer --no-deprecated --dep=dev,peer,prod,optional --filter=@commitlint/config-conventional,@types/aws-lambda,@types/node,commitlint,cz-conventional-changelog,discord-api-types,esbuild,lefthook,projen,ts-node,tsconfig-paths,typescript,@middy/core,axios,axios-retry,tweetnacl"
         },
         {
           "exec": "bun install"
         },
         {
-          "exec": "bun update @biomejs/biome @commitlint/config-conventional @types/aws-lambda @types/jest @types/node aws-cdk commit-and-tag-version commitlint cz-conventional-changelog discord-api-types esbuild jest jest-junit lefthook projen ts-jest ts-node tsconfig-paths typescript @aws-cdk/aws-pipes-alpha @aws-cdk/aws-pipes-sources-alpha @aws-cdk/aws-pipes-targets-alpha @aws-lambda-powertools/batch @aws-lambda-powertools/logger @aws-lambda-powertools/parameters @aws-lambda-powertools/parser @aws-lambda-powertools/tracer @aws-lambda-powertools/validation @aws-sdk/client-dynamodb @aws-sdk/client-eventbridge @aws-sdk/client-secrets-manager @aws-sdk/lib-dynamodb @middy/core aws-cdk-lib axios axios-retry constructs tweetnacl zod"
+          "exec": "bun update @biomejs/biome @commitlint/config-conventional @types/aws-lambda @types/node aws-cdk commit-and-tag-version commitlint cz-conventional-changelog discord-api-types esbuild lefthook projen ts-node tsconfig-paths typescript @aws-cdk/aws-pipes-alpha @aws-cdk/aws-pipes-sources-alpha @aws-cdk/aws-pipes-targets-alpha @aws-lambda-powertools/batch @aws-lambda-powertools/logger @aws-lambda-powertools/parameters @aws-lambda-powertools/parser @aws-lambda-powertools/tracer @aws-lambda-powertools/validation @aws-sdk/client-dynamodb @aws-sdk/client-eventbridge @aws-sdk/client-secrets-manager @aws-sdk/lib-dynamodb @middy/core aws-cdk-lib axios axios-retry constructs tweetnacl zod"
         },
         {
-          "exec": "npx projen"
+          "exec": "bunx projen"
         },
         {
           "spawn": "post-upgrade"
@@ -455,16 +474,20 @@
       "description": "Watches changes in your source code and rebuilds and deploys to the current account",
       "steps": [
         {
-          "exec": "cdk deploy --hotswap"
+          "execArgs": [
+            "cdk",
+            "deploy",
+            "--hotswap"
+          ]
         },
         {
-          "exec": "cdk watch"
+          "execArgs": [
+            "cdk",
+            "watch"
+          ]
         }
       ]
     }
   },
-  "env": {
-    "PATH": "$(bun --eval \"console.log(process.env.PATH)\")"
-  },
-  "//": "~~ Generated by projen. To modify, edit .projenrc.ts and run \"npx projen\"."
+  "//": "~~ Generated by projen. To modify, edit .projenrc.ts and run \"bunx projen\"."
 }

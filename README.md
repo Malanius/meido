@@ -72,7 +72,7 @@ A minimal proof-of-concept command that respods to `/tadaima` command. Served as
 1. Install dependencies:
 
    ```bash
-   npx projen install
+   bunx projen install
    ```
 
 ## 🚀 Deploying the Bot
@@ -96,7 +96,7 @@ All CDK stacks follow the format: `${env}/${module-name}`, `env` is taken from e
 1. **Bootstrap CDK** in the account and region you want to deploy (required only once per account/region):
 
    ```bash
-   npx cdk bootstrap
+   cdk bootstrap
    ```
 
 1. **Set the environment variable for the deployment environment**  
