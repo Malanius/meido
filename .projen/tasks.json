@@ -82,7 +82,7 @@
       "description": "Create a JavaScript bundle from src/core/interaction-handler/interaction-handler.lambda.ts",
       "steps": [
         {
-          "exec": "esbuild --bundle src/core/interaction-handler/interaction-handler.lambda.ts --target=\"node22\" --platform=\"node\" --outfile=\"assets/core/interaction-handler/interaction-handler.lambda/index.js\" --tsconfig=\"test/tsconfig.json\" --sourcemap"
+          "exec": "esbuild --bundle src/core/interaction-handler/interaction-handler.lambda.ts --target=\"node24\" --platform=\"node\" --outfile=\"assets/core/interaction-handler/interaction-handler.lambda/index.js\" --tsconfig=\"test/tsconfig.json\" --sourcemap"
         }
       ]
     },
@@ -91,7 +91,7 @@
       "description": "Continuously update the JavaScript bundle from src/core/interaction-handler/interaction-handler.lambda.ts",
       "steps": [
         {
-          "exec": "esbuild --bundle src/core/interaction-handler/interaction-handler.lambda.ts --target=\"node22\" --platform=\"node\" --outfile=\"assets/core/interaction-handler/interaction-handler.lambda/index.js\" --tsconfig=\"test/tsconfig.json\" --sourcemap --watch"
+          "exec": "esbuild --bundle src/core/interaction-handler/interaction-handler.lambda.ts --target=\"node24\" --platform=\"node\" --outfile=\"assets/core/interaction-handler/interaction-handler.lambda/index.js\" --tsconfig=\"test/tsconfig.json\" --sourcemap --watch"
         }
       ]
     },
@@ -100,7 +100,7 @@
       "description": "Create a JavaScript bundle from src/journal/broadcaster/brodcast-handler.lambda.ts",
       "steps": [
         {
-          "exec": "esbuild --bundle src/journal/broadcaster/brodcast-handler.lambda.ts --target=\"node22\" --platform=\"node\" --outfile=\"assets/journal/broadcaster/brodcast-handler.lambda/index.js\" --tsconfig=\"test/tsconfig.json\" --sourcemap"
+          "exec": "esbuild --bundle src/journal/broadcaster/brodcast-handler.lambda.ts --target=\"node24\" --platform=\"node\" --outfile=\"assets/journal/broadcaster/brodcast-handler.lambda/index.js\" --tsconfig=\"test/tsconfig.json\" --sourcemap"
         }
       ]
     },
@@ -109,7 +109,7 @@
       "description": "Continuously update the JavaScript bundle from src/journal/broadcaster/brodcast-handler.lambda.ts",
       "steps": [
         {
-          "exec": "esbuild --bundle src/journal/broadcaster/brodcast-handler.lambda.ts --target=\"node22\" --platform=\"node\" --outfile=\"assets/journal/broadcaster/brodcast-handler.lambda/index.js\" --tsconfig=\"test/tsconfig.json\" --sourcemap --watch"
+          "exec": "esbuild --bundle src/journal/broadcaster/brodcast-handler.lambda.ts --target=\"node24\" --platform=\"node\" --outfile=\"assets/journal/broadcaster/brodcast-handler.lambda/index.js\" --tsconfig=\"test/tsconfig.json\" --sourcemap --watch"
         }
       ]
     },
@@ -118,7 +118,7 @@
       "description": "Create a JavaScript bundle from src/journal/subscription-manager/subscription-manager.lambda.ts",
       "steps": [
         {
-          "exec": "esbuild --bundle src/journal/subscription-manager/subscription-manager.lambda.ts --target=\"node22\" --platform=\"node\" --outfile=\"assets/journal/subscription-manager/subscription-manager.lambda/index.js\" --tsconfig=\"test/tsconfig.json\" --sourcemap"
+          "exec": "esbuild --bundle src/journal/subscription-manager/subscription-manager.lambda.ts --target=\"node24\" --platform=\"node\" --outfile=\"assets/journal/subscription-manager/subscription-manager.lambda/index.js\" --tsconfig=\"test/tsconfig.json\" --sourcemap"
         }
       ]
     },
@@ -127,7 +127,7 @@
       "description": "Continuously update the JavaScript bundle from src/journal/subscription-manager/subscription-manager.lambda.ts",
       "steps": [
         {
-          "exec": "esbuild --bundle src/journal/subscription-manager/subscription-manager.lambda.ts --target=\"node22\" --platform=\"node\" --outfile=\"assets/journal/subscription-manager/subscription-manager.lambda/index.js\" --tsconfig=\"test/tsconfig.json\" --sourcemap --watch"
+          "exec": "esbuild --bundle src/journal/subscription-manager/subscription-manager.lambda.ts --target=\"node24\" --platform=\"node\" --outfile=\"assets/journal/subscription-manager/subscription-manager.lambda/index.js\" --tsconfig=\"test/tsconfig.json\" --sourcemap --watch"
         }
       ]
     },
@@ -136,7 +136,7 @@
       "description": "Create a JavaScript bundle from src/shared/discord-slash-command/register-slash-command.lambda.ts",
       "steps": [
         {
-          "exec": "esbuild --bundle src/shared/discord-slash-command/register-slash-command.lambda.ts --target=\"node22\" --platform=\"node\" --outfile=\"assets/shared/discord-slash-command/register-slash-command.lambda/index.js\" --tsconfig=\"test/tsconfig.json\" --sourcemap"
+          "exec": "esbuild --bundle src/shared/discord-slash-command/register-slash-command.lambda.ts --target=\"node24\" --platform=\"node\" --outfile=\"assets/shared/discord-slash-command/register-slash-command.lambda/index.js\" --tsconfig=\"test/tsconfig.json\" --sourcemap"
         }
       ]
     },
@@ -145,7 +145,7 @@
       "description": "Continuously update the JavaScript bundle from src/shared/discord-slash-command/register-slash-command.lambda.ts",
       "steps": [
         {
-          "exec": "esbuild --bundle src/shared/discord-slash-command/register-slash-command.lambda.ts --target=\"node22\" --platform=\"node\" --outfile=\"assets/shared/discord-slash-command/register-slash-command.lambda/index.js\" --tsconfig=\"test/tsconfig.json\" --sourcemap --watch"
+          "exec": "esbuild --bundle src/shared/discord-slash-command/register-slash-command.lambda.ts --target=\"node24\" --platform=\"node\" --outfile=\"assets/shared/discord-slash-command/register-slash-command.lambda/index.js\" --tsconfig=\"test/tsconfig.json\" --sourcemap --watch"
         }
       ]
     },
@@ -154,7 +154,7 @@
       "description": "Create a JavaScript bundle from src/tadaima/tadaima.lambda.ts",
       "steps": [
         {
-          "exec": "esbuild --bundle src/tadaima/tadaima.lambda.ts --target=\"node22\" --platform=\"node\" --outfile=\"assets/tadaima/tadaima.lambda/index.js\" --tsconfig=\"test/tsconfig.json\" --sourcemap"
+          "exec": "esbuild --bundle src/tadaima/tadaima.lambda.ts --target=\"node24\" --platform=\"node\" --outfile=\"assets/tadaima/tadaima.lambda/index.js\" --tsconfig=\"test/tsconfig.json\" --sourcemap"
         }
       ]
     },
@@ -163,7 +163,7 @@
       "description": "Continuously update the JavaScript bundle from src/tadaima/tadaima.lambda.ts",
       "steps": [
         {
-          "exec": "esbuild --bundle src/tadaima/tadaima.lambda.ts --target=\"node22\" --platform=\"node\" --outfile=\"assets/tadaima/tadaima.lambda/index.js\" --tsconfig=\"test/tsconfig.json\" --sourcemap --watch"
+          "exec": "esbuild --bundle src/tadaima/tadaima.lambda.ts --target=\"node24\" --platform=\"node\" --outfile=\"assets/tadaima/tadaima.lambda/index.js\" --tsconfig=\"test/tsconfig.json\" --sourcemap --watch"
         }
       ]
     },

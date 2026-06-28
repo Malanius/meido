@@ -1,5 +1,5 @@
 [tools]
-node = { version = "22", postinstall = "corepack enable" }
+node = { version = "24", postinstall = "corepack enable" }
 bun = "latest"
 "npm:aws-cdk" = "latest"
 
