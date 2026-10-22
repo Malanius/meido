@@ -9,5 +9,6 @@
   },
   "editor.codeActionsOnSave": {
     "source.organizeImports.biome": "explicit"
-  }
+  },
+  "git.enabled": false
 }
