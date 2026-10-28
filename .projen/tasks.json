@@ -118,7 +118,9 @@
             "--outfile=assets/core/interaction-handler/interaction-handler.lambda/index.js",
             "--packages=bundle",
             "--tsconfig=test/tsconfig.json",
-            "--sourcemap"
+            "--sourcemap",
+            "--minify",
+            "--main-fields=module,main"
           ]
         }
       ]
@@ -138,6 +140,8 @@
             "--packages=bundle",
             "--tsconfig=test/tsconfig.json",
             "--sourcemap",
+            "--minify",
+            "--main-fields=module,main",
             "--watch"
           ]
         }
@@ -157,7 +161,9 @@
             "--outfile=assets/journal/broadcaster/brodcast-handler.lambda/index.js",
             "--packages=bundle",
             "--tsconfig=test/tsconfig.json",
-            "--sourcemap"
+            "--sourcemap",
+            "--minify",
+            "--main-fields=module,main"
           ]
         }
       ]
@@ -177,6 +183,8 @@
             "--packages=bundle",
             "--tsconfig=test/tsconfig.json",
             "--sourcemap",
+            "--minify",
+            "--main-fields=module,main",
             "--watch"
           ]
         }
@@ -196,7 +204,9 @@
             "--outfile=assets/journal/subscription-manager/subscription-manager.lambda/index.js",
             "--packages=bundle",
             "--tsconfig=test/tsconfig.json",
-            "--sourcemap"
+            "--sourcemap",
+            "--minify",
+            "--main-fields=module,main"
           ]
         }
       ]
@@ -216,6 +226,8 @@
             "--packages=bundle",
             "--tsconfig=test/tsconfig.json",
             "--sourcemap",
+            "--minify",
+            "--main-fields=module,main",
             "--watch"
           ]
         }
@@ -235,7 +247,9 @@
             "--outfile=assets/shared/discord-slash-command/register-slash-command.lambda/index.js",
             "--packages=bundle",
             "--tsconfig=test/tsconfig.json",
-            "--sourcemap"
+            "--sourcemap",
+            "--minify",
+            "--main-fields=module,main"
           ]
         }
       ]
@@ -255,6 +269,8 @@
             "--packages=bundle",
             "--tsconfig=test/tsconfig.json",
             "--sourcemap",
+            "--minify",
+            "--main-fields=module,main",
             "--watch"
           ]
         }
@@ -274,7 +290,9 @@
             "--outfile=assets/tadaima/tadaima.lambda/index.js",
             "--packages=bundle",
             "--tsconfig=test/tsconfig.json",
-            "--sourcemap"
+            "--sourcemap",
+            "--minify",
+            "--main-fields=module,main"
           ]
         }
       ]
@@ -294,6 +312,8 @@
             "--packages=bundle",
             "--tsconfig=test/tsconfig.json",
             "--sourcemap",
+            "--minify",
+            "--main-fields=module,main",
             "--watch"
           ]
         }

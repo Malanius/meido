@@ -1,5 +1,5 @@
 import { awscdk } from 'projen';
-import { TypeScriptModuleResolution } from 'projen/lib/javascript';
+import { type AddBundleOptions, TypeScriptModuleResolution } from 'projen/lib/javascript';
 import { NodePackageManager } from 'projen/lib/javascript/node-package';
 import { ReleaseTrigger } from 'projen/lib/release';
 
@@ -9,6 +9,13 @@ import { context } from './projenrc/cdk';
 const cdkVersion = '2.275.0';
 const powertoolsVersion = '2.36.0';
 const sdkVersion = '3.1158.0';
+
+const lambdaBundling = {
+  externals: [],
+  sourcemap: true,
+  mainFields: ['module', 'main'],
+  minify: true,
+} satisfies Partial<AddBundleOptions>;
 
 const project = new awscdk.AwsCdkTypeScriptApp({
   name: 'meido',
@@ -51,10 +58,7 @@ const project = new awscdk.AwsCdkTypeScriptApp({
   lambdaOptions: {
     runtime: awscdk.LambdaRuntime.NODEJS_24_X,
     awsSdkConnectionReuse: false, // not needed for SDK v3
-    bundlingOptions: {
-      externals: [],
-      sourcemap: true,
-    },
+    bundlingOptions: lambdaBundling,
   },
 
   deps: [
