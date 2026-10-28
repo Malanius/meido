@@ -9,8 +9,9 @@ import { EventBridgeClient, PutEventsCommand } from '@aws-sdk/client-eventbridge
 import { SecretsManagerClient } from '@aws-sdk/client-secrets-manager';
 import middy from '@middy/core';
 import type { APIGatewayProxyEventHeaders, APIGatewayProxyEventV2, APIGatewayProxyResultV2 } from 'aws-lambda';
+import { isChatInputApplicationCommandInteraction } from 'discord-api-types/utils/v10';
 import {
-  type APIApplicationCommandInteraction,
+  type APIChatInputApplicationCommandInteraction,
   type APIInteraction,
   InteractionResponseType,
   InteractionType,
@@ -93,7 +94,12 @@ const lambdaHandler = async (event: APIGatewayProxyEventV2) => {
     return response(400, { error: 'Unsupported interaction type' });
   }
 
-  const command = body as APIApplicationCommandInteraction;
+  if (!isChatInputApplicationCommandInteraction(body)) {
+    logger.warn('Received an unsupported application command type', { type: body.data.type });
+    return response(400, { error: 'Unsupported application command type' });
+  }
+
+  const command = body;
 
   // member for command invoked in guild, user for command invoked in DM
   const userId = command.member?.user?.id ?? command.user?.id;
@@ -114,7 +120,11 @@ export const handler = middy(lambdaHandler)
   .use(captureLambdaHandler(tracer))
   .use(injectLambdaContext(logger, { clearState: true }));
 
-const sendEvent = async (command: APIApplicationCommandInteraction, invokedByMaster: boolean, timestamp: number) => {
+const sendEvent = async (
+  command: APIChatInputApplicationCommandInteraction,
+  invokedByMaster: boolean,
+  timestamp: number
+) => {
   const payload: MeidoInteraction = {
     command,
     invokedByMaster,
