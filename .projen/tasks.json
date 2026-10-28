@@ -622,7 +622,7 @@
             "--peer",
             "--no-deprecated",
             "--dep=dev,prod,peer,optional",
-            "--filter=@commitlint/config-conventional,@types/aws-lambda,@types/node,commitlint,cz-conventional-changelog,discord-api-types,esbuild,lefthook,projen,ts-node,tsconfig-paths,typescript,@middy/core,axios,axios-retry,tweetnacl"
+            "--filter=@commitlint/config-conventional,@types/aws-lambda,commitlint,cz-conventional-changelog,discord-api-types,esbuild,lefthook,projen,ts-node,tsconfig-paths,typescript,axios,axios-retry,tweetnacl"
           ]
         },
         {

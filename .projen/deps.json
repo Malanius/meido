@@ -15,6 +15,7 @@
     },
     {
       "name": "@types/node",
+      "version": "^24",
       "type": "build"
     },
     {
@@ -135,6 +136,7 @@
     },
     {
       "name": "@middy/core",
+      "version": "7.9.2",
       "type": "runtime"
     },
     {
