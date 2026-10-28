@@ -1,5 +1,5 @@
 name: "Prepare Environment"
-description: "Installs Node.js, pnpm, and project dependencies"
+description: "Installs Node.js, Bun, and project dependencies"
 runs:
   using: "composite"
   steps:
@@ -7,7 +7,7 @@ runs:
       uses: actions/cache@v4
       with:
         path: ~/.bun/install/cache
-        key: ${{ runner.os }}-bun-${{ hashFiles('**/bun.lockb') }}
+        key: ${{ runner.os }}-bun-${{ hashFiles('**/bun.lock') }}
         restore-keys: |
           ${{ runner.os }}-bun-
 
@@ -17,7 +17,7 @@ runs:
     - name: Set up Node
       uses: actions/setup-node@v6
       with:
-        node-version: "22"
+        node-version: "24"
 
     - name: Install dependencies
       shell: bash
