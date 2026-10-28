@@ -1,11 +1,11 @@
 pre-commit:
   parallel: true
   commands:
-    lint-format-check:
-      run: bunx @biomejs/biome check --write --staged --no-errors-on-unmatched
+    lint-format-check-staged:
+      run: bunx biome check --write --staged --no-errors-on-unmatched
       stage_fixed: true
 
 commit-msg:
   commands:
-    commit-msg:
+    commit-msg-check:
       run: bunx commitlint --edit ""
