@@ -6,9 +6,11 @@ import { LogGroup, RetentionDays } from 'aws-cdk-lib/aws-logs';
 import { Secret } from 'aws-cdk-lib/aws-secretsmanager';
 import type { IQueue } from 'aws-cdk-lib/aws-sqs';
 import { Construct } from 'constructs';
+
+import type { AppInfo } from '@/common/app-info';
+import { commonFunctionEnvironment, commonFunctionProps } from '@/common/lambda';
 import { EventsSource } from '@/shared/event-source';
-import { commonFunctionEnvironment, commonFunctionProps } from '@/shared/functions';
-import type { AppInfo } from '@/types';
+
 import { BrodcastHandlerFunction } from './brodcast-handler-function';
 
 const MODULE = 'journal';
@@ -23,12 +25,12 @@ export class Broadcaster extends Construct {
   constructor(scope: Construct, id: string, props: BroadcasterProps) {
     super(scope, id);
 
-    const { appName, appStage, eventBus, database, deadLetterQueue } = props;
+    const { appName, appEnv, eventBus, database, deadLetterQueue } = props;
 
-    const discordSecrets = Secret.fromSecretNameV2(this, 'DiscordSecret', `/${appName}/${appStage}/discord`);
+    const discordSecrets = Secret.fromSecretNameV2(this, 'DiscordSecret', `/${appName}/${appEnv}/discord`);
 
     const logGroup = new LogGroup(this, 'LogGroup', {
-      logGroupName: `/${appName}/${appStage}/${MODULE}/broadcaster`,
+      logGroupName: `/${appName}/${appEnv}/${MODULE}/broadcaster`,
       retention: RetentionDays.ONE_WEEK,
       removalPolicy: RemovalPolicy.DESTROY,
     });

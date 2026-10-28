@@ -1,5 +1,6 @@
 // biome-ignore-all format lint: template file
 import { env } from 'node:process';
+
 import { Logger } from '@aws-lambda-powertools/logger';
 import { injectLambdaContext } from '@aws-lambda-powertools/logger/middleware';
 // import { SecretsProvider } from '@aws-lambda-powertools/parameters/secrets';
@@ -8,6 +9,7 @@ import { captureLambdaHandler } from '@aws-lambda-powertools/tracer/middleware';
 // import { SecretsManagerClient } from '@aws-sdk/client-secrets-manager';
 import middy from '@middy/core';
 import type { EventBridgeEvent } from 'aws-lambda';
+
 import { DiscordApiClient } from '@/shared/discord-api-client';
 import type { DiscordSecret, MeidoInteraction } from '@/types';
 

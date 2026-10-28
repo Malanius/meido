@@ -4,8 +4,10 @@ import { EventBus } from 'aws-cdk-lib/aws-events';
 import { Queue } from 'aws-cdk-lib/aws-sqs';
 import { StringParameter } from 'aws-cdk-lib/aws-ssm';
 import type { Construct } from 'constructs';
+
+import type { AppInfo } from '@/common/app-info';
 import { DiscordSlashCommand } from '@/shared/discord-slash-command/discord-slash-command';
-import type { AppInfo } from '@/types';
+
 import { Broadcaster } from './broadcaster/broadcaster';
 import { journalCommand } from './commands';
 import { entries } from './entries/entries';
@@ -18,8 +20,8 @@ export class Journal extends Stack {
   constructor(scope: Construct, id: string, props: JournalProps) {
     super(scope, id, props);
 
-    const { appName, appStage } = props;
-    const eventsBusName = `${appName}-${appStage}`;
+    const { appName, appEnv } = props;
+    const eventsBusName = `${appName}-${appEnv}`;
     const region = Stack.of(this).region;
     const account = Stack.of(this).account;
 
@@ -28,13 +30,13 @@ export class Journal extends Stack {
     const deadLetterQueue = Queue.fromQueueArn(
       this,
       'DeadLetterQueue',
-      `arn:aws:sqs:${region}:${account}:${appName}-${appStage}-dlq`
+      `arn:aws:sqs:${region}:${account}:${appName}-${appEnv}-dlq`
     );
 
     const databaseTableName = StringParameter.fromStringParameterName(
       this,
       'DatabaseTableName',
-      `/${appName}/${appStage}/database/name`
+      `/${appName}/${appEnv}/database/name`
     ).stringValue;
     const database = TableV2.fromTableName(this, 'Database', databaseTableName);
 

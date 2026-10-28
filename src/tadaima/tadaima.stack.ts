@@ -5,11 +5,13 @@ import { LambdaFunction } from 'aws-cdk-lib/aws-events-targets';
 import { LogGroup, RetentionDays } from 'aws-cdk-lib/aws-logs';
 import { Queue } from 'aws-cdk-lib/aws-sqs';
 import type { Construct } from 'constructs';
+
+import type { AppInfo } from '@/common/app-info';
+import { commonFunctionEnvironment } from '@/common/lambda/common-env';
+import { commonFunctionProps } from '@/common/lambda/common-props';
 import { DiscordSlashCommand } from '@/shared/discord-slash-command/discord-slash-command';
 import { EventsSource } from '@/shared/event-source';
-import { commonFunctionEnvironment } from '@/shared/functions/common-env';
-import { commonFunctionProps } from '@/shared/functions/common-props';
-import type { AppInfo } from '@/types';
+
 import { tadaimaCommand } from './commands';
 import { TadaimaFunction } from './tadaima-function';
 
@@ -21,8 +23,8 @@ export class Tadaima extends Stack {
   constructor(scope: Construct, id: string, props: TadaimaProps) {
     super(scope, id, props);
 
-    const { appName, appStage } = props;
-    const eventsBusName = `${appName}-${appStage}`;
+    const { appName, appEnv } = props;
+    const eventsBusName = `${appName}-${appEnv}`;
     const region = Stack.of(this).region;
     const account = Stack.of(this).account;
 
@@ -31,7 +33,7 @@ export class Tadaima extends Stack {
     const deadLetterQueue = Queue.fromQueueArn(
       this,
       'DeadLetterQueue',
-      `arn:aws:sqs:${region}:${account}:${appName}-${appStage}-dlq`
+      `arn:aws:sqs:${region}:${account}:${appName}-${appEnv}-dlq`
     );
 
     const command = new DiscordSlashCommand(this, 'TadaimaCommand', {
@@ -40,7 +42,7 @@ export class Tadaima extends Stack {
     });
 
     const logGroup = new LogGroup(this, 'LogGroup', {
-      logGroupName: `/${appName}/${appStage}/${MODULE}`,
+      logGroupName: `/${appName}/${appEnv}/${MODULE}`,
       retention: RetentionDays.ONE_WEEK,
       removalPolicy: RemovalPolicy.DESTROY,
     });

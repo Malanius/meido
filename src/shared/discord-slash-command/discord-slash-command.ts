@@ -4,8 +4,10 @@ import { Secret } from 'aws-cdk-lib/aws-secretsmanager';
 import { Provider } from 'aws-cdk-lib/custom-resources';
 import { Construct } from 'constructs';
 import type { RESTPostAPIChatInputApplicationCommandsJSONBody } from 'discord-api-types/v10';
-import { commonFunctionEnvironment, commonFunctionProps } from '@/shared/functions';
-import type { AppInfo } from '@/types';
+
+import type { AppInfo } from '@/common/app-info';
+import { commonFunctionEnvironment, commonFunctionProps } from '@/common/lambda';
+
 import { RegisterSlashCommandFunction } from './register-slash-command-function';
 
 export interface DiscordSlashCommandProps extends AppInfo {
@@ -16,12 +18,12 @@ export class DiscordSlashCommand extends Construct {
   constructor(scope: Construct, id: string, props: DiscordSlashCommandProps) {
     super(scope, id);
 
-    const { appName, appStage, command } = props;
+    const { appName, appEnv, command } = props;
 
-    const discordSecret = Secret.fromSecretNameV2(this, 'DiscordSecret', `/${appName}/${appStage}/discord`);
+    const discordSecret = Secret.fromSecretNameV2(this, 'DiscordSecret', `/${appName}/${appEnv}/discord`);
 
     const logGroup = new LogGroup(this, 'RegisterSlashCommandLogGroup', {
-      logGroupName: `/${appName}/${appStage}/register-slash-command/${command.name}`,
+      logGroupName: `/${appName}/${appEnv}/register-slash-command/${command.name}`,
       retention: RetentionDays.ONE_WEEK,
       removalPolicy: RemovalPolicy.DESTROY,
     });

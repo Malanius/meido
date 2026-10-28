@@ -5,7 +5,8 @@ import { LogGroup, RetentionDays } from 'aws-cdk-lib/aws-logs';
 import type { IQueue } from 'aws-cdk-lib/aws-sqs';
 import { StringParameter } from 'aws-cdk-lib/aws-ssm';
 import { Construct } from 'constructs';
-import type { AppInfo } from '@/types';
+
+import type { AppInfo } from '@/common/app-info';
 
 export interface EventsBusProps extends AppInfo {
   deadLetterQueue: IQueue;
@@ -16,27 +17,27 @@ export class EventsBus extends Construct {
   constructor(scope: Construct, id: string, props: EventsBusProps) {
     super(scope, id);
 
-    const { appName, appStage, deadLetterQueue } = props;
+    const { appName, appEnv, deadLetterQueue } = props;
 
     this.eventsBus = new EventBus(this, 'EventBus', {
-      eventBusName: `${appName}-${appStage}`,
+      eventBusName: `${appName}-${appEnv}`,
       deadLetterQueue,
     });
 
     new StringParameter(this, 'EventBusName', {
-      parameterName: `/${appName}/${appStage}/event-bus/name`,
+      parameterName: `/${appName}/${appEnv}/event-bus/name`,
       description: 'The name of the event bus',
       stringValue: this.eventsBus.eventBusName,
     });
     new StringParameter(this, 'EventBusArn', {
-      parameterName: `/${appName}/${appStage}/event-bus/arn`,
+      parameterName: `/${appName}/${appEnv}/event-bus/arn`,
       description: 'The ARN of the event bus',
       stringValue: this.eventsBus.eventBusArn,
     });
 
-    if (appStage === 'dev') {
+    if (appEnv === 'dev') {
       const devLogGroup = new LogGroup(this, 'DevLogGroup', {
-        logGroupName: `/${appName}/${appStage}/events`,
+        logGroupName: `/${appName}/${appEnv}/events`,
         retention: RetentionDays.ONE_WEEK,
         removalPolicy: RemovalPolicy.DESTROY,
       });

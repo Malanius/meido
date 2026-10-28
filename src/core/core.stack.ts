@@ -2,8 +2,11 @@ import { Aspects, Duration, Stack, type StackProps, Tag } from 'aws-cdk-lib';
 import { Secret } from 'aws-cdk-lib/aws-secretsmanager';
 import { Queue } from 'aws-cdk-lib/aws-sqs';
 import type { Construct } from 'constructs';
+
+import type { AppInfo } from '@/common/app-info';
 import { EventsBus } from '@/core/event-bus';
-import type { AppInfo, DiscordSecret } from '@/types';
+import type { DiscordSecret } from '@/types';
+
 import { Database } from './database/database';
 import { InteractionHandler } from './interaction-handler/interaction-handler';
 
@@ -13,10 +16,10 @@ export class Core extends Stack {
   constructor(scope: Construct, id: string, props: CoreProps) {
     super(scope, id, props);
 
-    const { appName, appStage } = props;
+    const { appName, appEnv } = props;
 
     const discordSecrets = new Secret(this, 'DiscordSecrets', {
-      secretName: `/${appName}/${appStage}/discord`,
+      secretName: `/${appName}/${appEnv}/discord`,
       generateSecretString: {
         // This is necessary to create a secret with a custom structure
         generateStringKey: '//',
@@ -31,7 +34,7 @@ export class Core extends Stack {
     });
 
     const deadLetterQueue = new Queue(this, 'SharedDlq', {
-      queueName: `${appName}-${appStage}-dlq`,
+      queueName: `${appName}-${appEnv}-dlq`,
       retentionPeriod: Duration.days(14),
     });
     // TODO: add DLQ monitoring

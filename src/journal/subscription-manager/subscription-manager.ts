@@ -5,9 +5,11 @@ import { LambdaFunction } from 'aws-cdk-lib/aws-events-targets';
 import { LogGroup, RetentionDays } from 'aws-cdk-lib/aws-logs';
 import type { IQueue } from 'aws-cdk-lib/aws-sqs';
 import { Construct } from 'constructs';
+
+import type { AppInfo } from '@/common/app-info';
+import { commonFunctionEnvironment, commonFunctionProps } from '@/common/lambda';
 import { EventsSource } from '@/shared/event-source';
-import { commonFunctionEnvironment, commonFunctionProps } from '@/shared/functions';
-import type { AppInfo } from '@/types';
+
 import { SubscriptionManagerFunction } from './subscription-manager-function';
 
 const MODULE = 'journal';
@@ -22,10 +24,10 @@ export class SubscriptionManager extends Construct {
   constructor(scope: Construct, id: string, props: SubscriptionManagerProps) {
     super(scope, id);
 
-    const { appName, appStage, eventBus, database, deadLetterQueue } = props;
+    const { appName, appEnv, eventBus, database, deadLetterQueue } = props;
 
     const logGroup = new LogGroup(this, 'LogGroup', {
-      logGroupName: `/${appName}/${appStage}/${MODULE}/subscription-manager`,
+      logGroupName: `/${appName}/${appEnv}/${MODULE}/subscription-manager`,
       retention: RetentionDays.ONE_WEEK,
       removalPolicy: RemovalPolicy.DESTROY,
     });

@@ -4,8 +4,10 @@ import { FunctionUrlAuthType } from 'aws-cdk-lib/aws-lambda';
 import { LogGroup, RetentionDays } from 'aws-cdk-lib/aws-logs';
 import type { ISecret } from 'aws-cdk-lib/aws-secretsmanager';
 import { Construct } from 'constructs';
-import { commonFunctionEnvironment, commonFunctionProps } from '@/shared/functions';
-import type { AppInfo } from '@/types';
+
+import type { AppInfo } from '@/common/app-info';
+import { commonFunctionEnvironment, commonFunctionProps } from '@/common/lambda';
+
 import { InteractionHandlerFunction } from './interaction-handler-function';
 
 export interface InteractionHandlerProps extends AppInfo {
@@ -17,10 +19,10 @@ export class InteractionHandler extends Construct {
   constructor(scope: Construct, id: string, props: InteractionHandlerProps) {
     super(scope, id);
 
-    const { appName, appStage, discordSecrets, eventsBus } = props;
+    const { appName, appEnv, discordSecrets, eventsBus } = props;
 
     const logGroup = new LogGroup(this, 'LogGroup', {
-      logGroupName: `/${appName}/${appStage}/interaction-handler`,
+      logGroupName: `/${appName}/${appEnv}/interaction-handler`,
       retention: RetentionDays.ONE_WEEK,
       removalPolicy: RemovalPolicy.DESTROY,
     });

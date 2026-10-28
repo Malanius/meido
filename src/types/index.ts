@@ -1,4 +1,3 @@
-export { AppInfo } from './app-info';
 export {
   OnEventRequest,
   OnEventResponse,

@@ -3,7 +3,9 @@ import type { ITableV2 } from 'aws-cdk-lib/aws-dynamodb';
 import { LogGroup, RetentionDays } from 'aws-cdk-lib/aws-logs';
 import { AwsCustomResource, AwsCustomResourcePolicy, PhysicalResourceId } from 'aws-cdk-lib/custom-resources';
 import { Construct } from 'constructs';
-import type { AppInfo } from '@/types';
+
+import type { AppInfo } from '@/common/app-info';
+
 import type { JournalEntry } from './entries';
 
 export interface JournalEntryResourceProps extends AppInfo {
@@ -15,7 +17,7 @@ export class JournalEntryResource extends Construct {
   constructor(scope: Construct, id: string, props: JournalEntryResourceProps) {
     super(scope, id);
 
-    const { appName, appStage, database, entry } = props;
+    const { appName, appEnv, database, entry } = props;
 
     const entryKey = {
       pk: { S: `journal#entry#${entry.version}` },
@@ -56,7 +58,7 @@ export class JournalEntryResource extends Construct {
         resources: [database.tableArn],
       }),
       logGroup: new LogGroup(this, 'LogGroup', {
-        logGroupName: `/${appName}/${appStage}/journal/entries/${entry.version}`,
+        logGroupName: `/${appName}/${appEnv}/journal/entries/${entry.version}`,
         retention: RetentionDays.ONE_WEEK,
         removalPolicy: RemovalPolicy.DESTROY,
       }),
