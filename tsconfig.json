@@ -10,9 +10,9 @@
     "inlineSourceMap": true,
     "inlineSources": true,
     "lib": [
-      "es2022"
+      "esnext"
     ],
-    "module": "NodeNext",
+    "module": "esnext",
     "noEmitOnError": false,
     "noFallthroughCasesInSwitch": false,
     "noImplicitAny": true,
@@ -25,15 +25,20 @@
     "strictNullChecks": true,
     "strictPropertyInitialization": false,
     "stripInternal": true,
-    "target": "ES2022",
+    "target": "esnext",
     "types": [
       "aws-lambda",
+      "bun-types",
       "node"
     ],
-    "moduleResolution": "nodenext",
+    "moduleResolution": "bundler",
     "typeRoots": [
-      "./node_modules/@types"
+      "./node_modules/@types",
+      "./node_modules"
     ],
+    "emitDecoratorMetadata": true,
+    "forceConsistentCasingInFileNames": true,
+    "skipLibCheck": true,
     "paths": {
       "@/*": [
         "./src/*"

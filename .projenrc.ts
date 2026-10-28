@@ -1,4 +1,5 @@
 import { awscdk } from 'projen';
+import { TypeScriptModuleResolution } from 'projen/lib/javascript';
 import { NodePackageManager } from 'projen/lib/javascript/node-package';
 import { ReleaseTrigger } from 'projen/lib/release';
 import { biomeOptions } from './.projenrc.biome';
@@ -24,6 +25,15 @@ const project = new awscdk.AwsCdkTypeScriptApp({
   projenrcTs: true,
   tsconfig: {
     compilerOptions: {
+      target: 'esnext',
+      module: 'esnext',
+      moduleResolution: TypeScriptModuleResolution.BUNDLER,
+      lib: ['esnext'],
+      types: ['aws-lambda', 'bun-types', 'node'],
+      typeRoots: ['./node_modules/@types', './node_modules'],
+      emitDecoratorMetadata: true,
+      forceConsistentCasingInFileNames: true,
+      skipLibCheck: true,
       paths: {
         '@/*': ['./src/*'],
       },
