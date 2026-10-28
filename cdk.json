@@ -94,7 +94,7 @@
     "@aws-cdk/s3-notifications:addS3TrustKeyPolicyForSnsSubscriptions": true
   },
   "output": "cdk.out",
-  "build": "bunx projen bundle",
+  "build": "bunx projen compile && bunx projen bundle",
   "watch": {
     "include": [
       "src/**/*.ts",
