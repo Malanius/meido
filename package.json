@@ -51,6 +51,7 @@
     "@types/aws-lambda": "^8.10.164",
     "@types/node": "^22.20.5",
     "aws-cdk": "^2",
+    "bun-types": "^1.4.4",
     "commit-and-tag-version": "^13",
     "commitlint": "^19.8.1",
     "cz-conventional-changelog": "^3.3.0",

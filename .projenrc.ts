@@ -69,6 +69,7 @@ const project = new awscdk.AwsCdkTypeScriptApp({
     '@types/aws-lambda',
     '@biomejs/biome@^2',
     '@commitlint/config-conventional',
+    'bun-types@^1.4.4',
     'commitlint',
     'cz-conventional-changelog',
     'discord-api-types',
@@ -78,6 +79,7 @@ const project = new awscdk.AwsCdkTypeScriptApp({
   ],
 });
 
+project.defaultTask?.reset('bun .projenrc.ts');
 project.addTask('prepare', {
   description: 'Prepare the project for development',
   exec: 'bunx lefthook install',

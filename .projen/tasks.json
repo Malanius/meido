@@ -371,12 +371,7 @@
       "description": "Synthesize project files",
       "steps": [
         {
-          "execArgs": [
-            "ts-node",
-            "--project",
-            "projenrc/tsconfig.json",
-            ".projenrc.ts"
-          ]
+          "exec": "bun .projenrc.ts"
         }
       ]
     },
@@ -637,6 +632,7 @@
             "@types/aws-lambda",
             "@types/node",
             "aws-cdk",
+            "bun-types",
             "commit-and-tag-version",
             "commitlint",
             "cz-conventional-changelog",

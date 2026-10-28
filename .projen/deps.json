@@ -23,6 +23,11 @@
       "type": "build"
     },
     {
+      "name": "bun-types",
+      "version": "^1.4.4",
+      "type": "build"
+    },
+    {
       "name": "commit-and-tag-version",
       "version": "^13",
       "type": "build"

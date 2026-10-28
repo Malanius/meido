@@ -32,6 +32,7 @@
         "@types/aws-lambda": "^8.10.164",
         "@types/node": "^22.20.5",
         "aws-cdk": "^2",
+        "bun-types": "^1.4.4",
         "commit-and-tag-version": "^13",
         "commitlint": "^19.8.1",
         "cz-conventional-changelog": "^3.3.0",
@@ -345,6 +346,8 @@
     "braces": ["braces@3.0.3", "", { "dependencies": { "fill-range": "7.1.1" } }, "sha512-yQbXgO/OSZVD2IsiLlro+7Hf6Q18EJrKSEsdoMzKePKXct3gvD8oLcOQdIzGupr5Fj+EDe8gO/lxc1BzfMpxvA=="],
 
     "buffer": ["buffer@5.7.1", "", { "dependencies": { "base64-js": "1.5.1", "ieee754": "1.2.1" } }, "sha512-EHcyIPBQ4BSGlvjB16k5KgAJ27CIsHY/2JBmCRReo48y9rQ3MaUzWX3KVlBa4U7MyX02HdVj0K7C3WaB3ju7FQ=="],
+
+    "bun-types": ["bun-types@1.4.4", "", { "dependencies": { "@types/node": "*", "undici-types": "*" } }, "sha512-yjrJh5oGX7mMPKGd19YXyIjmEuj4G4zNC30bs7PM9Az7NQ3ndF3j6hbeRdvJTRQEhJ/FYQwW0a2moweEi2hMxQ=="],
 
     "cachedir": ["cachedir@2.3.0", "", {}, "sha512-A+Fezp4zxnit6FanDmv9EqXNAi3vt9DWp51/71UEhXukb7QUuvtv9344h91dyAxuTLoSYJFU299qzR3tzwPAhw=="],
 
