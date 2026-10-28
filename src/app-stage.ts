@@ -33,14 +33,14 @@ export class AppStage extends Stage {
       appName,
       appEnv,
     });
-    journal.addDependency(core);
+    journal.addStackDependency(core);
 
     const tadaima = new Tadaima(this, 'tadaima', {
       stackName: `${appName}-${appEnv}-tadaima`,
       appName,
       appEnv,
     });
-    tadaima.addDependency(core);
+    tadaima.addStackDependency(core);
 
     Aspects.of(this).add(new Tag('project', appName));
     Aspects.of(this).add(new Tag('env', appEnv));
