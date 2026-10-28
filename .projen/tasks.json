@@ -94,13 +94,13 @@
           "spawn": "bundle:core/interaction-handler/interaction-handler.lambda"
         },
         {
+          "spawn": "bundle:shared/discord-slash-command/register-slash-command.lambda"
+        },
+        {
           "spawn": "bundle:journal/broadcaster/brodcast-handler.lambda"
         },
         {
           "spawn": "bundle:journal/subscription-manager/subscription-manager.lambda"
-        },
-        {
-          "spawn": "bundle:shared/discord-slash-command/register-slash-command.lambda"
         }
       ]
     },
