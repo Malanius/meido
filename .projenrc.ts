@@ -4,6 +4,7 @@ import { NodePackageManager } from 'projen/lib/javascript/node-package';
 import { ReleaseTrigger } from 'projen/lib/release';
 
 import { biomeOptions } from './projenrc/biome';
+import { context } from './projenrc/cdk-context';
 
 const cdkVersion = '2.275.0';
 const powertoolsVersion = '2.36.0';
@@ -89,6 +90,7 @@ const project = new awscdk.AwsCdkTypeScriptApp({
     'ts-node',
     'tsconfig-paths',
   ],
+  context,
 });
 
 project.defaultTask?.reset('bun .projenrc.ts');
