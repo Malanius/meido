@@ -4,6 +4,7 @@ import { Tracer } from '@aws-lambda-powertools/tracer';
 import { captureLambdaHandler } from '@aws-lambda-powertools/tracer/middleware';
 import middy from '@middy/core';
 import type { EventBridgeEvent } from 'aws-lambda';
+
 import { DiscordApiClient } from '@/shared/discord-api-client';
 import type { MeidoInteraction } from '@/types';
 

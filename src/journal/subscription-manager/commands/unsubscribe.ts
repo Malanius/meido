@@ -1,4 +1,5 @@
 import type { APIChatInputApplicationCommandInteraction } from 'discord-api-types/v10';
+
 import { deleteSubscriptionEntry, getSubscriptionEntry } from '../subscription.db';
 import { journalMessages } from './messages';
 

@@ -54,7 +54,7 @@ export const context: CdkConfigCommonOptions['context'] = {
   '@aws-cdk/aws-lambda-nodejs:useLatestRuntimeVersion': true,
   '@aws-cdk/aws-lambda:createNewPoliciesWithAddToRolePolicy': false,
   '@aws-cdk/aws-lambda:recognizeLayerVersion': true,
-  '@aws-cdk/aws-lambda:useCdkManagedLogGroup': false , // TODO: enable this n full redeploy, currently disabled due to conflicts with existing groups
+  '@aws-cdk/aws-lambda:useCdkManagedLogGroup': false, // TODO: enable this n full redeploy, currently disabled due to conflicts with existing groups
   '@aws-cdk/aws-opensearchservice:enableOpensearchMultiAzWithStandby': true,
   '@aws-cdk/aws-rds:auroraClusterChangeScopeOfInstanceParameterGroupWithEachParameters': true,
   '@aws-cdk/aws-rds:databaseProxyUniqueResourceName': true,

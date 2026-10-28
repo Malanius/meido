@@ -4,25 +4,25 @@ The **Core Module** is the central entry point and shared infrastructure for the
 
 ## ✨ Features
 
-- **Signature & input handling**  
-  - `InteractionHandler` Lambda verifies Discord request signatures  
+- **Signature & input handling**
+  - `InteractionHandler` Lambda verifies Discord request signatures
   - Responds to PINGs inline
   - defers slash commands
 
-- **Event routing**  
+- **Event routing**
   - Publishes all non-PING interactions to **EventBridge** (`EventBus`) with  
-    `source = "dev.malanius.meido.interactions"`  
-  - Universal **Stream→EventBridge bridge** Lambda:  
-    - Triggered by **DynamoDB Streams** on the core `Database` (NEW_AND_OLD_IMAGES)  
-    - Parses each record’s PK/SK to infer `<module>#<entity>#<id>` and action (`INSERT`/`MODIFY`/`REMOVE`)  
-    - Emits an EventBridge event with  
-      - `source = "dev.malanius.meido.database"`  
-      - `detailType = "<module>.<entity>.<SemanticAction>"`  
-      - `detail` containing image data  
+    `source = "dev.malanius.meido.interactions"`
+  - Universal **Stream→EventBridge bridge** Lambda:
+    - Triggered by **DynamoDB Streams** on the core `Database` (NEW_AND_OLD_IMAGES)
+    - Parses each record’s PK/SK to infer `<module>#<entity>#<id>` and action (`INSERT`/`MODIFY`/`REMOVE`)
+    - Emits an EventBridge event with
+      - `source = "dev.malanius.meido.database"`
+      - `detailType = "<module>.<entity>.<SemanticAction>"`
+      - `detail` containing image data
 
-- **Shared state storage**  
-  - Single‐table DynamoDB (`Database`)  
-  - PK/SK pattern `<module>#<entity>#<id>` for all modules to share  
+- **Shared state storage**
+  - Single‐table DynamoDB (`Database`)
+  - PK/SK pattern `<module>#<entity>#<id>` for all modules to share
   - Streams enabled (NEW_AND_OLD_IMAGES) for cross‐module triggers
 
 ## 🧩 Components
@@ -30,14 +30,14 @@ The **Core Module** is the central entry point and shared infrastructure for the
 - **Lambda:** `InteractionHandler` - uses Lambda function URL for receiving events from Discord
 - **SecretsManager**: `DiscordSecrets`: - fill this after core stack creation, used for command registration while deploying commands modules
 
-    ```json
-    {
-        "appId": "Your application ID",
-        "publicKey": "Your application public key",
-        "botToken": "Your bot token",
-        "guildId": "Otional, Guild ID for which the bot is enabled"
-    }
-    ```
+  ```json
+  {
+      "appId": "Your application ID",
+      "publicKey": "Your application public key",
+      "botToken": "Your bot token",
+      "guildId": "Otional, Guild ID for which the bot is enabled"
+  }
+  ```
 
 - **EventBridge Bus:** `EventBus` - received commands are deferred and routed to event bus for processing by their respective modules
 - **DynamoDB Table:** `Database` - single table provided for rest of the modules, not directly used by core

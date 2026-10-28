@@ -1,4 +1,5 @@
 import { env } from 'node:process';
+
 import { Logger } from '@aws-lambda-powertools/logger';
 import { injectLambdaContext } from '@aws-lambda-powertools/logger/middleware';
 import { SecretsProvider } from '@aws-lambda-powertools/parameters/secrets';
@@ -7,6 +8,7 @@ import { captureLambdaHandler } from '@aws-lambda-powertools/tracer/middleware';
 import { SecretsManagerClient } from '@aws-sdk/client-secrets-manager';
 import middy from '@middy/core';
 import type { EventBridgeEvent, StreamRecord } from 'aws-lambda';
+
 import { getAllSubscriptions, type SubscriptionEntry } from '@/journal/subscription-manager/subscription.db';
 import { DiscordApiClient } from '@/shared/discord-api-client';
 import type { DiscordSecret } from '@/types';
