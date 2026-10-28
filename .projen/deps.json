@@ -2,7 +2,7 @@
   "dependencies": [
     {
       "name": "@biomejs/biome",
-      "version": "^2",
+      "version": "^2.5",
       "type": "build"
     },
     {
@@ -24,7 +24,7 @@
     },
     {
       "name": "commit-and-tag-version",
-      "version": "^12",
+      "version": "^13",
       "type": "build"
     },
     {

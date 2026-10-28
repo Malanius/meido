@@ -1,5 +1,5 @@
 {
-  "manifestVersion": 2,
+  "manifestVersion": 3,
   "env": {
     "PATH": "$(bun --eval \"console.log(process.env.PATH)\")"
   },
@@ -9,7 +9,12 @@
       "description": "Runs Biome against the codebase",
       "steps": [
         {
-          "exec": "biome check --no-errors-on-unmatched --write",
+          "execArgs": [
+            "biome",
+            "check",
+            "--no-errors-on-unmatched",
+            "--write"
+          ],
           "receiveArgs": true
         }
       ]
@@ -47,14 +52,36 @@
         "BUMPFILE": "dist/version.txt",
         "RELEASETAG": "dist/releasetag.txt",
         "RELEASE_TAG_PREFIX": "",
-        "BUMP_PACKAGE": "commit-and-tag-version@^12"
+        "BUMP_PACKAGE": "commit-and-tag-version@^13"
       },
       "steps": [
         {
-          "builtin": "release/bump-version"
+          "builtin": "release/resolve-latest-tag",
+          "outputEnv": "LATEST_TAG"
+        },
+        {
+          "spawn": "bump:releasable-commits",
+          "outputEnv": "RELEASABLE_COMMITS",
+          "condition": "git rev-parse --verify --quiet \"refs/tags/$LATEST_TAG\""
+        },
+        {
+          "builtin": "release/suggest-version-bump",
+          "outputEnv": "SUGGESTED_BUMP"
+        },
+        {
+          "builtin": "release/apply-version-bump"
         }
       ],
-      "condition": "git log --oneline -1 | grep -qv \"chore(release):\""
+      "condition": "git log --oneline -1 | grep -v \"chore(release):\" > /dev/null"
+    },
+    "bump:releasable-commits": {
+      "name": "bump:releasable-commits",
+      "description": "Print the releasable commits since the latest release",
+      "steps": [
+        {
+          "exec": "git log --oneline $LATEST_TAG..HEAD"
+        }
+      ]
     },
     "bundle": {
       "name": "bundle",
@@ -82,7 +109,17 @@
       "description": "Create a JavaScript bundle from src/core/interaction-handler/interaction-handler.lambda.ts",
       "steps": [
         {
-          "exec": "esbuild --bundle src/core/interaction-handler/interaction-handler.lambda.ts --target=\"node24\" --platform=\"node\" --outfile=\"assets/core/interaction-handler/interaction-handler.lambda/index.js\" --tsconfig=\"test/tsconfig.json\" --sourcemap"
+          "execArgs": [
+            "esbuild",
+            "--bundle",
+            "src/core/interaction-handler/interaction-handler.lambda.ts",
+            "--target=node24",
+            "--platform=node",
+            "--outfile=assets/core/interaction-handler/interaction-handler.lambda/index.js",
+            "--packages=bundle",
+            "--tsconfig=test/tsconfig.json",
+            "--sourcemap"
+          ]
         }
       ]
     },
@@ -91,7 +128,18 @@
       "description": "Continuously update the JavaScript bundle from src/core/interaction-handler/interaction-handler.lambda.ts",
       "steps": [
         {
-          "exec": "esbuild --bundle src/core/interaction-handler/interaction-handler.lambda.ts --target=\"node24\" --platform=\"node\" --outfile=\"assets/core/interaction-handler/interaction-handler.lambda/index.js\" --tsconfig=\"test/tsconfig.json\" --sourcemap --watch"
+          "execArgs": [
+            "esbuild",
+            "--bundle",
+            "src/core/interaction-handler/interaction-handler.lambda.ts",
+            "--target=node24",
+            "--platform=node",
+            "--outfile=assets/core/interaction-handler/interaction-handler.lambda/index.js",
+            "--packages=bundle",
+            "--tsconfig=test/tsconfig.json",
+            "--sourcemap",
+            "--watch"
+          ]
         }
       ]
     },
@@ -100,7 +148,17 @@
       "description": "Create a JavaScript bundle from src/journal/broadcaster/brodcast-handler.lambda.ts",
       "steps": [
         {
-          "exec": "esbuild --bundle src/journal/broadcaster/brodcast-handler.lambda.ts --target=\"node24\" --platform=\"node\" --outfile=\"assets/journal/broadcaster/brodcast-handler.lambda/index.js\" --tsconfig=\"test/tsconfig.json\" --sourcemap"
+          "execArgs": [
+            "esbuild",
+            "--bundle",
+            "src/journal/broadcaster/brodcast-handler.lambda.ts",
+            "--target=node24",
+            "--platform=node",
+            "--outfile=assets/journal/broadcaster/brodcast-handler.lambda/index.js",
+            "--packages=bundle",
+            "--tsconfig=test/tsconfig.json",
+            "--sourcemap"
+          ]
         }
       ]
     },
@@ -109,7 +167,18 @@
       "description": "Continuously update the JavaScript bundle from src/journal/broadcaster/brodcast-handler.lambda.ts",
       "steps": [
         {
-          "exec": "esbuild --bundle src/journal/broadcaster/brodcast-handler.lambda.ts --target=\"node24\" --platform=\"node\" --outfile=\"assets/journal/broadcaster/brodcast-handler.lambda/index.js\" --tsconfig=\"test/tsconfig.json\" --sourcemap --watch"
+          "execArgs": [
+            "esbuild",
+            "--bundle",
+            "src/journal/broadcaster/brodcast-handler.lambda.ts",
+            "--target=node24",
+            "--platform=node",
+            "--outfile=assets/journal/broadcaster/brodcast-handler.lambda/index.js",
+            "--packages=bundle",
+            "--tsconfig=test/tsconfig.json",
+            "--sourcemap",
+            "--watch"
+          ]
         }
       ]
     },
@@ -118,7 +187,17 @@
       "description": "Create a JavaScript bundle from src/journal/subscription-manager/subscription-manager.lambda.ts",
       "steps": [
         {
-          "exec": "esbuild --bundle src/journal/subscription-manager/subscription-manager.lambda.ts --target=\"node24\" --platform=\"node\" --outfile=\"assets/journal/subscription-manager/subscription-manager.lambda/index.js\" --tsconfig=\"test/tsconfig.json\" --sourcemap"
+          "execArgs": [
+            "esbuild",
+            "--bundle",
+            "src/journal/subscription-manager/subscription-manager.lambda.ts",
+            "--target=node24",
+            "--platform=node",
+            "--outfile=assets/journal/subscription-manager/subscription-manager.lambda/index.js",
+            "--packages=bundle",
+            "--tsconfig=test/tsconfig.json",
+            "--sourcemap"
+          ]
         }
       ]
     },
@@ -127,7 +206,18 @@
       "description": "Continuously update the JavaScript bundle from src/journal/subscription-manager/subscription-manager.lambda.ts",
       "steps": [
         {
-          "exec": "esbuild --bundle src/journal/subscription-manager/subscription-manager.lambda.ts --target=\"node24\" --platform=\"node\" --outfile=\"assets/journal/subscription-manager/subscription-manager.lambda/index.js\" --tsconfig=\"test/tsconfig.json\" --sourcemap --watch"
+          "execArgs": [
+            "esbuild",
+            "--bundle",
+            "src/journal/subscription-manager/subscription-manager.lambda.ts",
+            "--target=node24",
+            "--platform=node",
+            "--outfile=assets/journal/subscription-manager/subscription-manager.lambda/index.js",
+            "--packages=bundle",
+            "--tsconfig=test/tsconfig.json",
+            "--sourcemap",
+            "--watch"
+          ]
         }
       ]
     },
@@ -136,7 +226,17 @@
       "description": "Create a JavaScript bundle from src/shared/discord-slash-command/register-slash-command.lambda.ts",
       "steps": [
         {
-          "exec": "esbuild --bundle src/shared/discord-slash-command/register-slash-command.lambda.ts --target=\"node24\" --platform=\"node\" --outfile=\"assets/shared/discord-slash-command/register-slash-command.lambda/index.js\" --tsconfig=\"test/tsconfig.json\" --sourcemap"
+          "execArgs": [
+            "esbuild",
+            "--bundle",
+            "src/shared/discord-slash-command/register-slash-command.lambda.ts",
+            "--target=node24",
+            "--platform=node",
+            "--outfile=assets/shared/discord-slash-command/register-slash-command.lambda/index.js",
+            "--packages=bundle",
+            "--tsconfig=test/tsconfig.json",
+            "--sourcemap"
+          ]
         }
       ]
     },
@@ -145,7 +245,18 @@
       "description": "Continuously update the JavaScript bundle from src/shared/discord-slash-command/register-slash-command.lambda.ts",
       "steps": [
         {
-          "exec": "esbuild --bundle src/shared/discord-slash-command/register-slash-command.lambda.ts --target=\"node24\" --platform=\"node\" --outfile=\"assets/shared/discord-slash-command/register-slash-command.lambda/index.js\" --tsconfig=\"test/tsconfig.json\" --sourcemap --watch"
+          "execArgs": [
+            "esbuild",
+            "--bundle",
+            "src/shared/discord-slash-command/register-slash-command.lambda.ts",
+            "--target=node24",
+            "--platform=node",
+            "--outfile=assets/shared/discord-slash-command/register-slash-command.lambda/index.js",
+            "--packages=bundle",
+            "--tsconfig=test/tsconfig.json",
+            "--sourcemap",
+            "--watch"
+          ]
         }
       ]
     },
@@ -154,7 +265,17 @@
       "description": "Create a JavaScript bundle from src/tadaima/tadaima.lambda.ts",
       "steps": [
         {
-          "exec": "esbuild --bundle src/tadaima/tadaima.lambda.ts --target=\"node24\" --platform=\"node\" --outfile=\"assets/tadaima/tadaima.lambda/index.js\" --tsconfig=\"test/tsconfig.json\" --sourcemap"
+          "execArgs": [
+            "esbuild",
+            "--bundle",
+            "src/tadaima/tadaima.lambda.ts",
+            "--target=node24",
+            "--platform=node",
+            "--outfile=assets/tadaima/tadaima.lambda/index.js",
+            "--packages=bundle",
+            "--tsconfig=test/tsconfig.json",
+            "--sourcemap"
+          ]
         }
       ]
     },
@@ -163,7 +284,18 @@
       "description": "Continuously update the JavaScript bundle from src/tadaima/tadaima.lambda.ts",
       "steps": [
         {
-          "exec": "esbuild --bundle src/tadaima/tadaima.lambda.ts --target=\"node24\" --platform=\"node\" --outfile=\"assets/tadaima/tadaima.lambda/index.js\" --tsconfig=\"test/tsconfig.json\" --sourcemap --watch"
+          "execArgs": [
+            "esbuild",
+            "--bundle",
+            "src/tadaima/tadaima.lambda.ts",
+            "--target=node24",
+            "--platform=node",
+            "--outfile=assets/tadaima/tadaima.lambda/index.js",
+            "--packages=bundle",
+            "--tsconfig=test/tsconfig.json",
+            "--sourcemap",
+            "--watch"
+          ]
         }
       ]
     },
@@ -193,22 +325,35 @@
       },
       "steps": [
         {
-          "exec": "git checkout -b scratch",
+          "execArgs": [
+            "git",
+            "checkout",
+            "-b",
+            "scratch"
+          ],
           "name": "save current HEAD in \"scratch\" branch"
         },
         {
-          "exec": "git checkout $BRANCH"
+          "exec": "git checkout \"$BRANCH\""
         },
         {
-          "exec": "git fetch origin",
+          "execArgs": [
+            "git",
+            "fetch",
+            "origin"
+          ],
           "name": "fetch latest changes from origin"
         },
         {
-          "exec": "git reset --hard origin/$BRANCH",
+          "exec": "git reset --hard \"origin/$BRANCH\"",
           "name": "hard reset to origin commit"
         },
         {
-          "exec": "git clean -fdx",
+          "execArgs": [
+            "git",
+            "clean",
+            "-fdx"
+          ],
           "name": "clean all untracked files"
         },
         {
@@ -226,7 +371,12 @@
       "description": "Synthesize project files",
       "steps": [
         {
-          "exec": "ts-node --project test/tsconfig.json .projenrc.ts"
+          "execArgs": [
+            "ts-node",
+            "--project",
+            "projenrc/tsconfig.json",
+            ".projenrc.ts"
+          ]
         }
       ]
     },
@@ -362,10 +512,16 @@
           "builtin": "release/tag-version"
         },
         {
-          "exec": "git push --follow-tags origin main"
+          "execArgs": [
+            "git",
+            "push",
+            "--follow-tags",
+            "origin",
+            "main"
+          ]
         }
       ],
-      "condition": "git log --oneline -1 | grep -qv \"chore(release):\""
+      "condition": "git log --oneline -1 | grep -v \"chore(release):\" > /dev/null"
     },
     "release": {
       "name": "release",
@@ -375,7 +531,11 @@
       },
       "steps": [
         {
-          "exec": "rm -fr dist"
+          "execArgs": [
+            "rm",
+            "-fr",
+            "dist"
+          ]
         },
         {
           "spawn": "bump"
@@ -392,7 +552,8 @@
         {
           "spawn": "publish:git"
         }
-      ]
+      ],
+      "condition": "git log --oneline -1 | grep -v \"chore(release):\" > /dev/null"
     },
     "synth": {
       "name": "synth",
@@ -437,7 +598,7 @@
         "BUMPFILE": "dist/version.txt",
         "RELEASETAG": "dist/releasetag.txt",
         "RELEASE_TAG_PREFIX": "",
-        "BUMP_PACKAGE": "commit-and-tag-version@^12"
+        "BUMP_PACKAGE": "commit-and-tag-version@^13"
       },
       "steps": [
         {
@@ -453,13 +614,60 @@
       },
       "steps": [
         {
-          "exec": "bunx npm-check-updates@20 --upgrade --target=minor --peer --no-deprecated --dep=dev,peer,prod,optional --filter=@commitlint/config-conventional,@types/aws-lambda,@types/node,commitlint,cz-conventional-changelog,discord-api-types,esbuild,lefthook,projen,ts-node,tsconfig-paths,typescript,@middy/core,axios,axios-retry,tweetnacl"
+          "execArgs": [
+            "bunx",
+            "npm-check-updates@20",
+            "--upgrade",
+            "--target=minor",
+            "--peer",
+            "--no-deprecated",
+            "--dep=dev,prod,peer,optional",
+            "--filter=@commitlint/config-conventional,@types/aws-lambda,@types/node,commitlint,cz-conventional-changelog,discord-api-types,esbuild,lefthook,projen,ts-node,tsconfig-paths,typescript,@middy/core,axios,axios-retry,tweetnacl"
+          ]
         },
         {
           "exec": "bun install"
         },
         {
-          "exec": "bun update @biomejs/biome @commitlint/config-conventional @types/aws-lambda @types/node aws-cdk commit-and-tag-version commitlint cz-conventional-changelog discord-api-types esbuild lefthook projen ts-node tsconfig-paths typescript @aws-cdk/aws-pipes-alpha @aws-cdk/aws-pipes-sources-alpha @aws-cdk/aws-pipes-targets-alpha @aws-lambda-powertools/batch @aws-lambda-powertools/logger @aws-lambda-powertools/parameters @aws-lambda-powertools/parser @aws-lambda-powertools/tracer @aws-lambda-powertools/validation @aws-sdk/client-dynamodb @aws-sdk/client-eventbridge @aws-sdk/client-secrets-manager @aws-sdk/lib-dynamodb @middy/core aws-cdk-lib axios axios-retry constructs tweetnacl zod"
+          "execArgs": [
+            "bun",
+            "update",
+            "@biomejs/biome",
+            "@commitlint/config-conventional",
+            "@types/aws-lambda",
+            "@types/node",
+            "aws-cdk",
+            "commit-and-tag-version",
+            "commitlint",
+            "cz-conventional-changelog",
+            "discord-api-types",
+            "esbuild",
+            "lefthook",
+            "projen",
+            "ts-node",
+            "tsconfig-paths",
+            "typescript",
+            "@aws-cdk/aws-pipes-alpha",
+            "@aws-cdk/aws-pipes-sources-alpha",
+            "@aws-cdk/aws-pipes-targets-alpha",
+            "@aws-lambda-powertools/batch",
+            "@aws-lambda-powertools/logger",
+            "@aws-lambda-powertools/parameters",
+            "@aws-lambda-powertools/parser",
+            "@aws-lambda-powertools/tracer",
+            "@aws-lambda-powertools/validation",
+            "@aws-sdk/client-dynamodb",
+            "@aws-sdk/client-eventbridge",
+            "@aws-sdk/client-secrets-manager",
+            "@aws-sdk/lib-dynamodb",
+            "@middy/core",
+            "aws-cdk-lib",
+            "axios",
+            "axios-retry",
+            "constructs",
+            "tweetnacl",
+            "zod"
+          ]
         },
         {
           "exec": "bunx projen"
