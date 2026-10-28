@@ -15,6 +15,9 @@ const lambdaBundling = {
   sourcemap: true,
   mainFields: ['module', 'main'],
   minify: true,
+  format: 'esm',
+  outfile: 'index.mjs',
+  banner: "import { createRequire } from 'node:module'; const require = createRequire(import.meta.url);",
 } satisfies Partial<AddBundleOptions>;
 
 const project = new awscdk.AwsCdkTypeScriptApp({

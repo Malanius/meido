@@ -115,11 +115,13 @@
             "src/core/interaction-handler/interaction-handler.lambda.ts",
             "--target=node24",
             "--platform=node",
-            "--outfile=assets/core/interaction-handler/interaction-handler.lambda/index.js",
+            "--outfile=assets/core/interaction-handler/interaction-handler.lambda/index.mjs",
             "--packages=bundle",
             "--tsconfig=test/tsconfig.json",
             "--sourcemap",
+            "--format=esm",
             "--minify",
+            "--banner:js=import { createRequire } from 'node:module'; const require = createRequire(import.meta.url);",
             "--main-fields=module,main"
           ]
         }
@@ -136,11 +138,13 @@
             "src/core/interaction-handler/interaction-handler.lambda.ts",
             "--target=node24",
             "--platform=node",
-            "--outfile=assets/core/interaction-handler/interaction-handler.lambda/index.js",
+            "--outfile=assets/core/interaction-handler/interaction-handler.lambda/index.mjs",
             "--packages=bundle",
             "--tsconfig=test/tsconfig.json",
             "--sourcemap",
+            "--format=esm",
             "--minify",
+            "--banner:js=import { createRequire } from 'node:module'; const require = createRequire(import.meta.url);",
             "--main-fields=module,main",
             "--watch"
           ]
@@ -158,11 +162,13 @@
             "src/journal/broadcaster/brodcast-handler.lambda.ts",
             "--target=node24",
             "--platform=node",
-            "--outfile=assets/journal/broadcaster/brodcast-handler.lambda/index.js",
+            "--outfile=assets/journal/broadcaster/brodcast-handler.lambda/index.mjs",
             "--packages=bundle",
             "--tsconfig=test/tsconfig.json",
             "--sourcemap",
+            "--format=esm",
             "--minify",
+            "--banner:js=import { createRequire } from 'node:module'; const require = createRequire(import.meta.url);",
             "--main-fields=module,main"
           ]
         }
@@ -179,11 +185,13 @@
             "src/journal/broadcaster/brodcast-handler.lambda.ts",
             "--target=node24",
             "--platform=node",
-            "--outfile=assets/journal/broadcaster/brodcast-handler.lambda/index.js",
+            "--outfile=assets/journal/broadcaster/brodcast-handler.lambda/index.mjs",
             "--packages=bundle",
             "--tsconfig=test/tsconfig.json",
             "--sourcemap",
+            "--format=esm",
             "--minify",
+            "--banner:js=import { createRequire } from 'node:module'; const require = createRequire(import.meta.url);",
             "--main-fields=module,main",
             "--watch"
           ]
@@ -201,11 +209,13 @@
             "src/journal/subscription-manager/subscription-manager.lambda.ts",
             "--target=node24",
             "--platform=node",
-            "--outfile=assets/journal/subscription-manager/subscription-manager.lambda/index.js",
+            "--outfile=assets/journal/subscription-manager/subscription-manager.lambda/index.mjs",
             "--packages=bundle",
             "--tsconfig=test/tsconfig.json",
             "--sourcemap",
+            "--format=esm",
             "--minify",
+            "--banner:js=import { createRequire } from 'node:module'; const require = createRequire(import.meta.url);",
             "--main-fields=module,main"
           ]
         }
@@ -222,11 +232,13 @@
             "src/journal/subscription-manager/subscription-manager.lambda.ts",
             "--target=node24",
             "--platform=node",
-            "--outfile=assets/journal/subscription-manager/subscription-manager.lambda/index.js",
+            "--outfile=assets/journal/subscription-manager/subscription-manager.lambda/index.mjs",
             "--packages=bundle",
             "--tsconfig=test/tsconfig.json",
             "--sourcemap",
+            "--format=esm",
             "--minify",
+            "--banner:js=import { createRequire } from 'node:module'; const require = createRequire(import.meta.url);",
             "--main-fields=module,main",
             "--watch"
           ]
@@ -244,11 +256,13 @@
             "src/shared/discord-slash-command/register-slash-command.lambda.ts",
             "--target=node24",
             "--platform=node",
-            "--outfile=assets/shared/discord-slash-command/register-slash-command.lambda/index.js",
+            "--outfile=assets/shared/discord-slash-command/register-slash-command.lambda/index.mjs",
             "--packages=bundle",
             "--tsconfig=test/tsconfig.json",
             "--sourcemap",
+            "--format=esm",
             "--minify",
+            "--banner:js=import { createRequire } from 'node:module'; const require = createRequire(import.meta.url);",
             "--main-fields=module,main"
           ]
         }
@@ -265,11 +279,13 @@
             "src/shared/discord-slash-command/register-slash-command.lambda.ts",
             "--target=node24",
             "--platform=node",
-            "--outfile=assets/shared/discord-slash-command/register-slash-command.lambda/index.js",
+            "--outfile=assets/shared/discord-slash-command/register-slash-command.lambda/index.mjs",
             "--packages=bundle",
             "--tsconfig=test/tsconfig.json",
             "--sourcemap",
+            "--format=esm",
             "--minify",
+            "--banner:js=import { createRequire } from 'node:module'; const require = createRequire(import.meta.url);",
             "--main-fields=module,main",
             "--watch"
           ]
@@ -287,11 +303,13 @@
             "src/tadaima/tadaima.lambda.ts",
             "--target=node24",
             "--platform=node",
-            "--outfile=assets/tadaima/tadaima.lambda/index.js",
+            "--outfile=assets/tadaima/tadaima.lambda/index.mjs",
             "--packages=bundle",
             "--tsconfig=test/tsconfig.json",
             "--sourcemap",
+            "--format=esm",
             "--minify",
+            "--banner:js=import { createRequire } from 'node:module'; const require = createRequire(import.meta.url);",
             "--main-fields=module,main"
           ]
         }
@@ -308,11 +326,13 @@
             "src/tadaima/tadaima.lambda.ts",
             "--target=node24",
             "--platform=node",
-            "--outfile=assets/tadaima/tadaima.lambda/index.js",
+            "--outfile=assets/tadaima/tadaima.lambda/index.mjs",
             "--packages=bundle",
             "--tsconfig=test/tsconfig.json",
             "--sourcemap",
+            "--format=esm",
             "--minify",
+            "--banner:js=import { createRequire } from 'node:module'; const require = createRequire(import.meta.url);",
             "--main-fields=module,main",
             "--watch"
           ]
