@@ -4,7 +4,7 @@ import { NodePackageManager } from 'projen/lib/javascript/node-package';
 import { ReleaseTrigger } from 'projen/lib/release';
 
 import { biomeOptions } from './projenrc/biome';
-import { context } from './projenrc/cdk-context';
+import { context } from './projenrc/cdk';
 
 const cdkVersion = '2.275.0';
 const powertoolsVersion = '2.36.0';
