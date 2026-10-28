@@ -364,7 +364,12 @@
     },
     "compile": {
       "name": "compile",
-      "description": "Only compile"
+      "description": "Only compile",
+      "steps": [
+        {
+          "exec": "bun run tsc --project tsconfig.json --noEmit"
+        }
+      ]
     },
     "default": {
       "name": "default",

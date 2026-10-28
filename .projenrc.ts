@@ -90,6 +90,8 @@ const project = new awscdk.AwsCdkTypeScriptApp({
 });
 
 project.defaultTask?.reset('bun .projenrc.ts');
+project.compileTask.exec('bun run tsc --project tsconfig.json --noEmit');
+
 project.addTask('prepare', {
   description: 'Prepare the project for development',
   exec: 'bunx lefthook install',
